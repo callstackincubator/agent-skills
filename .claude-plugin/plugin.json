@@ -7,8 +7,8 @@
     "email": "hello@callstack.com",
     "url": "https://www.callstack.com/"
   },
-  "homepage": "https://github.com/callstack/agent-skills",
-  "repository": "https://github.com/callstack/agent-skills",
+  "homepage": "https://github.com/callstackincubator/agent-skills",
+  "repository": "https://github.com/callstackincubator/agent-skills",
   "license": "MIT",
   "keywords": [
     "react-native",
