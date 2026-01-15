@@ -19,6 +19,22 @@ Covers:
 
 ### Quick Start
 
+#### Install as Claude Code Plugin
+
+Install this plugin in Claude Code:
+
+```bash
+# Load the plugin locally during development
+claude --plugin-dir ./path/to/agent-skills
+
+# Or install from a marketplace
+# Coming soon: Instructions for marketplace installation
+```
+
+Once installed, Claude will automatically use the React Native best practices skill when working on React Native projects.
+
+#### Use with Other AI Assistants
+
 Point your AI assistant to the skill:
 
 ```
@@ -40,24 +56,49 @@ The [callstack/optimization-best-practices](https://github.com/callstack/optimiz
 
 ## Usage with AI Assistants
 
+This repository is packaged as a **Claude Code plugin** for seamless integration.
+
+### Claude Code
+
+Install as a plugin to have Claude automatically apply React Native performance best practices:
+
+```bash
+# Test locally
+claude --plugin-dir ./path/to/agent-skills
+
+# Install from marketplace (coming soon)
+# /plugin install react-native-best-practices
+```
+
+### Other AI Assistants
+
 See [AGENTS.md](./AGENTS.md) for integration instructions with:
 - Cursor
 - GitHub Copilot
-- Claude
+- Claude API / Claude.ai Projects
 - Other AI coding assistants
 
 ## Structure
 
+### Plugin Structure
+
 ```
-skills/
-└── react-native-best-practices/
-    ├── SKILL.md              # Main skill file with quick reference
-    └── references/           # Detailed skill files
-        ├── images/           # Visual references for profilers, diagrams
-        ├── js-*.md           # JavaScript/React skills
-        ├── native-*.md       # Native iOS/Android skills
-        └── bundle-*.md       # Bundling & app size skills
+agent-skills/
+├── .claude-plugin/
+│   └── plugin.json          # Plugin manifest
+└── skills/
+    └── react-native-best-practices/
+        ├── SKILL.md              # Main skill file with quick reference
+        └── references/           # Detailed skill files
+            ├── images/           # Visual references for profilers, diagrams
+            ├── js-*.md           # JavaScript/React skills
+            ├── native-*.md       # Native iOS/Android skills
+            └── bundle-*.md       # Bundling & app size skills
 ```
+
+The plugin follows the [Claude Code plugin structure](https://code.claude.com/docs/plugins-reference):
+- `.claude-plugin/plugin.json` - Plugin metadata and configuration
+- `skills/` - Agent Skills that Claude automatically uses based on task context
 
 ## Contributing
 
