@@ -170,7 +170,7 @@ See [AGENTS.md](./AGENTS.md) for integration instructions with Cursor, GitHub Co
 ```
 agent-skills/
 ├── .claude-plugin/
-│   └── plugin.json          # Plugin manifest
+│   └── marketplace.json     # Marketplace configuration
 └── skills/
     └── react-native-best-practices/
         ├── SKILL.md              # Main skill file with quick reference
@@ -181,9 +181,9 @@ agent-skills/
             └── bundle-*.md       # Bundling & app size skills
 ```
 
-The plugin follows the [Claude Code plugin structure](https://docs.anthropic.com/en/docs/claude-code/plugins):
+The plugin follows the [Claude Code plugin marketplace structure](https://code.claude.com/docs/en/plugin-marketplaces):
 
-- `.claude-plugin/plugin.json` - Plugin metadata and configuration
+- `.claude-plugin/marketplace.json` - Marketplace configuration with plugin definitions
 - `skills/` - Agent Skills that Claude automatically uses based on task context
 
 ## Contributing
