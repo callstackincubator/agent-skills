@@ -1,6 +1,28 @@
+---
+title: Atomic State Management
+impact: HIGH
+tags: state, jotai, zustand, re-renders, context
+---
+
 # Skill: Atomic State Management
 
 Use atomic state libraries (Jotai, Zustand) to reduce unnecessary re-renders without manual memoization.
+
+## Quick Pattern
+
+**Before (Context - all consumers re-render):**
+
+```jsx
+const { filter, todos } = useContext(TodoContext);
+// Re-renders when ANY state changes
+```
+
+**After (Zustand - only subscribed state):**
+
+```jsx
+const filter = useTodoStore((s) => s.filter);
+// Only re-renders when filter changes
+```
 
 ## When to Use
 

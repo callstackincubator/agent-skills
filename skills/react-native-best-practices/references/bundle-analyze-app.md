@@ -1,6 +1,26 @@
+---
+title: Analyze App Bundle Size
+impact: HIGH
+tags: app-size, ruler, emerge-tools, thinning
+---
+
 # Skill: Analyze App Bundle Size
 
 Measure iOS and Android app download/install sizes using Ruler, App Store Connect, and Emerge Tools.
+
+## Quick Command
+
+```bash
+# Android (Ruler)
+cd android && ./gradlew analyzeReleaseBundle
+
+# iOS (Xcode export with thinning)
+cd ios && xcodebuild -exportArchive \
+  -archivePath MyApp.xcarchive \
+  -exportPath ./export \
+  -exportOptionsPlist ExportOptions.plist
+# Check: App Thinning Size Report.txt
+```
 
 ## When to Use
 
@@ -171,14 +191,14 @@ cd android && ./gradlew bundleRelease
 # Check: android/app/build/outputs/bundle/release/
 
 # iOS archive
-xcodebuild -workspace ios/MyApp.xcworkspace \
+cd ios && xcodebuild -workspace ios/MyApp.xcworkspace \
   -scheme MyApp \
   -configuration Release \
   -archivePath MyApp.xcarchive \
   archive
 
 # Export with thinning report
-xcodebuild -exportArchive \
+cd ios && xcodebuild -exportArchive \
   -archivePath MyApp.xcarchive \
   -exportPath ./export \
   -exportOptionsPlist ExportOptions.plist

@@ -1,6 +1,20 @@
+---
+title: Profile React Performance
+impact: MEDIUM
+tags: profiling, devtools, re-renders, flamegraph
+---
+
 # Skill: Profile React Performance
 
 Identify unnecessary re-renders and performance bottlenecks in React Native apps using React Native DevTools.
+
+## Quick Command
+
+```bash
+# Open React Native DevTools (press 'j' in Metro terminal)
+# Or shake device → "Open DevTools"
+# Go to Profiler tab → Start profiling → Perform actions → Stop
+```
 
 ## When to Use
 

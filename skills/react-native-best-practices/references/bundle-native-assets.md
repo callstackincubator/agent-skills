@@ -1,6 +1,23 @@
+---
+title: Native Assets
+impact: HIGH
+tags: assets, images, asset-catalog, app-thinning
+---
+
 # Skill: Native Assets
 
 Configure platform-specific asset delivery to reduce app download size.
+
+## Quick Config
+
+**iOS Asset Catalog (Build Phase):**
+
+```bash
+# Add to "Bundle React Native code and images" build phase
+export EXTRA_PACKAGER_ARGS="--asset-catalog-dest ./"
+```
+
+**Android**: Automatic via AAB — Play Store delivers correct density per device.
 
 ## When to Use
 

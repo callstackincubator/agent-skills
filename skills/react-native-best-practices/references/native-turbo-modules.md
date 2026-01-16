@@ -1,6 +1,37 @@
+---
+title: Fast Native Modules
+impact: HIGH
+tags: turbo-modules, native, swift, kotlin, c++
+---
+
 # Skill: Fast Native Modules
 
 Build performant Turbo Modules using modern languages and background threading.
+
+## Quick Pattern
+
+**Incorrect (sync method blocks JS thread):**
+
+```swift
+@objc func heavyWork() -> NSNumber {
+    Thread.sleep(forTimeInterval: 2)  // Blocks JS for 2s!
+    return 42
+}
+```
+
+**Correct (async on background thread):**
+
+```swift
+@objc func heavyWork(
+    resolve: @escaping RCTPromiseResolveBlock,
+    reject: RCTPromiseRejectBlock
+) {
+    DispatchQueue.global().async {
+        let result = self.compute()
+        resolve(result)
+    }
+}
+```
 
 ## When to Use
 

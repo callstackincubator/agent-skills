@@ -1,6 +1,28 @@
+---
+title: Avoid Barrel Exports
+impact: CRITICAL
+tags: bundle, imports, barrel, tree-shaking
+---
+
 # Skill: Avoid Barrel Exports
 
 Refactor barrel imports (index files) to reduce bundle size and improve startup time.
+
+## Quick Pattern
+
+**Incorrect:**
+
+```tsx
+import { Button } from './components';
+// Loads ALL exports from components/index.ts
+```
+
+**Correct:**
+
+```tsx
+import Button from './components/Button';
+// Loads only Button
+```
 
 ## When to Use
 

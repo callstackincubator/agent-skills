@@ -1,6 +1,27 @@
+---
+title: Tree Shaking
+impact: HIGH
+tags: bundle, tree-shaking, dead-code, metro, repack
+---
+
 # Skill: Tree Shaking
 
 Enable dead code elimination to remove unused exports from your JavaScript bundle.
+
+## Quick Config
+
+```bash
+# .env (Expo SDK 52+)
+EXPO_UNSTABLE_METRO_OPTIMIZE_GRAPH=1
+EXPO_UNSTABLE_TREE_SHAKING=1
+```
+
+```javascript
+// metro.config.js
+config.transformer.getTransformOptions = async () => ({
+  transform: { experimentalImportSupport: true },
+});
+```
 
 ## When to Use
 

@@ -1,6 +1,32 @@
+---
+title: View Flattening
+impact: MEDIUM
+tags: views, flattening, collapsable, hierarchy
+---
+
 # Skill: View Flattening
 
 Understand and debug React Native's view flattening optimization.
+
+## Quick Pattern
+
+**Problem (children get flattened unexpectedly):**
+
+```jsx
+<NativeTabBar>
+  <Tab1 />  // May be flattened, breaking native component
+  <Tab2 />
+</NativeTabBar>
+```
+
+**Solution (prevent flattening):**
+
+```jsx
+<NativeTabBar>
+  <Tab1 collapsable={false} />
+  <Tab2 collapsable={false} />
+</NativeTabBar>
+```
 
 ## When to Use
 

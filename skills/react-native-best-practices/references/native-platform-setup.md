@@ -1,6 +1,27 @@
+---
+title: Platform Differences
+impact: MEDIUM
+tags: ios, android, xcode, gradle, cocoapods
+---
+
 # Skill: Platform Differences
 
 Navigate iOS and Android tooling, dependency management, and build systems in React Native.
+
+## Quick Reference
+
+| Platform | IDE | Package Manager | Build System |
+|----------|-----|-----------------|--------------|
+| JavaScript | VS Code | npm/yarn | Metro |
+| iOS | Xcode | CocoaPods | xcodebuild |
+| Android | Android Studio | Gradle | Gradle |
+
+```bash
+# Common commands
+cd ios && bundle exec pod install   # Install iOS deps
+cd android && ./gradlew clean       # Clean Android build
+xed ios/                            # Open Xcode
+```
 
 ## When to Use
 

@@ -1,6 +1,32 @@
+---
+title: Hunt JS Memory Leaks
+impact: MEDIUM
+tags: memory, leaks, profiling, cleanup
+---
+
 # Skill: Hunt JS Memory Leaks
 
 Find and fix JavaScript memory leaks using React Native DevTools memory profiling.
+
+## Quick Pattern
+
+**Incorrect (listener not cleaned up):**
+
+```jsx
+useEffect(() => {
+  const sub = EventEmitter.addListener('event', handler);
+  // Missing cleanup!
+}, []);
+```
+
+**Correct (proper cleanup):**
+
+```jsx
+useEffect(() => {
+  const sub = EventEmitter.addListener('event', handler);
+  return () => sub.remove();
+}, []);
+```
 
 ## When to Use
 

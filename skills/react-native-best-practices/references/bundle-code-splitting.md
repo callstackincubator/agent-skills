@@ -1,6 +1,32 @@
+---
+title: Remote Code Loading
+impact: MEDIUM
+tags: code-splitting, repack, lazy-loading, chunks
+---
+
 # Skill: Remote Code Loading
 
 Set up code splitting with Re.Pack for on-demand bundle loading.
+
+## Quick Pattern
+
+**Before (static import):**
+
+```jsx
+import SettingsScreen from './screens/SettingsScreen';
+```
+
+**After (lazy loaded chunk):**
+
+```jsx
+const SettingsScreen = React.lazy(() =>
+  import(/* webpackChunkName: "settings" */ './screens/SettingsScreen')
+);
+
+<Suspense fallback={<Loading />}>
+  <SettingsScreen />
+</Suspense>
+```
 
 ## When to Use
 
@@ -11,7 +37,7 @@ Consider code splitting when:
 - Loading features based on user permissions
 - Other optimizations exhausted
 
-**Note**: Hermes already uses memory mapping for efficient bundle reading. Benefits of code splitting are minimal with Hermes.
+**Note**: Hermes already uses memory mapping for efficient bundle reading. Benefits of code splitting are minimal with Hermes or even counterproductive in some cases.
 
 ## Prerequisites
 

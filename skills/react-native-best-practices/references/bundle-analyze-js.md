@@ -1,6 +1,28 @@
+---
+title: Analyze JS Bundle Size
+impact: CRITICAL
+tags: bundle, analysis, source-map-explorer, expo-atlas
+---
+
 # Skill: Analyze JS Bundle Size
 
 Use source-map-explorer and Expo Atlas to visualize what's in your JavaScript bundle.
+
+## Quick Command
+
+```bash
+# React Native CLI
+npx react-native bundle \
+  --entry-file index.js \
+  --bundle-output output.js \
+  --platform ios \
+  --sourcemap-output output.js.map \
+  --dev false --minify true && \
+npx source-map-explorer output.js --no-border-checks
+
+# Expo
+EXPO_UNSTABLE_ATLAS=true npx expo export --platform ios && npx expo-atlas
+```
 
 ## When to Use
 

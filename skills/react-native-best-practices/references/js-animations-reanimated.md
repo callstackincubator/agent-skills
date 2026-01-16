@@ -1,6 +1,29 @@
+---
+title: High-Performance Animations
+impact: MEDIUM
+tags: reanimated, animations, worklets, ui-thread
+---
+
 # Skill: High-Performance Animations
 
 Use React Native Reanimated and InteractionManager for smooth 60+ FPS animations.
+
+## Quick Pattern
+
+**Incorrect (JS thread - blocks on heavy work):**
+
+```jsx
+const opacity = useRef(new Animated.Value(0)).current;
+Animated.timing(opacity, { toValue: 1 }).start();
+```
+
+**Correct (UI thread - smooth even during JS work):**
+
+```jsx
+const opacity = useSharedValue(0);
+const style = useAnimatedStyle(() => ({ opacity: opacity.value }));
+opacity.value = withTiming(1);
+```
 
 ## When to Use
 

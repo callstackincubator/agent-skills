@@ -1,6 +1,26 @@
+---
+title: Uncontrolled Components
+impact: HIGH
+tags: textinput, forms, controlled, uncontrolled
+---
+
 # Skill: Uncontrolled Components
 
 Fix TextInput synchronization and flickering issues by using uncontrolled component pattern.
+
+## Quick Pattern
+
+**Before (controlled - may flicker on legacy arch):**
+
+```jsx
+<TextInput value={text} onChangeText={setText} />
+```
+
+**After (uncontrolled - native owns state):**
+
+```jsx
+<TextInput defaultValue={text} onChangeText={setText} />
+```
 
 ## When to Use
 

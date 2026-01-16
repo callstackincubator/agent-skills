@@ -1,6 +1,27 @@
+---
+title: Measure TTI (Time to Interactive)
+impact: HIGH
+tags: tti, startup, performance, markers
+---
+
 # Skill: Measure TTI (Time to Interactive)
 
 Set up performance markers to measure app startup time and track TTI improvements.
+
+## Quick Command
+
+```bash
+npm install react-native-performance
+```
+
+```tsx
+// Mark when screen is interactive
+import performance from 'react-native-performance';
+
+useEffect(() => {
+  performance.mark('screenInteractive');
+}, []);
+```
 
 ## When to Use
 

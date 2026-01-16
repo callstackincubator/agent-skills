@@ -1,6 +1,22 @@
+---
+title: Profile Native Code
+impact: MEDIUM
+tags: xcode, instruments, android-studio, profiler
+---
+
 # Skill: Profile Native Code
 
 Use Xcode Instruments and Android Studio Profiler to identify native performance bottlenecks.
+
+## Quick Command
+
+```bash
+# iOS: Open Instruments
+# Xcode → Open Developer Tool → Instruments → Time Profiler
+
+# Android: Open Profiler
+# Android Studio → View → Tool Windows → Profiler
+```
 
 ## When to Use
 

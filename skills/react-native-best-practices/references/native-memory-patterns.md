@@ -1,6 +1,22 @@
+---
+title: Native Memory Management
+impact: MEDIUM
+tags: memory, c++, swift, kotlin, arc, smart-pointers
+---
+
 # Skill: Native Memory Management
 
 Understand memory management patterns in C++, Swift, and Kotlin for React Native native modules.
+
+## Quick Reference
+
+| Pattern | Languages | Mechanism |
+|---------|-----------|-----------|
+| Reference Counting | Swift, Obj-C, C++ (smart ptrs) | Count refs, free at zero |
+| Garbage Collection | Kotlin/Java, JavaScript | GC scans and frees unreachable |
+| Manual | C, C++ (raw pointers) | Explicit new/delete |
+
+**Key rule**: Use `std::unique_ptr`/`std::shared_ptr` in C++, `weak` for delegates in Swift.
 
 ## When to Use
 

@@ -1,6 +1,22 @@
+---
+title: Hunt Native Memory Leaks
+impact: MEDIUM
+tags: memory, leaks, xcode, instruments, profiler
+---
+
 # Skill: Hunt Native Memory Leaks
 
 Find native memory leaks using Xcode Leaks and Android Studio Memory Profiler.
+
+## Quick Command
+
+```bash
+# iOS: Profile with Leaks instrument
+# Xcode → Product → Profile (Cmd+I) → Leaks template
+
+# Android: Memory Profiler
+# Android Studio → Run → Profile → Track Memory Consumption
+```
 
 ## When to Use
 

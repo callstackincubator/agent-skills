@@ -1,6 +1,23 @@
+---
+title: Measure JS FPS
+impact: HIGH
+tags: fps, performance, monitoring, flashlight
+---
+
 # Skill: Measure JS FPS
 
 Monitor and measure JavaScript frame rate to quantify app smoothness and identify performance regressions.
+
+## Quick Command
+
+```bash
+# Method 1: Built-in Perf Monitor
+# Shake device → Dev Menu → "Perf Monitor"
+
+# Method 2: Flashlight (Android, detailed reports)
+curl https://get.flashlight.dev | bash
+flashlight measure
+```
 
 ## When to Use
 

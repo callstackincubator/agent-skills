@@ -1,6 +1,28 @@
+---
+title: R8 Code Shrinking
+impact: HIGH
+tags: android, r8, proguard, minify, shrink
+---
+
 # Skill: R8 Code Shrinking
 
 Enable R8 for Android to shrink, optimize, and obfuscate native code.
+
+## Quick Config
+
+```groovy
+// android/app/build.gradle
+def enableProguardInReleaseBuilds = true
+
+android {
+    buildTypes {
+        release {
+            minifyEnabled true
+            shrinkResources true
+        }
+    }
+}
+```
 
 ## When to Use
 

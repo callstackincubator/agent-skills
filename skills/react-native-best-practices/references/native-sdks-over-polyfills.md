@@ -1,6 +1,30 @@
+---
+title: Native SDKs
+impact: HIGH
+tags: polyfills, intl, crypto, navigation, native
+---
+
 # Skill: Native SDKs
 
 Replace web polyfills and JS navigators with native React Native implementations for better performance.
+
+## Quick Pattern
+
+**Before (JS polyfills - 430+ KB):**
+
+```tsx
+import '@formatjs/intl-datetimeformat/polyfill';
+import CryptoJS from 'crypto-js';
+import { createStackNavigator } from '@react-navigation/stack';
+```
+
+**After (native implementations):**
+
+```tsx
+// Hermes has native Intl.DateTimeFormat - no polyfill needed
+import { createHash } from 'react-native-quick-crypto';  // 58x faster
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+```
 
 ## When to Use
 

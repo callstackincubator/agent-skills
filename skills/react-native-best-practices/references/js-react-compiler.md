@@ -1,6 +1,29 @@
+---
+title: React Compiler
+impact: HIGH
+tags: memoization, react-compiler, memo, useMemo, useCallback
+---
+
 # Skill: React Compiler
 
 Set up React Compiler to automatically memoize components and eliminate unnecessary re-renders.
+
+## Quick Pattern
+
+**Before (manual memoization):**
+
+```jsx
+const MemoizedButton = memo(({ onPress }) => <Pressable onPress={onPress} />);
+const handler = useCallback(() => doSomething(), []);
+```
+
+**After (automatic with React Compiler):**
+
+```jsx
+// No memo/useCallback needed - compiler handles it
+const Button = ({ onPress }) => <Pressable onPress={onPress} />;
+const handler = () => doSomething();
+```
 
 ## When to Use
 

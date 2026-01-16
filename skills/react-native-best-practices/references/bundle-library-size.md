@@ -1,6 +1,22 @@
+---
+title: Determine Library Size
+impact: MEDIUM
+tags: dependencies, bundlephobia, library-size
+---
+
 # Skill: Determine Library Size
 
 Evaluate third-party library size impact before adding to your project.
+
+## Quick Command
+
+```bash
+# Check size before installing
+# Visit: https://bundlephobia.com/package/[package-name]
+
+# Or use CLI
+npx bundle-phobia-cli <package-name>
+```
 
 ## When to Use
 

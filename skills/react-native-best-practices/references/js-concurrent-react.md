@@ -1,6 +1,31 @@
+---
+title: Concurrent React
+impact: HIGH
+tags: useDeferredValue, useTransition, suspense, concurrent
+---
+
 # Skill: Concurrent React
 
 Use `useDeferredValue` and `useTransition` to improve perceived performance by prioritizing critical updates.
+
+## Quick Pattern
+
+**Incorrect (blocks input on every keystroke):**
+
+```jsx
+const [query, setQuery] = useState('');
+<TextInput value={query} onChangeText={setQuery} />
+<ExpensiveList query={query} />  // Blocks typing
+```
+
+**Correct (input stays responsive):**
+
+```jsx
+const [query, setQuery] = useState('');
+const deferredQuery = useDeferredValue(query);
+<TextInput value={query} onChangeText={setQuery} />
+<ExpensiveList query={deferredQuery} />  // Deferred update
+```
 
 ## When to Use
 

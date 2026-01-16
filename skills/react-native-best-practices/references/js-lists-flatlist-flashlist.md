@@ -1,6 +1,33 @@
+---
+title: Higher-Order Lists
+impact: CRITICAL
+tags: lists, flatlist, flashlist, scrollview, virtualization
+---
+
 # Skill: Higher-Order Lists
 
 Replace ScrollView with FlatList or FlashList for performant large list rendering.
+
+## Quick Pattern
+
+**Incorrect:**
+
+```jsx
+<ScrollView>
+  {items.map((item) => <Item key={item.id} {...item} />)}
+</ScrollView>
+```
+
+**Correct:**
+
+```jsx
+<FlashList
+  data={items}
+  keyExtractor={(item) => item.id}
+  renderItem={({ item }) => <Item {...item} />}
+  estimatedItemSize={50}
+/>
+```
 
 ## When to Use
 

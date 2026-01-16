@@ -18,6 +18,18 @@ metadata:
 
 Performance optimization guide for React Native applications, covering JavaScript/React, Native (iOS/Android), and bundling optimizations. Based on Callstack's "Ultimate Guide to React Native Optimization".
 
+## Skill Format
+
+Each reference file follows a hybrid format for fast lookup and deep understanding:
+
+- **Quick Pattern**: Incorrect/Correct code snippets for immediate pattern matching
+- **Quick Command**: Shell commands for process/measurement skills
+- **Quick Config**: Configuration snippets for setup-focused skills
+- **Quick Reference**: Summary tables for conceptual skills
+- **Deep Dive**: Full context with When to Use, Prerequisites, Step-by-Step, Common Pitfalls
+
+**Impact ratings**: CRITICAL (fix immediately), HIGH (significant improvement), MEDIUM (worthwhile optimization)
+
 ## When to Apply
 
 Reference these guidelines when:
@@ -103,37 +115,46 @@ npx source-map-explorer output.js --no-border-checks
 Full documentation with code examples in `references/`:
 
 ### JavaScript/React (`js-*`)
-- `js-profile-react.md` - React DevTools profiling
-- `js-measure-fps.md` - FPS monitoring
-- `js-memory-leaks.md` - JS memory leak hunting
-- `js-lists-flatlist-flashlist.md` - List performance
-- `js-atomic-state.md` - Jotai/Zustand patterns
-- `js-concurrent-react.md` - useDeferredValue, useTransition
-- `js-react-compiler.md` - Automatic memoization
-- `js-animations-reanimated.md` - Reanimated worklets
-- `js-uncontrolled-components.md` - TextInput optimization
+
+| File | Impact | Description |
+|------|--------|-------------|
+| `js-lists-flatlist-flashlist.md` | CRITICAL | Replace ScrollView with virtualized lists |
+| `js-profile-react.md` | MEDIUM | React DevTools profiling |
+| `js-measure-fps.md` | HIGH | FPS monitoring and measurement |
+| `js-memory-leaks.md` | MEDIUM | JS memory leak hunting |
+| `js-atomic-state.md` | HIGH | Jotai/Zustand patterns |
+| `js-concurrent-react.md` | HIGH | useDeferredValue, useTransition |
+| `js-react-compiler.md` | HIGH | Automatic memoization |
+| `js-animations-reanimated.md` | MEDIUM | Reanimated worklets |
+| `js-uncontrolled-components.md` | HIGH | TextInput optimization |
 
 ### Native (`native-*`)
-- `native-platform-setup.md` - iOS/Android tooling guide
-- `native-profiling.md` - Xcode/Android Studio profiling
-- `native-measure-tti.md` - TTI measurement setup
-- `native-memory-patterns.md` - C++/Swift/Kotlin memory
-- `native-threading-model.md` - Turbo Module threads
-- `native-view-flattening.md` - View hierarchy debugging
-- `native-sdks-over-polyfills.md` - Native vs JS libraries
-- `native-turbo-modules.md` - Building fast native modules
-- `native-memory-leaks.md` - Native memory leak hunting
+
+| File | Impact | Description |
+|------|--------|-------------|
+| `native-turbo-modules.md` | HIGH | Building fast native modules |
+| `native-sdks-over-polyfills.md` | HIGH | Native vs JS libraries |
+| `native-measure-tti.md` | HIGH | TTI measurement setup |
+| `native-threading-model.md` | HIGH | Turbo Module threads |
+| `native-profiling.md` | MEDIUM | Xcode/Android Studio profiling |
+| `native-platform-setup.md` | MEDIUM | iOS/Android tooling guide |
+| `native-view-flattening.md` | MEDIUM | View hierarchy debugging |
+| `native-memory-patterns.md` | MEDIUM | C++/Swift/Kotlin memory |
+| `native-memory-leaks.md` | MEDIUM | Native memory leak hunting |
 
 ### Bundling (`bundle-*`)
-- `bundle-analyze-js.md` - JS bundle visualization
-- `bundle-analyze-app.md` - App size analysis
-- `bundle-library-size.md` - Evaluate dependencies
-- `bundle-barrel-exports.md` - Avoid barrel imports
-- `bundle-tree-shaking.md` - Dead code elimination
-- `bundle-code-splitting.md` - Re.Pack code splitting
-- `bundle-r8-android.md` - Android code shrinking
-- `bundle-native-assets.md` - Asset catalog setup
-- `bundle-hermes-mmap.md` - Disable bundle compression
+
+| File | Impact | Description |
+|------|--------|-------------|
+| `bundle-barrel-exports.md` | CRITICAL | Avoid barrel imports |
+| `bundle-analyze-js.md` | CRITICAL | JS bundle visualization |
+| `bundle-tree-shaking.md` | HIGH | Dead code elimination |
+| `bundle-analyze-app.md` | HIGH | App size analysis |
+| `bundle-r8-android.md` | HIGH | Android code shrinking |
+| `bundle-hermes-mmap.md` | HIGH | Disable bundle compression |
+| `bundle-native-assets.md` | HIGH | Asset catalog setup |
+| `bundle-library-size.md` | MEDIUM | Evaluate dependencies |
+| `bundle-code-splitting.md` | MEDIUM | Re.Pack code splitting |
 
 ## Searching References
 

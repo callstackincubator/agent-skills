@@ -1,6 +1,25 @@
+---
+title: Disable JS Bundle Compression
+impact: HIGH
+tags: android, hermes, mmap, tti, startup
+---
+
 # Skill: Disable JS Bundle Compression
 
 Disable Android JS bundle compression to enable Hermes memory mapping for faster startup.
+
+## Quick Config
+
+```groovy
+// android/app/build.gradle
+android {
+    androidResources {
+        noCompress += ["bundle"]
+    }
+}
+```
+
+**Note**: Default in React Native 0.79+. Only needed for 0.78 and earlier.
 
 ## When to Use
 

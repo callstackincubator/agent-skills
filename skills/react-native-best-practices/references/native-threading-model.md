@@ -1,6 +1,24 @@
+---
+title: Threading Model
+impact: HIGH
+tags: threads, turbo-modules, fabric, async, sync
+---
+
 # Skill: Threading Model
 
 Understand which threads Turbo Modules and Fabric use for initialization, method calls, and view updates.
+
+## Quick Reference
+
+| Action | iOS Thread | Android Thread |
+|--------|------------|----------------|
+| Module init | Main | JS (lazy) / Native (eager) |
+| Sync method | JS | JS |
+| Async method | Native modules | Native modules |
+| View init/props | Main | Main |
+| Yoga layout | JS | JS |
+
+**Key rule**: Sync methods block JS thread. Keep under 16ms or make async.
 
 ## When to Use
 
