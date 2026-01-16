@@ -22,14 +22,24 @@ Covers:
 
 #### Install as Claude Code Plugin
 
-Install this plugin in Claude Code:
-
+**1. Add the marketplace:**
 ```bash
-# Load the plugin locally during development
-claude --plugin-dir ./path/to/agent-skills
+/plugin marketplace add callstackincubator/agent-skills
+```
 
-# Or install from a marketplace
-# Coming soon: Instructions for marketplace installation
+**2. Install the skill:**
+```bash
+/plugin install react-native-best-practices@callstack-agent-skills
+```
+
+Or use the interactive menu:
+```bash
+/plugin menu
+```
+
+**For local development:**
+```bash
+claude --plugin-dir ./path/to/agent-skills
 ```
 
 Once installed, Claude will automatically use the React Native best practices skill when working on React Native projects.
@@ -56,30 +66,9 @@ The [callstack/optimization-best-practices](https://github.com/callstack/optimiz
 - Dedicated React Native SDKs vs web polyfills
 - R8 code shrinking on Android
 
-## Usage with AI Assistants
+## Other AI Assistants
 
-This repository is packaged as a **Claude Code plugin** for seamless integration.
-
-### Claude Code
-
-Install as a plugin to have Claude automatically apply React Native performance best practices:
-
-```bash
-# Test locally
-claude --plugin-dir ./path/to/agent-skills
-
-# Install from marketplace (coming soon)
-# /plugin install react-native-best-practices
-```
-
-### Other AI Assistants
-
-See [AGENTS.md](./AGENTS.md) for integration instructions with:
-
-- Cursor
-- GitHub Copilot
-- Claude API / Claude.ai Projects
-- Other AI coding assistants
+See [AGENTS.md](./AGENTS.md) for integration instructions with Cursor, GitHub Copilot, Claude API, and other AI coding assistants.
 
 ## Structure
 
@@ -99,7 +88,7 @@ agent-skills/
             └── bundle-*.md       # Bundling & app size skills
 ```
 
-The plugin follows the [Claude Code plugin structure](https://code.claude.com/docs/plugins-reference):
+The plugin follows the [Claude Code plugin structure](https://docs.anthropic.com/en/docs/claude-code/plugins):
 
 - `.claude-plugin/plugin.json` - Plugin metadata and configuration
 - `skills/` - Agent Skills that Claude automatically uses based on task context

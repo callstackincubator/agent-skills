@@ -1,0 +1,20 @@
+{
+  "name": "callstack-agent-skills",
+  "description": "Agent-optimized skills for AI coding assistants by Callstack",
+  "owner": {
+    "name": "Callstack",
+    "email": "hello@callstack.com",
+    "url": "https://www.callstack.com/"
+  },
+  "plugins": [
+    {
+      "name": "react-native-best-practices",
+      "source": ".",
+      "description": "React Native performance optimization skills from Callstack's Ultimate Guide. Covers JavaScript/React, Native (iOS/Android), and bundling optimizations.",
+      "version": "1.0.0",
+      "author": {
+        "name": "Callstack"
+      }
+    }
+  ]
+}
