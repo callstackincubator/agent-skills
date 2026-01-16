@@ -4,15 +4,16 @@ A collection of agent-optimized skills for AI coding assistants. Skills provide 
 
 ## Available Skills
 
-| Skill | Description |
-|-------|-------------|
-| [react-native-best-practices](./skills/react-native-best-practices/) | React Native performance optimization |
+| Skill                                                                | Description                                             |
+| -------------------------------------------------------------------- | ------------------------------------------------------- |
+| [react-native-best-practices](./skills/react-native-best-practices/) | React Native optimization best practices from Callstack |
 
 ## React Native Best Practices
 
 Performance optimization skills based on [**The Ultimate Guide to React Native Optimization**](https://www.callstack.com/campaigns/download-the-ultimate-guide-to-react-native-optimization) by [Callstack](https://www.callstack.com/).
 
 Covers:
+
 - **JavaScript/React**: Profiling, FPS, re-renders, lists, state management, animations
 - **Native**: iOS/Android profiling, TTI, memory management, Turbo Modules
 - **Bundling**: Bundle analysis, tree shaking, R8, app size optimization
@@ -50,6 +51,7 @@ Look up js-profile-react.md for React DevTools profiling instructions
 ### Code Examples
 
 The [callstack/optimization-best-practices](https://github.com/callstack/optimization-best-practices) repository contains runnable code examples for:
+
 - React Compiler setup
 - Dedicated React Native SDKs vs web polyfills
 - R8 code shrinking on Android
@@ -73,6 +75,7 @@ claude --plugin-dir ./path/to/agent-skills
 ### Other AI Assistants
 
 See [AGENTS.md](./AGENTS.md) for integration instructions with:
+
 - Cursor
 - GitHub Copilot
 - Claude API / Claude.ai Projects
@@ -97,12 +100,14 @@ agent-skills/
 ```
 
 The plugin follows the [Claude Code plugin structure](https://code.claude.com/docs/plugins-reference):
+
 - `.claude-plugin/plugin.json` - Plugin metadata and configuration
 - `skills/` - Agent Skills that Claude automatically uses based on task context
 
 ## Contributing
 
 Contributions welcome! Skills should be:
+
 - **Actionable**: Step-by-step instructions, not theory
 - **Searchable**: Clear headings and keywords
 - **Complete**: Include code examples and common pitfalls
@@ -116,6 +121,7 @@ This is just the start! The following features are planned or in progress.
 Several skills involve interpreting visual profiler output (flame graphs, treemaps, memory snapshots). AI agents cannot yet process these autonomously.
 
 **Affected skills:**
+
 - `js-profile-react.md` - React DevTools flame graphs
 - `js-measure-fps.md` - FPS graphs and performance overlays
 - `native-profiling.md` - Xcode Instruments / Android Studio Profiler
@@ -129,6 +135,7 @@ Several skills involve interpreting visual profiler output (flame graphs, treema
 ### Complementary Skills
 
 For complete coverage, consider pairing with:
+
 - [Vercel React Best Practices](https://github.com/vercel-labs/agent-skills/tree/react-best-practices/skills/react-best-practices) - React/Next.js web optimization (40+ rules)
 
 ### Future Work
