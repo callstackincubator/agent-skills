@@ -46,7 +46,100 @@ Once installed, Claude will automatically use the React Native best practices sk
 
 #### Use with Other AI Assistants
 
-Point your AI assistant to the skill:
+All major AI coding assistants support the Agent Skills standard.
+
+##### Cursor
+
+**Option 1: Install from GitHub (Recommended)**
+
+1. Open Cursor Settings (`Cmd+Shift+J` / `Ctrl+Shift+J`)
+2. Navigate to **Rules → Add Rule → Remote Rule (GitHub)**
+3. Enter: `callstackincubator/agent-skills`
+
+**Option 2: Local Installation**
+
+```bash
+# Project-level
+git clone https://github.com/callstackincubator/agent-skills.git .cursor/skills/agent-skills
+
+# User-level (available in all projects)
+git clone https://github.com/callstackincubator/agent-skills.git ~/.cursor/skills/agent-skills
+```
+
+**Usage:** Type `/` in Agent chat to search and select skills by name.
+
+##### OpenAI Codex CLI
+
+**Install via skill-installer:**
+
+```
+$skill-installer install react-native-best-practices from callstackincubator/agent-skills
+```
+
+**Or clone manually:**
+
+```bash
+# Project-level
+git clone https://github.com/callstackincubator/agent-skills.git
+cp -r agent-skills/skills/* .codex/skills/
+
+# User-level
+cp -r agent-skills/skills/* ~/.codex/skills/
+```
+
+Restart Codex to recognize newly installed skills.
+
+**Usage:** Type `$` to mention a skill or use `/skills` command.
+
+##### Gemini CLI
+
+**Install from repository:**
+
+```bash
+gemini skills install https://github.com/callstackincubator/agent-skills.git
+```
+
+**Or install to workspace:**
+
+```bash
+gemini skills install https://github.com/callstackincubator/agent-skills.git --scope workspace
+```
+
+**Management commands:**
+- `/skills list` - view all discovered skills
+- `/skills enable <name>` / `/skills disable <name>` - toggle availability
+- `/skills reload` - refresh skill inventory
+
+##### OpenCode
+
+Clone to any supported skills directory:
+
+```bash
+# Project-level
+git clone https://github.com/callstackincubator/agent-skills.git
+cp -r agent-skills/skills/* .opencode/skill/
+
+# User-level
+cp -r agent-skills/skills/* ~/.config/opencode/skill/
+```
+
+OpenCode also discovers Claude-compatible paths (`.claude/skills/`, `~/.claude/skills/`).
+
+**Permission control** in `opencode.json`:
+
+```json
+{
+  "permission": {
+    "skill": {
+      "*": "allow"
+    }
+  }
+}
+```
+
+##### Other Assistants
+
+For assistants without native skills support, point them to the skill file:
 
 ```
 Read skills/react-native-best-practices/SKILL.md for React Native performance guidelines
