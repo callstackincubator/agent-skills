@@ -54,7 +54,7 @@ All major AI coding assistants support the Agent Skills standard.
 
 1. Open Cursor Settings (`Cmd+Shift+J` / `Ctrl+Shift+J`)
 2. Navigate to **Rules → Add Rule → Remote Rule (GitHub)**
-3. Enter: `callstackincubator/agent-skills`
+3. Enter: `https://github.com/callstackincubator/agent-skills.git`
 
 **Option 2: Local Installation**
 
