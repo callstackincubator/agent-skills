@@ -23,6 +23,18 @@ config.transformer.getTransformOptions = async () => ({
 });
 ```
 
+```javascript
+// babel.config.js (non-Expo projects must set `disableImportExportTransform`)
+module.exports = {
+  presets: [
+    [
+      'module:@react-native/babel-preset',
+      { disableImportExportTransform: true },
+    ],
+  ],
+};
+```
+
 ## When to Use
 
 - Bundle includes unused library code
@@ -30,27 +42,13 @@ config.transformer.getTransformOptions = async () => ({
 - Using Expo SDK 52+ (recommended approach)
 - Project already uses Re.Pack (`@callstack/repack`)
 
-## What is Tree Shaking?
-
-Removes code that's exported but never imported:
-
-```tsx
-// math.js
-export const add = (a, b) => a + b;      // Used
-export const subtract = (a, b) => a - b;  // Unused
-
-// app.js
-import { add } from './math';
-// After tree shaking: subtract removed from bundle
-```
-
 ## Platform Support
 
-| Bundler | Tree Shaking | Notes |
-|---------|--------------|-------|
-| Metro | ❌ No | Use metro-serializer-esbuild |
-| Expo (SDK 52+) | ✅ Experimental | Requires config |
-| Re.Pack | ✅ Yes | Built-in via Webpack/Rspack |
+| Bundler        | Tree Shaking    | Notes                        |
+| -------------- | --------------- | ---------------------------- |
+| Metro          | ❌ No           | Use metro-serializer-esbuild |
+| Expo (SDK 52+) | ✅ Experimental | Requires config              |
+| Re.Pack        | ✅ Yes          | Built-in via Webpack/Rspack  |
 
 ## Setup: Expo SDK 52+
 
@@ -92,7 +90,7 @@ Configure in metro.config.js.
 
 ## Setup: Re.Pack (Only If Already Installed)
 
-> **Important**: Re.Pack (`@callstack/repack`) is a custom bundler using Rspack/Webpack. Only apply these instructions if the project already has Re.Pack configured. Do not suggest migrating a codebase to Re.Pack—it's rarely necessary and requires significant setup. For most projects, use Expo SDK 52+ tree shaking or manual barrel export fixes instead.
+> **Important**: Re.Pack (`@callstack/repack`) is a custom bundler using Rspack/Webpack. Only apply these instructions if the project already has Re.Pack configured. Do not suggest migrating a codebase to Re.Pack—it's rarely necessary and requires significant setup.
 
 **If project has `@callstack/repack` in dependencies:**
 
@@ -102,56 +100,57 @@ Tree shaking is enabled by default with Rspack. Verify in config:
 // rspack.config.js or webpack.config.js
 module.exports = {
   optimization: {
-    usedExports: true,   // Mark unused exports
-    minimize: true,       // Remove during minification
+    usedExports: true, // Mark unused exports
+    minimize: true, // Remove during minification
   },
 };
 ```
 
-## Platform Shaking (Bonus)
+## Platform Shaking
 
-Code inside `Platform.OS` checks is removed for other platforms:
+Code inside `Platform.OS` and `Platform.select` checks is removed for other platforms:
 
 ```tsx
+// IMPORTANT: import Platform directly from 'react-native'
 import { Platform } from 'react-native';
 
 if (Platform.OS === 'ios') {
   // Removed from Android bundle
 }
 
-if (Platform.OS === 'android') {
-  // Removed from iOS bundle
+if (Platform.select({ ios: true, android: false }) === 'ios') {
+  // Removed from Android bundle
 }
 ```
 
-**Important**: Must import `Platform` from `react-native` directly.
+**Critical**: Must use direct import. This does NOT work:
 
-## Benchmark Results (Expensify App)
+```tsx
+import * as RN from 'react-native';
+if (RN.Platform.OS === 'ios') {
+  // NOT removed - optimization fails
+}
+```
 
-| Bundle Type | Metro (MB) | Re.Pack (MB) | Change |
-|-------------|------------|--------------|--------|
-| Production | 35.63 | 38.48 | +8% |
-| Prod Minified | 15.54 | 13.36 | **-14%** |
-| Prod HBC | 21.79 | 19.35 | **-11%** |
-| Prod Minified HBC | 21.62 | 19.05 | **-12%** |
+For non-Expo projects, requires both `experimentalImportSupport: true` in Metro config and `disableImportExportTransform: true` in Babel config.
 
-**Key insight**: Tree shaking marks code, minification removes it. HBC includes minification.
+## Requirements for Tree Shaking
 
-Expected improvement: **10-15%** bundle size reduction.
+### ESM Imports Required
 
-## How It Works
+```tsx
+// ✅ ESM - Tree shakeable
+import { foo } from './module';
 
-1. **Used Exports Check**: Identify which exports are imported
-2. **Side Effects Analysis**: Check if removal is safe
-3. **Export Tracking**: Map module dependencies
-4. **Dead Code Removal**: Remove during minification
+// ❌ CommonJS - Not tree shakeable
+const { foo } = require('./module');
+```
 
-## Side Effects Consideration
+### Side Effects Declaration
 
-Libraries must declare side-effect-free:
+Libraries must declare side-effect-free in `package.json`:
 
 ```json
-// package.json
 {
   "sideEffects": false
 }
@@ -165,37 +164,30 @@ Or specify files with side effects:
 }
 ```
 
-## ESM vs CommonJS
+## Size Impact
 
-Tree shaking works best with ESM (ES Modules):
+| Bundle Type       | Metro (MB) | Re.Pack (MB) | Change   |
+| ----------------- | ---------- | ------------ | -------- |
+| Production        | 35.63      | 38.48        | +8%      |
+| Prod Minified     | 15.54      | 13.36        | **-14%** |
+| Prod HBC          | 21.79      | 19.35        | **-11%** |
+| Prod Minified HBC | 21.62      | 19.05        | **-12%** |
 
-```tsx
-// ESM - Tree shakeable
-export const foo = () => {};
-import { foo } from './module';
-
-// CommonJS - Not tree shakeable
-module.exports = { foo: () => {} };
-const { foo } = require('./module');
-```
-
-React Native's Babel preset transforms ESM → CommonJS by default. Experimental support in Expo/Re.Pack preserves ESM.
+**Expected improvement**: 10-15% bundle size reduction.
 
 ## Verification
 
-### Check Bundle Contains Only Used Code
-
-1. Build production bundle
-2. Analyze with source-map-explorer
+1. Build production bundle (see [bundle-analyze-js.md](./bundle-analyze-js.md))
+2. Analyze with source-map-explorer (see [bundle-analyze-js.md](./bundle-analyze-js.md))
 3. Search for functions you know are unused
 4. If found → tree shaking not working
 
-### Example Test
+### Test Example
 
 ```tsx
 // test-treeshake.js
 export const usedFunction = () => 'used';
-export const unusedFunction = () => 'unused';  // Should be removed
+export const unusedFunction = () => 'unused'; // Should be removed
 
 // app.js
 import { usedFunction } from './test-treeshake';
@@ -209,6 +201,7 @@ After building, search bundle for `unusedFunction`. Should not exist.
 - **CommonJS modules**: Need ESM for full effectiveness
 - **Side effects not declared**: Library may not be shakeable
 - **Dynamic imports**: `require(variable)` prevents analysis
+- **Babel/Metro config mismatch**: `disableImportExportTransform` must match `experimentalImportSupport`
 
 ## Related Skills
 

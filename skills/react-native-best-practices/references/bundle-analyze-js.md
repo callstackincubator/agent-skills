@@ -201,20 +201,6 @@ import format from 'date-fns/format';
 // In bundle: Only format function
 ```
 
-### Platform-Specific Removal
-
-Code in `Platform.OS` checks gets stripped:
-
-```tsx
-import { Platform } from 'react-native';
-
-if (Platform.OS === 'ios') {
-  // This code removed from Android bundle
-}
-```
-
-**Note**: Only works with direct import from `react-native`.
-
 ## Comparing Bundles
 
 ### source-map-explorer
