@@ -136,7 +136,7 @@ For non-Expo projects, requires both `experimentalImportSupport: true` in Metro 
 
 Impact: Savings from enabling platform shaking on a bare React Native Community CLI project are:
 - 5% smaller Hermes bytecode (2.79 MB → 2.64 MB)
-- 15% smaller minified JS bundle (1 MB → 8.55 MB)
+- 15% smaller minified JS bundle (1 MB → 0.85 MB)
 
 ## Requirements for Tree Shaking
 
