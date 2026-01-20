@@ -161,7 +161,7 @@ The [callstack/optimization-best-practices](https://github.com/callstack/optimiz
 
 ## Other AI Assistants
 
-See [AGENTS.md](./AGENTS.md) for integration instructions with Cursor, GitHub Copilot, Claude API, and other AI coding assistants.
+See [AI Assistant Integration Guide](./docs/ai-assistant-integration.md) for detailed setup instructions with Cursor, GitHub Copilot, Claude API, ChatGPT, and other AI coding assistants.
 
 ## Structure
 
