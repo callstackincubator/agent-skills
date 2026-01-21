@@ -1,6 +1,6 @@
 ---
 name: react-native-best-practices
-description: Provides React Native performance optimization guidelines for FPS, TTI, bundle size, memory leaks, re-renders, and animations. Applies to tasks involving Hermes optimization, JS thread blocking, bridge overhead, FlashList, native modules, or debugging jank and frame drops.
+description: Provides React Native performance optimization guidelines for FPS, TTI, bundle size, memory leaks, re-renders, and animations. Applies to tasks involving Hermes optimization, JS thread blocking, bridge overhead, FlashList, native modules , or debugging jank and frame drops.
 license: MIT
 metadata:
   author: Callstack
@@ -136,6 +136,7 @@ Full documentation with code examples in `references/`:
 | `native-view-flattening.md` | MEDIUM | View hierarchy debugging |
 | `native-memory-patterns.md` | MEDIUM | C++/Swift/Kotlin memory |
 | `native-memory-leaks.md` | MEDIUM | Native memory leak hunting |
+| `native-android-16kb-alignment.md` | CRITICAL | Android 16 KB alignment check |
 
 ### Bundling (`bundle-*`)
 
@@ -176,6 +177,7 @@ grep -l "bundle" references/
 | List scroll jank | `js-lists-flatlist-flashlist.md` |
 | TextInput lag | `js-uncontrolled-components.md` |
 | Native module slow | `native-turbo-modules.md` → `native-threading-model.md` |
+| Native library alignment issue | `native-android-16kb-alignment.md` |
 
 ## Attribution
 
