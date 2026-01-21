@@ -8,7 +8,7 @@ cleanup_trap() {
   if [ -n "${tmp}" -a -d "${tmp}" ]; then
     rm -rf ${tmp}
   fi
-#   exit $1
+  exit $1
 }
 
 usage() {
@@ -80,9 +80,22 @@ fi
 
 RED="\e[31m"
 GREEN="\e[32m"
+YELLOW="\e[33m"
 ENDCOLOR="\e[0m"
 
 unaligned_libs=()
+needs_update=()
+
+# Function to check if a library needs alignment
+needs_alignment() {
+  local lib_path="$1"
+  # Check if it's a 64-bit architecture that requires alignment
+  if [[ "${lib_path}" == *"arm64-v8a"* ]] || [[ "${lib_path}" == *"x86_64"* ]]; then
+    return 0  # true - needs alignment
+  else
+    return 1  # false - doesn't need alignment
+  fi
+}
 
 echo
 echo "=== ELF alignment ==="
@@ -97,32 +110,47 @@ for match in $matches; do
   [[ $(file "${match}") == *"ELF"* ]] || continue
 
   res="$(objdump -p "${match}" | grep LOAD | awk '{ print $NF }' | head -1)"
-#   if [[ $res =~ 2\*\*(1[4-9]|[2-9][0-9]|[1-9][0-9]{2,}) ]]; then
-#     echo -e "${match}: ${GREEN}ALIGNED${ENDCOLOR} ($res)"
-#   else
-#     echo -e "${match}: ${RED}UNALIGNED${ENDCOLOR} ($res)"
-#     unaligned_libs+=("${match}")
-#   fi
-
-    if [[ $res =~ 2\*\*(1[4-9]|[2-9][0-9]|[1-9][0-9]{2,}) ]]; then
-        echo -e "${match}: ${GREEN}ALIGNED${ENDCOLOR} ($res)"
+  if [[ $res =~ 2\*\*(1[4-9]|[2-9][0-9]|[1-9][0-9]{2,}) ]]; then
+    echo -e "${match}: ${GREEN}ALIGNED${ENDCOLOR} ($res)"
+  else
+    if needs_alignment "${match}"; then
+      echo -e "${match}: ${RED}UNALIGNED${ENDCOLOR} ($res) ${RED}[NEEDS UPDATE]${ENDCOLOR}"
+      needs_update+=("${match}")
     else
-        if [[ "${match}" == *"/arm64-v8a/" || "${match}" == *"/x86_64/" ]]; then
-            echo -e "${match}: ${RED}UNALIGNED${ENDCOLOR} ($res) [64-bit ABI - ${RED}REQUIRES UPDATE${ENDCOLOR}]"
-            unaligned_libs+=("${match}")
-        else
-            echo -e "${match}: ${RED}UNALIGNED${ENDCOLOR} ($res) [32-bit ABI - ${GREEN}NO ACTION REQUIRED${ENDCOLOR}]"
-            # unaligned_libs+=("${match}")
-        fi
-        # unaligned_libs+=("${match}")
+      echo -e "${match}: ${YELLOW}UNALIGNED${ENDCOLOR} ($res) ${YELLOW}[UPDATE NOT REQUIRED]${ENDCOLOR}"
     fi
-
+    unaligned_libs+=("${match}")
+  fi
 done
-echo ""
-echo "--------------------------------"
-if [ ${#unaligned_libs[@]} -gt 0 ]; then
-  echo -e "${RED}Found ${#unaligned_libs[@]} unaligned libs (only arm64-v8a/x86_64 libs need to be aligned)${ENDCOLOR}"
-elif [ -n "${dir_filename}" ]; then
-  echo -e "${GREEN}ELF Verification Successful${ENDCOLOR}"
+
+echo "====================="
+echo
+echo "=== Summary ==="
+total_libs=${#matches[@]}
+aligned_libs=0
+unaligned_need_update=${#needs_update[@]}
+unaligned_no_update=$((${#unaligned_libs[@]} - ${#needs_update[@]}))
+
+# Count aligned libs
+IFS=$'\n'
+for match in $matches; do
+  [[ $(file "${match}") == *"ELF"* ]] || continue
+  res="$(objdump -p "${match}" | grep LOAD | awk '{ print $NF }' | head -1)"
+  if [[ $res =~ 2\*\*(1[4-9]|[2-9][0-9]|[1-9][0-9]{2,}) ]]; then
+    ((aligned_libs++))
+  fi
+done
+
+echo "Total ELF libraries found: ${aligned_libs} + ${#unaligned_libs[@]} = $((aligned_libs + ${#unaligned_libs[@]}))"
+echo -e "${GREEN}Aligned libraries: ${aligned_libs}${ENDCOLOR}"
+echo -e "${RED}Unaligned (NEED UPDATE): ${unaligned_need_update}${ENDCOLOR}"
+echo -e "${YELLOW}Unaligned (update NOT required): ${unaligned_no_update}${ENDCOLOR}"
+echo
+
+if [ ${unaligned_need_update} -gt 0 ]; then
+  echo -e "${RED}⚠ Action required: ${unaligned_need_update} libraries need alignment updates${ENDCOLOR}"
+else
+  echo -e "${GREEN}✓ All required libraries are properly aligned!${ENDCOLOR}"
 fi
-echo "--------------------------------"
+
+echo "================"
