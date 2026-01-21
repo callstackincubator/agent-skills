@@ -1,174 +1,113 @@
 ---
-title: Native Android 16 KB Alignment
+title: Android 16 KB Page Size Alignment
 impact: CRITICAL
-tags: android, native, 16kb, alignment, page-size, build, arm64, x86_64, react-native
+tags: android, native, 16kb, alignment, page-size, google-play, third-party
 ---
 
-# Native Android 16 KB page size alignment
+# Android 16 KB page size alignment
 
 ---
 
 ## Quick Reference
 
-| Item                 | Details                     |
-| -------------------- | --------------------------- |
-| Android versions     | Android 14+ (API 34)        |
-| React Native support | React Native >= 0.79        |
-| Affected ABIs        | `arm64-v8a`, `x86_64`       |
-| Not affected         | `armeabi-v7a`, `x86`        |
-| Required alignment   | `p_align >= 0x4000` (16 KB) |
+| Item                   | Details                                              |
+| ---------------------- | ---------------------------------------------------- |
+| Google Play deadline   | November 1, 2025 for apps targeting Android 15+      |
+| React Native support   | Built-in since React Native 0.79                     |
+| What to check          | Third-party native libraries (`.so` files)           |
+| Official documentation | [developer.android.com/guide/practices/page-sizes][] |
 
----
-
-## Quick Pattern
-
-### Incorrect (will fail on 16 KB devices)
-
-```text
-ALIGN 0x1000
-```
-
-### Correct
-
-```text
-ALIGN 0x4000
-```
+[developer.android.com/guide/practices/page-sizes]: https://developer.android.com/guide/practices/page-sizes
 
 ---
 
 ## Quick Command
 
-### Pre-build 16 KB Alignment Check (recommended)
-
-Run this check **before building** to catch common issues in legacy projects:
+Verify APK alignment using Android's official `zipalign` tool:
 
 ```bash
-bash scripts/prebuild_16kb_check.sh
+zipalign -c -P 16 -v 4 app-release.apk
 ```
 
-This pre-build check helps detect:
+If any 64-bit libraries (`arm64-v8a`, `x86_64`) show misalignment, they need updating.
 
-* legacy prebuilt native libraries
-* high-risk upgrade scenarios
+For deeper ELF-level inspection, use Android's [check_elf_alignment.sh][] script.
 
-> This check is preventive. Final validation must still be performed on built artifacts.
+[check_elf_alignment.sh]: https://cs.android.com/android/platform/superproject/main/+/main:system/extras/tools/check_elf_alignment.sh
 
 ---
 
-### Post-build Verification (macOS / Linux / Windows)
+## When to Check
 
-Use Android’s official ELF alignment script after generating an APK or AAB:
+React Native 0.79+ builds core binaries with correct alignment. However, **third-party
+native libraries** may still be misaligned. Check alignment when:
+
+* Adding or updating SDKs with native code
+* Preparing a release for Google Play
+* Investigating crashes on Android 15+ devices with 16 KB page size
+
+---
+
+## CI Integration
+
+Add alignment check to your release pipeline to catch issues before submission, example:
 
 ```bash
-bash scripts/check_elf_alignment.sh android/app/build/outputs/apk/release/app-release.apk
+zipalign -c -P 16 -v 4 app-release.apk 2>&1 | tee alignment.log
+if grep -q "Verification FAILED" alignment.log; then exit 1; fi
 ```
 
-Script source:
-[https://cs.android.com/android/platform/superproject/main/+/main:system/extras/tools/check_elf_alignment.sh](https://cs.android.com/android/platform/superproject/main/+/main:system/extras/tools/check_elf_alignment.sh)
+## Step-by-Step
+
+1. Build your release APK or AAB
+2. Run `zipalign` verification (see Quick Command)
+3. If misaligned libraries are found, trace them to source packages (see below)
+4. Update, replace, or remove the affected dependencies
+
+For runtime testing, use the [16KB Android Emulator image][] or enable
+"Boot with 16KB page size" on Pixel 8/8a/9 devices.
+
+[16KB Android Emulator image]: https://developer.android.com/guide/practices/page-sizes#set-up-the-android-emulator-with-a-16-kb-based-system-image
 
 ---
 
-### Post-build Verification (Windows)
+## Tracing Misaligned Libraries
 
-On Windows, use `llvm-readelf` from the Android NDK:
+When `zipalign` reports a misaligned library like `libfoo.so`, find its source package:
 
-```powershell
-llvm-readelf -l libexample.so
+```bash
+# Find the .so file in node_modules
+find node_modules -name "libfoo.so" 2>/dev/null
+
+# Or search gradle files for references
+grep -r "foo" node_modules/*/android --include="*.gradle" 2>/dev/null
 ```
 
-Look for an `ALIGN` value of `0x4000` or higher.
+Once identified, update the dependency or contact the vendor for a 16KB-compatible build.
 
 ---
 
-## Deep Dive
+## Common Pitfalls
 
-### Background
-
-Starting with **Android 14 (API 34)**, devices may use a **16 KB memory page size**.
-Native shared libraries (`.so` files) that are not aligned to 16 KB may:
-
-* crash at runtime on 16 KB page-size devices
-* be rejected by Google Play during validation
-
-React Native supports 16 KB page sizes starting from **React Native 0.79**.
-When using React Native >= 0.79, React Native core and Hermes binaries are built
-with correct alignment.
-
-However, **third-party native libraries** included in an app may still be
-misaligned, especially in **legacy apps** or when using SDKs that ship
-prebuilt `.so` files.
+* Waiting for Play Store rejection instead of checking in CI
+* Assuming a React Native upgrade rebuilds third-party native binaries
+* Only checking 32-bit ABIs (`armeabi-v7a`, `x86`) — these are not affected
+* Using `zipalign` without the `-P 16` flag (checks 4 KB, not 16 KB)
+* Validating only debug builds
 
 ---
 
-### When to Use
+## Fixing Alignment Issues
 
-Verify native library alignment when:
+Alignment issues require **rebuilding** the native library with a compatible toolchain.
+Repackaging alone does not fix them.
 
-* upgrading a legacy app to React Native >= 0.79
-* adding or updating third-party SDKs with native code
-* preparing a release for Google Play
-* investigating crashes on Android 14+ devices
+See [official remediation steps][] for detailed guidance.
 
-Upgrading React Native alone does **not** rebuild third-party native binaries.
+[official remediation steps]: https://developer.android.com/guide/practices/page-sizes#build-app-16kb
 
 ---
 
-### What Needs to Be Aligned
+## Related Skills
 
-Only **64-bit ABIs** are affected by the 16 KB page size requirement:
-
-* **Requires alignment**: `arm64-v8a`, `x86_64`
-* **Not affected**: `armeabi-v7a` (32-bit), `x86` (32-bit)
-
-If an unaligned library is present only for a 32-bit ABI, no action is required.
-
----
-
-### Step-by-Step
-
-1. Run the **pre-build 16 KB alignment check**:
-
-   ```bash
-   bash scripts/prebuild_16kb_check.sh
-   ```
-
-2. Build the APK or AAB.
-
-3. Verify ELF alignment:
-
-   * macOS / Linux: use the official Android script
-   * Windows: use `llvm-readelf` from the Android NDK
-
-4. Identify unaligned `arm64-v8a` or `x86_64` libraries.
-
-5. Update, rebuild, or replace the affected libraries.
-
----
-
-### Common Pitfalls
-
-* Assuming a React Native upgrade rebuilds third-party native libraries
-* Ignoring ABI-specific failures (only 64-bit ABIs are affected)
-* Using `zipalign` instead of checking ELF alignment
-* Validating only debug builds and skipping release artifacts
-
----
-
-### How Alignment Issues Are Fixed
-
-Alignment issues cannot be fixed by packaging alone.
-They require **replacing or rebuilding** the affected native libraries.
-
-Typical options include:
-
-* updating the SDK to a version built with a modern Android toolchain
-* requesting a 16 KB–compatible build from the vendor
-* rebuilding the library from source
-* removing unused native dependencies
-
----
-
-## References
-
-* Android documentation:
-  [https://developer.android.com/guide/practices/page-sizes](https://developer.android.com/guide/practices/page-sizes)
+* [native-profiling.md](./native-profiling.md) — Native debugging tools
