@@ -10,7 +10,7 @@ A collection of agent-optimized skills for AI coding assistants. Skills provide 
 
 ## React Native Best Practices
 
-Performance optimization skills based on [**The Ultimate Guide to React Native Optimization**](https://www.callstack.com/campaigns/download-the-ultimate-guide-to-react-native-optimization) by [Callstack](https://www.callstack.com/).
+Performance optimization skills based on [**The Ultimate Guide to React Native Optimization**](https://www.callstack.com/ebooks/the-ultimate-guide-to-react-native-optimization) by [Callstack](https://www.callstack.com/).
 
 Covers:
 
