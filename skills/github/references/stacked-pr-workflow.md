@@ -1,5 +1,6 @@
 ---
 title: Merge PR Chain
+tags: pull-request, stacked-pr, merge, squash, cherry-pick, github
 ---
 
 # Skill: Merge PR Chain
