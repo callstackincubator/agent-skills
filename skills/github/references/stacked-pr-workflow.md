@@ -1,8 +1,9 @@
 ---
 title: Merge PR Chain
+tags: pull-request, stacked-pr, merge, squash, cherry-pick, github
 ---
 
-# Merge PR Chain
+# Skill: Merge PR Chain
 
 Merge a chain of stacked GitHub PRs into main as individual squash commits. Use when user has multiple PRs where each targets the previous one's branch (e.g., PR #2 → PR #1's branch → main) and wants to squash merge them all to main while preserving separate commits per PR.
 
