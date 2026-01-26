@@ -15,6 +15,12 @@
 			"description": "React Native performance optimization skills from Callstack's Ultimate Guide. Covers JavaScript/React, Native (iOS/Android), and bundling optimizations for FPS, TTI, memory management, and app size reduction.",
 			"source": "./",
 			"skills": ["./skills/react-native-best-practices"]
+		},
+		{
+			"name": "github",
+			"description": "GitHub patterns for PRs, code review, branching, and repository management.",
+			"source": "./",
+			"skills": ["./skills/github"]
 		}
 	]
 }

@@ -7,6 +7,7 @@ A collection of agent-optimized skills for AI coding assistants. Skills provide 
 | Skill                                                                | Description                                             |
 | -------------------------------------------------------------------- | ------------------------------------------------------- |
 | [react-native-best-practices](./skills/react-native-best-practices/) | React Native optimization best practices from Callstack |
+| [github](./skills/github/)                                           | GitHub workflow patterns for PRs, code review, branching |
 
 ## React Native Best Practices
 
@@ -172,13 +173,17 @@ agent-skills/
 ├── .claude-plugin/
 │   └── marketplace.json     # Marketplace configuration
 └── skills/
-    └── react-native-best-practices/
-        ├── SKILL.md              # Main skill file with quick reference
-        └── references/           # Detailed skill files
-            ├── images/           # Visual references for profilers, diagrams
-            ├── js-*.md           # JavaScript/React skills
-            ├── native-*.md       # Native iOS/Android skills
-            └── bundle-*.md       # Bundling & app size skills
+    ├── react-native-best-practices/
+    │   ├── SKILL.md              # Main skill file with quick reference
+    │   └── references/           # Detailed skill files
+    │       ├── images/           # Visual references for profilers, diagrams
+    │       ├── js-*.md           # JavaScript/React skills
+    │       ├── native-*.md       # Native iOS/Android skills
+    │       └── bundle-*.md       # Bundling & app size skills
+    │
+    └── github/
+        ├── SKILL.md              # Main skill file with workflow patterns
+        └── references/           # Detailed workflow files
 ```
 
 The plugin follows the [Claude Code plugin marketplace structure](https://code.claude.com/docs/en/plugin-marketplaces):

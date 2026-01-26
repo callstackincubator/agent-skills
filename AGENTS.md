@@ -1,18 +1,22 @@
 # Agent Skills
 
-Markdown-only repo with React Native optimization skills. No build step.
+Markdown-only repo with agent skills for React Native and GitHub workflows. No build step.
 
 ## Repo Structure
 
 ```
 skills/
-└── react-native-best-practices/
-    ├── SKILL.md                    # Main entry point with quick reference + problem→skill mapping
+├── react-native-best-practices/
+│   ├── SKILL.md                    # Main entry point with quick reference + problem→skill mapping
+│   └── references/
+│       ├── images/                 # Visual references (profiler screenshots, diagrams)
+│       ├── js-*.md                 # JavaScript/React skills
+│       ├── native-*.md             # iOS/Android native skills
+│       └── bundle-*.md             # Bundling & app size skills
+│
+└── github/
+    ├── SKILL.md                    # Main entry point with workflow patterns
     └── references/
-        ├── images/                 # Visual references (profiler screenshots, diagrams)
-        ├── js-*.md                 # JavaScript/React skills
-        ├── native-*.md             # iOS/Android native skills
-        └── bundle-*.md             # Bundling & app size skills
 ```
 
 All reference files are flat in `references/` — no subfolders. Prefix groups related skills.
