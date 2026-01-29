@@ -1,6 +1,10 @@
 ---
 name: github-patterns
 description: GitHub patterns using gh CLI for pull requests, stacked PRs, code review, branching strategies, and repository automation. Use when working with GitHub PRs, merging strategies, or repository management tasks.
+license: MIT
+metadata:
+  author: Callstack
+  tags: github, gh-cli, pull-request, stacked-pr, squash, rebase
 ---
 
 # GitHub Patterns
