@@ -2,6 +2,34 @@
 
 Markdown-only repo with agent skills for React Native and GitHub workflows. No build step.
 
+## Adding New Skills
+
+Follow [agentskills.io spec](https://agentskills.io/specification) and [Claude Code best practices](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices).
+
+### Quick Checklist
+
+1. Create `skills/<skill-name>/SKILL.md`
+2. Directory name must match `name` field exactly
+3. Required frontmatter:
+   ```yaml
+   ---
+   name: skill-name          # lowercase, hyphens only, 1-64 chars
+   description: Third person description of what it does. Use when [trigger conditions].
+   ---
+   ```
+4. Optional frontmatter: `license`, `metadata` (author, tags), `compatibility`
+5. Keep body under 500 lines
+6. Use markdown links: `[file.md](references/file.md)` not bare filenames
+7. Run `/validate-skills` to verify
+
+### What Makes a Good Skill
+
+- **Concise**: Only add context Claude doesn't already have
+- **Third person description**: "Processes X" not "I help with X"
+- **What + When**: Description says what it does AND when to use it
+- **One-level deep**: Reference files link from SKILL.md, not from other references
+- **No redundancy**: Don't repeat description content in body
+
 ## Repo Structure
 
 ```
