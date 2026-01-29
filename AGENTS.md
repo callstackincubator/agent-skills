@@ -14,7 +14,7 @@ skills/
 │       ├── native-*.md             # iOS/Android native skills
 │       └── bundle-*.md             # Bundling & app size skills
 │
-└── github-patterns/
+└── github/
     ├── SKILL.md                    # Main entry point with workflow patterns
     └── references/
 ```

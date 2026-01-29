@@ -7,7 +7,7 @@ A collection of agent-optimized skills for AI coding assistants. Skills provide 
 | Skill                                                                | Description                                             |
 | -------------------------------------------------------------------- | ------------------------------------------------------- |
 | [react-native-best-practices](./skills/react-native-best-practices/) | React Native optimization best practices from Callstack |
-| [github-patterns](./skills/github-patterns/)                         | GitHub workflow patterns for PRs, code review, branching |
+| [github](./skills/github/)                                           | GitHub workflow patterns for PRs, code review, branching |
 
 ## React Native Best Practices
 
@@ -181,7 +181,7 @@ agent-skills/
     │       ├── native-*.md       # Native iOS/Android skills
     │       └── bundle-*.md       # Bundling & app size skills
     │
-    └── github-patterns/
+    └── github/
         ├── SKILL.md              # Main skill file with workflow patterns
         └── references/           # Detailed workflow files
 ```

@@ -17,10 +17,10 @@
 			"skills": ["./skills/react-native-best-practices"]
 		},
 		{
-			"name": "github-patterns",
+			"name": "github",
 			"description": "GitHub patterns using gh CLI for pull requests, stacked PRs, code review, branching strategies, and repository automation.",
 			"source": "./",
-			"skills": ["./skills/github-patterns"]
+			"skills": ["./skills/github"]
 		}
 	]
 }
