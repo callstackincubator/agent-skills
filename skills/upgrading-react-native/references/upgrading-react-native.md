@@ -29,9 +29,10 @@ cd ios && bundle exec pod install
 - Confirm this is not an Expo-managed project (stop and use https://github.com/expo/skills/upgrading-expo instead)
 - Ensure the repo is clean or on a dedicated upgrade branch
 - Know which package manager the repo uses (npm, yarn, pnpm, bun)
-- Use Node.js 20.19.4+, Java 17, and Xcode 16.4+ following https://reactnative.dev/docs/set-up-your-environment
+- Use Node.js 20.19.4+, Java 17, and Xcode 16.4+ (with Xcode Command Line Tools installed) following https://reactnative.dev/docs/set-up-your-environment
    - hint: it's easier to manage Xcode versions with [Xcodes](https://github.com/XcodesOrg/XcodesApp) - suggest to the user to install it.
 - Verify versions are active (`node -v`, `java -version`) before upgrading
+- Verify if Android Studio is installed
 
 ## Step-by-Step Instructions
 
