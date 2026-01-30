@@ -86,6 +86,7 @@ cd ios && bundle exec pod install
      - if `react-native-fast-image` is listed, use `@d11/react-native-fast-image` or `expo-image` instead - ask user for confirmation.
      - if `@react-native-cookies/cookies` is listed, use `@preeternal/react-native-cookie-manager` instead - ask user for confirmation.
      - if `react-native-code-push` is listed and actively used, it won't work. Ask user to disable it and continue with the upgrade. Then suggest migration to `@appzung/react-native-code-push`, `@bravemobile/react-native-code-push` or `expo-updates`.
+     - if `react-native-image-crop-picker` is listed, and it causes build or runtime errors,plan migration to `expo-image-picker` - ask user for confirmation.
    - Prefer alternatives listed on the directory when a dependency is incompatible.
    - If no alternative is listed, ask user for confirmation to continue with the upgrade.
 
