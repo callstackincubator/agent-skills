@@ -80,6 +80,7 @@ cd ios && bundle exec pod install
    - If the diff shows all files as `new file mode`, treat it as a template reference, not a drop-in copy.
    - Remap Android package names when applying diffs:
      - Example: `com.rndiffapp` → `com.yourcompany.yourapp` across `android/app/src/main/java/...` and `AndroidManifest.xml`.
+   - If the <current-version> is lower than 0.77, make sure any changes to the default `AppDelegate.m` or `AppDelegate.mm` file are migrated to the new `AppDelegate.swift` file. Check the [react-native-community/template](https://github.com/react-native-community/template/tree/<current-version>) for the default template.
 
 7. **Check dependency risk and plan migrations.**
    - Nightly tests: https://react-native-community.github.io/nightly-tests/
