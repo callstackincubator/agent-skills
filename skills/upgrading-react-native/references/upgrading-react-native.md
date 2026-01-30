@@ -86,9 +86,10 @@ cd ios && bundle exec pod install
      - if `react-native-fast-image` is listed, use `@d11/react-native-fast-image` or `expo-image` instead - ask user for confirmation.
      - if `@react-native-cookies/cookies` is listed, use `@preeternal/react-native-cookie-manager` instead - ask user for confirmation.
      - if `react-native-code-push` is listed and actively used, it won't work. Ask user to disable it and continue with the upgrade. Then suggest migration to `@appzung/react-native-code-push`, `@bravemobile/react-native-code-push` or `expo-updates`.
-     - if `react-native-image-crop-picker` is listed, and it causes build or runtime errors,plan migration to `expo-image-picker` - ask user for confirmation.
+     - if `react-native-image-crop-picker` is listed, upgrade to latest version (>=v0.51.1); if it crashes build, plan migration to `expo-image-picker` - ask user for confirmation.
    - Prefer alternatives listed on the directory when a dependency is incompatible.
    - If no alternative is listed, ask user for confirmation to continue with the upgrade.
+   - If `@rnx-kit/metro-resolver-symlinks` is listed, remove it from dependencies and metro.config.js since Metro supports symlinks out of the box since 0.72.
 
 8. **Read only breaking changes and manual steps from blog posts between your versions.**
    - Note removed APIs, moved modules, and required manual changes across those posts.
