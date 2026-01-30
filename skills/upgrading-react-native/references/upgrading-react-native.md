@@ -29,7 +29,8 @@ cd ios && bundle exec pod install
 - Confirm this is not an Expo-managed project (stop and use https://github.com/expo/skills/upgrading-expo instead)
 - Ensure the repo is clean or on a dedicated upgrade branch
 - Know which package manager the repo uses (npm, yarn, pnpm, bun)
-- Use Node.js 20.19.4+ and Java 17, following https://reactnative.dev/docs/set-up-your-environment
+- Use Node.js 20.19.4+, Java 17, and Xcode 16.4+ following https://reactnative.dev/docs/set-up-your-environment
+   - hint: it's easier to manage Xcode versions with [Xcodes](https://github.com/XcodesOrg/XcodesApp) - suggest to the user to install it.
 - Verify versions are active (`node -v`, `java -version`) before upgrading
 
 ## Step-by-Step Instructions
@@ -90,6 +91,7 @@ cd ios && bundle exec pod install
    - Prefer alternatives listed on the directory when a dependency is incompatible.
    - If no alternative is listed, ask user for confirmation to continue with the upgrade.
    - If `@rnx-kit/metro-resolver-symlinks` is listed, remove it from dependencies and metro.config.js since Metro supports symlinks out of the box since 0.72.
+   - If the project handles timezones (for example, uses `react-native-localize` with `getTimeZone`) and `@callstack/timezone-hermes-fix` is not listed, ask the user whether to add it for correct timezone support.
 
 8. **Read only breaking changes and manual steps from blog posts between your versions.**
    - Note removed APIs, moved modules, and required manual changes across those posts.
@@ -126,24 +128,48 @@ cd ios && bundle exec pod install
 13. **Verify New Architecture settings if the release enables it by default.**
     - Check `android/gradle.properties` and `ios/Podfile` toggles.
     - Rebuild iOS and Android to confirm.
+    - Verify Flipper removal:
+      - Ensure `android/app/src/main/java/.../ReactNativeFlipper.kt` is removed.
+      - Ensure `FLIPPER_VERSION` is removed from `android/gradle.properties`.
+    - If `pod install` fails due to Flipper removal, disable automatic pods installation in `apps/App/react-native.config.js`:
+      - Add `automaticPodsInstallation: false` under `project.ios` (see example in notes below).
 
 ## Code Examples
-
-**Example: Update React Native version in `package.json`:**
-
-```json
-{
-  "dependencies": {
-    "react-native": "0.79.1"
-  }
-}
-```
 
 **Example: Use Upgrade Helper to update iOS settings:**
 
 ```diff
 - platform :ios, '13.0'
 + platform :ios, '14.0'
+```
+
+**Example: Disable automatic pods installation (if `pod install` fails after Flipper removal):**
+
+```js
+module.exports = {
+  project: {
+    ios: {
+      // https://github.com/react-native-community/cli/issues/2123
+      automaticPodsInstallation: false,
+    },
+  },
+};
+```
+
+**Example: Timezone support with `@callstack/timezone-hermes-fix`:**
+
+Before:
+```js
+import { getTimeZone } from 'react-native-localize';
+
+const currentTimezone = getTimeZone();
+```
+
+After:
+```js
+import { useTimezoneHermesFix } from '@callstack/timezone-hermes-fix';
+
+const { currentTimezone } = useTimezoneHermesFix();
 ```
 
 ## Upgrading from version lower than 0.79
@@ -160,6 +186,7 @@ Check `native-android-16kb-alignment` related skill for Android 16KB page size a
 - **Running the wrong package manager**: Always match the repo lockfile.
 - **Forgetting CocoaPods**: iOS builds will fail without `pod install`.
 - **Not updating the Android gradle wrapper binary file**: You need to update the `./android/gradle/wrapper/gradle-wrapper.jar` file compatible with the new React Native version. You can find it here: https://raw.githubusercontent.com/react-native-community/rn-diff-purge/release/<latest-version>/RnDiffApp/android/gradle/wrapper/gradle-wrapper.jar
+- **Flipper artifacts lingering after removal**: Remove `ReactNativeFlipper.kt` and `FLIPPER_VERSION` if the new RN version drops Flipper.
 
 ## Related Skills
 
