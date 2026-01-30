@@ -120,6 +120,7 @@ Full documentation with code examples in `references/`:
 | `js-atomic-state.md` | HIGH | Jotai/Zustand patterns |
 | `js-concurrent-react.md` | HIGH | useDeferredValue, useTransition |
 | `js-react-compiler.md` | HIGH | Automatic memoization |
+| `js-react-navigation.md` | HIGH | Always use latest React Navigation docs |
 | `js-animations-reanimated.md` | MEDIUM | Reanimated worklets |
 | `js-uncontrolled-components.md` | HIGH | TextInput optimization |
 
