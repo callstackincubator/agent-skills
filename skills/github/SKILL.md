@@ -1,33 +1,20 @@
 ---
 name: github
-description: GitHub patterns for PRs, code review, branching, and repository management. Use when working with pull requests, stacked PRs, code reviews, GitHub or repository automation.
+description: GitHub patterns using gh CLI for pull requests, stacked PRs, code review, branching strategies, and repository automation. Use when working with GitHub PRs, merging strategies, or repository management tasks.
 license: MIT
 metadata:
   author: Callstack
-  tags: github, git, pull-request, code-review, workflow, automation
+  tags: github, gh-cli, pull-request, stacked-pr, squash, rebase
 ---
 
-# GitHub
+# GitHub Patterns
 
-## Overview
+## Tools
 
-Collection of GitHub workflow patterns and best practices for pull requests, code review, branching strategies, and repository management.
-
-## When to Apply
-
-Reference these guidelines when:
-- Managing pull request workflows
-- Working with stacked/chained PRs
-- Automating GitHub operations
+Use `gh` CLI for all GitHub operations. Prefer CLI over GitHub MCP servers for lower context usage.
 
 ## Quick Reference
 
-| File | Description |
-|------|-------------|
-| `stacked-pr-workflow.md` | Merge stacked PRs into main as individual squash commits |
-
-## Problem → Skill Mapping
-
-| Problem | Start With |
-|---------|------------|
-| Merge stacked PRs cleanly | `stacked-pr-workflow.md` |
+| Problem | Reference |
+|---------|-----------|
+| Merge stacked PRs cleanly | [stacked-pr-workflow.md](references/stacked-pr-workflow.md) |

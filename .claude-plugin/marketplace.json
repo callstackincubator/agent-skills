@@ -18,7 +18,7 @@
 		},
 		{
 			"name": "github",
-			"description": "GitHub patterns for PRs, code review, branching, and repository management.",
+			"description": "GitHub patterns using gh CLI for pull requests, stacked PRs, code review, branching strategies, and repository automation.",
 			"source": "./",
 			"skills": ["./skills/github"]
 		}
