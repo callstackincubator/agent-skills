@@ -125,6 +125,7 @@ cd ios && bundle exec pod install
     - If builds fail, use `react-native clean-project` (interactive) or `react-native clean-project-auto`.
     - If the CLI plugin is unavailable, run `npx react-native-clean-project` or add it as a dev dependency.
     - Run tests, typecheck, and lint.
+    - If tests fail due to missing modules, add proper mocks. E.g. in v0.81 the `BackHandler` mock was removed, refer to https://github.com/facebook/react-native/issues/52667#issuecomment-3094788618 for implementation.
 
 13. **Verify New Architecture settings if the release enables it by default.**
     - Check `android/gradle.properties` and `ios/Podfile` toggles.
