@@ -240,3 +240,11 @@ React Native performance skills based on The Ultimate Guide to React Native Opti
 [Callstack](https://www.callstack.com/) is a group of React and React Native experts. Contact us at [hello@callstack.com](mailto:hello@callstack.com) if you need help with performance optimization or just want to say hi!
 
 Like what we do? ⚛️ [Join the Callstack team](https://www.callstack.com/careers) and work on amazing React Native projects!
+
+## Compatible Agents
+
+These React Native skills work with:
+
+- [Claude Code](https://claude.ai/code) - Anthropic's official CLI
+- [AdaL](https://sylph.ai/adal) - Self-evolving AI coding agent with MCP support
+
