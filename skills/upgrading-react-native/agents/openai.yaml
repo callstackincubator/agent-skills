@@ -1,4 +1,0 @@
-interface:
-  display_name: "Upgrade React Native"
-  short_description: "React Native upgrade workflow and pitfalls"
-  default_prompt: "Use $upgrading-react-native to plan and execute a React Native upgrade."
