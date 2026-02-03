@@ -24,10 +24,20 @@ Reference these guidelines when:
 
 | File | Description |
 |------|-------------|
+<<<<<<< Updated upstream
 | `upgrading-react-native.md` | Full upgrade workflow, commands, and pitfalls |
+=======
+| [upgrading-react-native.md][upgrading-react-native] | Full upgrade workflow, commands, and pitfalls |
+>>>>>>> Stashed changes
 
 ## Problem → Skill Mapping
 
 | Problem | Start With |
 |---------|------------|
+<<<<<<< Updated upstream
 | Need to upgrade React Native | `upgrading-react-native.md` |
+=======
+| Need to upgrade React Native | [upgrading-react-native.md][upgrading-react-native] |
+
+[upgrading-react-native]: references/upgrading-react-native.md
+>>>>>>> Stashed changes
