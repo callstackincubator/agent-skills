@@ -114,7 +114,7 @@ npx source-map-explorer output.js --no-border-checks
 **Common fixes:**
 - Disable JS bundle compression on Android (enables Hermes mmap)
 - Use native navigation (react-native-screens)
-- Defer non-critical work with `InteractionManager`
+- Preload commonly-used expensive screens before navigating to them
 
 ### Native Performance
 
