@@ -15,6 +15,14 @@ Use `gh` CLI for all GitHub operations. Prefer CLI over GitHub MCP servers for l
 
 ## Quick Reference
 
-| Problem | Reference |
-|---------|-----------|
-| Merge stacked PRs cleanly | [stacked-pr-workflow.md](references/stacked-pr-workflow.md) |
+| File                                          | Description                                              |
+| --------------------------------------------- | -------------------------------------------------------- |
+| [stacked-pr-workflow.md][stacked-pr-workflow] | Merge stacked PRs into main as individual squash commits |
+
+## Problem → Skill Mapping
+
+| Problem                   | Start With                                    |
+| ------------------------- | --------------------------------------------- |
+| Merge stacked PRs cleanly | [stacked-pr-workflow.md][stacked-pr-workflow] |
+
+[stacked-pr-workflow]: references/stacked-pr-workflow.md

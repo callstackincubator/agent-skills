@@ -107,50 +107,50 @@ npx source-map-explorer output.js --no-border-checks
 
 ## References
 
-Full documentation with code examples in `references/`:
+Full documentation with code examples in [references/][references]:
 
 ### JavaScript/React (`js-*`)
 
 | File | Impact | Description |
 |------|--------|-------------|
-| `js-lists-flatlist-flashlist.md` | CRITICAL | Replace ScrollView with virtualized lists |
-| `js-profile-react.md` | MEDIUM | React DevTools profiling |
-| `js-measure-fps.md` | HIGH | FPS monitoring and measurement |
-| `js-memory-leaks.md` | MEDIUM | JS memory leak hunting |
-| `js-atomic-state.md` | HIGH | Jotai/Zustand patterns |
-| `js-concurrent-react.md` | HIGH | useDeferredValue, useTransition |
-| `js-react-compiler.md` | HIGH | Automatic memoization |
-| `js-animations-reanimated.md` | MEDIUM | Reanimated worklets |
-| `js-uncontrolled-components.md` | HIGH | TextInput optimization |
+| [js-lists-flatlist-flashlist.md][js-lists-flatlist-flashlist] | CRITICAL | Replace ScrollView with virtualized lists |
+| [js-profile-react.md][js-profile-react] | MEDIUM | React DevTools profiling |
+| [js-measure-fps.md][js-measure-fps] | HIGH | FPS monitoring and measurement |
+| [js-memory-leaks.md][js-memory-leaks] | MEDIUM | JS memory leak hunting |
+| [js-atomic-state.md][js-atomic-state] | HIGH | Jotai/Zustand patterns |
+| [js-concurrent-react.md][js-concurrent-react] | HIGH | useDeferredValue, useTransition |
+| [js-react-compiler.md][js-react-compiler] | HIGH | Automatic memoization |
+| [js-animations-reanimated.md][js-animations-reanimated] | MEDIUM | Reanimated worklets |
+| [js-uncontrolled-components.md][js-uncontrolled-components] | HIGH | TextInput optimization |
 
 ### Native (`native-*`)
 
 | File | Impact | Description |
 |------|--------|-------------|
-| `native-turbo-modules.md` | HIGH | Building fast native modules |
-| `native-sdks-over-polyfills.md` | HIGH | Native vs JS libraries |
-| `native-measure-tti.md` | HIGH | TTI measurement setup |
-| `native-threading-model.md` | HIGH | Turbo Module threads |
-| `native-profiling.md` | MEDIUM | Xcode/Android Studio profiling |
-| `native-platform-setup.md` | MEDIUM | iOS/Android tooling guide |
-| `native-view-flattening.md` | MEDIUM | View hierarchy debugging |
-| `native-memory-patterns.md` | MEDIUM | C++/Swift/Kotlin memory |
-| `native-memory-leaks.md` | MEDIUM | Native memory leak hunting |
-| `native-android-16kb-alignment.md` | CRITICAL | Third-party library alignment for Google Play |
+| [native-turbo-modules.md][native-turbo-modules] | HIGH | Building fast native modules |
+| [native-sdks-over-polyfills.md][native-sdks-over-polyfills] | HIGH | Native vs JS libraries |
+| [native-measure-tti.md][native-measure-tti] | HIGH | TTI measurement setup |
+| [native-threading-model.md][native-threading-model] | HIGH | Turbo Module threads |
+| [native-profiling.md][native-profiling] | MEDIUM | Xcode/Android Studio profiling |
+| [native-platform-setup.md][native-platform-setup] | MEDIUM | iOS/Android tooling guide |
+| [native-view-flattening.md][native-view-flattening] | MEDIUM | View hierarchy debugging |
+| [native-memory-patterns.md][native-memory-patterns] | MEDIUM | C++/Swift/Kotlin memory |
+| [native-memory-leaks.md][native-memory-leaks] | MEDIUM | Native memory leak hunting |
+| [native-android-16kb-alignment.md][native-android-16kb-alignment] | CRITICAL | Third-party library alignment for Google Play |
 
 ### Bundling (`bundle-*`)
 
 | File | Impact | Description |
 |------|--------|-------------|
-| `bundle-barrel-exports.md` | CRITICAL | Avoid barrel imports |
-| `bundle-analyze-js.md` | CRITICAL | JS bundle visualization |
-| `bundle-tree-shaking.md` | HIGH | Dead code elimination |
-| `bundle-analyze-app.md` | HIGH | App size analysis |
-| `bundle-r8-android.md` | HIGH | Android code shrinking |
-| `bundle-hermes-mmap.md` | HIGH | Disable bundle compression |
-| `bundle-native-assets.md` | HIGH | Asset catalog setup |
-| `bundle-library-size.md` | MEDIUM | Evaluate dependencies |
-| `bundle-code-splitting.md` | MEDIUM | Re.Pack code splitting |
+| [bundle-barrel-exports.md][bundle-barrel-exports] | CRITICAL | Avoid barrel imports |
+| [bundle-analyze-js.md][bundle-analyze-js] | CRITICAL | JS bundle visualization |
+| [bundle-tree-shaking.md][bundle-tree-shaking] | HIGH | Dead code elimination |
+| [bundle-analyze-app.md][bundle-analyze-app] | HIGH | App size analysis |
+| [bundle-r8-android.md][bundle-r8-android] | HIGH | Android code shrinking |
+| [bundle-hermes-mmap.md][bundle-hermes-mmap] | HIGH | Disable bundle compression |
+| [bundle-native-assets.md][bundle-native-assets] | HIGH | Asset catalog setup |
+| [bundle-library-size.md][bundle-library-size] | MEDIUM | Evaluate dependencies |
+| [bundle-code-splitting.md][bundle-code-splitting] | MEDIUM | Re.Pack code splitting |
 
 ## Searching References
 
@@ -168,16 +168,46 @@ grep -l "bundle" references/
 
 | Problem | Start With |
 |---------|------------|
-| App feels slow/janky | `js-measure-fps.md` → `js-profile-react.md` |
-| Too many re-renders | `js-profile-react.md` → `js-react-compiler.md` |
-| Slow startup (TTI) | `native-measure-tti.md` → `bundle-analyze-js.md` |
-| Large app size | `bundle-analyze-app.md` → `bundle-r8-android.md` |
-| Memory growing | `js-memory-leaks.md` or `native-memory-leaks.md` |
-| Animation drops frames | `js-animations-reanimated.md` |
-| List scroll jank | `js-lists-flatlist-flashlist.md` |
-| TextInput lag | `js-uncontrolled-components.md` |
-| Native module slow | `native-turbo-modules.md` → `native-threading-model.md` |
-| Native library alignment issue | `native-android-16kb-alignment.md` |
+| App feels slow/janky | [js-measure-fps.md][js-measure-fps] → [js-profile-react.md][js-profile-react] |
+| Too many re-renders | [js-profile-react.md][js-profile-react] → [js-react-compiler.md][js-react-compiler] |
+| Slow startup (TTI) | [native-measure-tti.md][native-measure-tti] → [bundle-analyze-js.md][bundle-analyze-js] |
+| Large app size | [bundle-analyze-app.md][bundle-analyze-app] → [bundle-r8-android.md][bundle-r8-android] |
+| Memory growing | [js-memory-leaks.md][js-memory-leaks] or [native-memory-leaks.md][native-memory-leaks] |
+| Animation drops frames | [js-animations-reanimated.md][js-animations-reanimated] |
+| List scroll jank | [js-lists-flatlist-flashlist.md][js-lists-flatlist-flashlist] |
+| TextInput lag | [js-uncontrolled-components.md][js-uncontrolled-components] |
+| Native module slow | [native-turbo-modules.md][native-turbo-modules] → [native-threading-model.md][native-threading-model] |
+| Native library alignment issue | [native-android-16kb-alignment.md][native-android-16kb-alignment] |
+
+[references]: references/
+[js-lists-flatlist-flashlist]: references/js-lists-flatlist-flashlist.md
+[js-profile-react]: references/js-profile-react.md
+[js-measure-fps]: references/js-measure-fps.md
+[js-memory-leaks]: references/js-memory-leaks.md
+[js-atomic-state]: references/js-atomic-state.md
+[js-concurrent-react]: references/js-concurrent-react.md
+[js-react-compiler]: references/js-react-compiler.md
+[js-animations-reanimated]: references/js-animations-reanimated.md
+[js-uncontrolled-components]: references/js-uncontrolled-components.md
+[native-turbo-modules]: references/native-turbo-modules.md
+[native-sdks-over-polyfills]: references/native-sdks-over-polyfills.md
+[native-measure-tti]: references/native-measure-tti.md
+[native-threading-model]: references/native-threading-model.md
+[native-profiling]: references/native-profiling.md
+[native-platform-setup]: references/native-platform-setup.md
+[native-view-flattening]: references/native-view-flattening.md
+[native-memory-patterns]: references/native-memory-patterns.md
+[native-memory-leaks]: references/native-memory-leaks.md
+[native-android-16kb-alignment]: references/native-android-16kb-alignment.md
+[bundle-barrel-exports]: references/bundle-barrel-exports.md
+[bundle-analyze-js]: references/bundle-analyze-js.md
+[bundle-tree-shaking]: references/bundle-tree-shaking.md
+[bundle-analyze-app]: references/bundle-analyze-app.md
+[bundle-r8-android]: references/bundle-r8-android.md
+[bundle-hermes-mmap]: references/bundle-hermes-mmap.md
+[bundle-native-assets]: references/bundle-native-assets.md
+[bundle-library-size]: references/bundle-library-size.md
+[bundle-code-splitting]: references/bundle-code-splitting.md
 
 ## Attribution
 

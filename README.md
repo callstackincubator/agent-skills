@@ -92,6 +92,8 @@ Restart Codex to recognize newly installed skills.
 
 **Usage:** Type `$` to mention a skill or use `/skills` command.
 
+These skills include `agents/openai.yaml` metadata for Codex Skills UI compatibility.
+
 ##### Gemini CLI
 
 **Install from repository:**
