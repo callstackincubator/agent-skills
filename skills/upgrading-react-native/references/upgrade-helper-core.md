@@ -15,9 +15,23 @@ Run shared environment checks first in [upgrading-react-native.md](upgrading-rea
 ```bash
 npm pkg get dependencies.react-native devDependencies.react-native --prefix "$APP_DIR"
 npm view react-native dist-tags.latest
-curl -L -o /tmp/rn-diff-<current_version>..<target_version>.diff "https://github.com/react-native-community/rn-diff-purge/compare/release/<current_version>..release/<target_version>.diff"
+curl -L "https://raw.githubusercontent.com/react-native-community/rn-diff-purge/master/RELEASES"
+curl -L -o /tmp/rn-diff-<current_version>..<target_version>.diff "https://raw.githubusercontent.com/react-native-community/rn-diff-purge/diffs/diffs/<current_version>..<target_version>.diff"
 grep -n "^diff --git" /tmp/rn-diff-<current_version>..<target_version>.diff
 ```
+
+## Upgrade Helper API (Inline Reference)
+
+- List supported versions:
+  - `https://raw.githubusercontent.com/react-native-community/rn-diff-purge/master/RELEASES`
+- Fetch raw unified diff:
+  - `https://raw.githubusercontent.com/react-native-community/rn-diff-purge/diffs/diffs/<current_version>..<target_version>.diff`
+- GitHub compare view:
+  - `https://github.com/react-native-community/rn-diff-purge/compare/release/<current_version>..release/<target_version>`
+- Upgrade Helper UI:
+  - `https://react-native-community.github.io/upgrade-helper/?from=<current_version>&to=<target_version>`
+- Path mapping note:
+  - Diff paths are prefixed with `RnDiffApp/`; remap to your app paths and package names.
 
 ## Inputs
 
@@ -30,22 +44,29 @@ grep -n "^diff --git" /tmp/rn-diff-<current_version>..<target_version>.diff
 1. Detect app and versions.
    - Read `react-native` from `APP_DIR/package.json`.
    - Resolve target via `npm view react-native dist-tags.latest` unless user provides one.
-2. Collect canonical sources.
+2. Validate `target_version` exists.
+   - Check `RELEASES` from rn-diff-purge and confirm `target_version` is listed.
+   - If missing, stop and ask user to choose one of available versions.
+3. Collect canonical sources.
    - Upgrade Helper URL.
    - rn-diff-purge raw diff.
    - React Native blog posts only between `current_version` and `target_version`.
-3. Run dependency risk planning.
+4. Fetch diff with fallback.
+   - Try exact raw diff: `<current_version>..<target_version>`.
+   - If 404, try nearest available patch versions and report what was attempted.
+   - If no available pair works, stop and ask user for target adjustment.
+5. Run dependency risk planning.
    - Use [upgrading-dependencies.md](upgrading-dependencies.md).
-4. Build a change checklist from diff.
+6. Build a change checklist from diff.
    - Group by JS/TS, iOS, Android, tooling.
    - Skip template-only UI (`App.tsx`) unless explicitly requested.
-5. Apply diff safely.
+7. Apply diff safely.
    - Treat `RnDiffApp` as placeholder; remap app/package names.
    - Merge, do not overwrite project-specific customizations.
-6. Reinstall and sync native deps.
+8. Reinstall and sync native deps.
    - Run package manager install in app context.
    - Run iOS pods in `APP_DIR/ios`.
-7. Validate and gate completion.
+9. Validate and gate completion.
    - iOS build passes.
    - Android build passes.
    - tests/typecheck/lint pass or failures are documented with next actions.
