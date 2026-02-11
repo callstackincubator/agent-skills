@@ -19,10 +19,7 @@ npm ls --depth=0
 1. Review compatibility signals:
    - [RN nightly tests](https://react-native-community.github.io/nightly-tests/)
    - [React Native Directory](https://reactnative.directory/packages?newArchitecture=false)
-2. Align React companion packages when `react` is upgraded:
-   - `react-test-renderer` should match React major/minor (and usually patch).
-   - `@types/react` should match React major/minor (and usually patch).
-   - For React 19 upgrades, ensure `@testing-library/react-native` is `v13+`.
+2. If `react` is upgraded, run [react.md](react.md) for companion package alignment and React 19 rules.
 3. Handle known risky packages:
    - `react-native-fast-image` -> prefer `@d11/react-native-fast-image` or `expo-image` (confirm with user)
    - `@react-native-cookies/cookies` -> prefer `@preeternal/react-native-cookie-manager` (confirm with user)
@@ -39,5 +36,6 @@ npm ls --depth=0
 ## Related Skills
 
 - [upgrade-helper-core.md](upgrade-helper-core.md) - Core upgrade workflow
+- [react.md](react.md) - React and React 19 alignment
 - [expo-sdk-upgrade.md](expo-sdk-upgrade.md) - Expo-specific dependency alignment
 - [upgrading-react-native.md](upgrading-react-native.md) - Routing and mode selection

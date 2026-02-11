@@ -1,7 +1,7 @@
 ---
 title: Expo SDK Upgrade Layer
 impact: HIGH
-tags: expo, sdk, react-native, dependencies, react-19
+tags: expo, sdk, react-native, dependencies
 ---
 
 # Skill: Expo SDK Upgrade Layer
@@ -27,6 +27,14 @@ cd "$APP_DIR" && npx expo-doctor
   - [Expo Upgrading Expo Skill][expo-upgrading-expo-skill]
 - Important for this workflow: skip `app.json` changes, because this is not an Expo Managed project.
 
+## Pre-Upgrade Audit (Required)
+
+- Confirm SDK version and target path.
+- Inventory dependencies and native modules.
+- Review config plugins and prebuild behavior.
+- Review native build setup (Gradle, iOS settings, CI/EAS config).
+- Identify critical app flows for regression testing before changes.
+
 ## Workflow Additions
 
 1. Run Expo compatibility alignment.
@@ -37,32 +45,21 @@ cd "$APP_DIR" && npx expo-doctor
 3. If native folders are part of workflow, reconcile prebuild output.
    - `npx expo prebuild --clean` (when applicable).
 4. Handle React 19 pairing.
-   - Apply React 19 compatibility pass.
-   - Upgrade `@testing-library/react-native` to `v13+`.
-   - References:
-     - [Expo React 19 Reference][expo-react-19-reference]
-     - [RNTL LLM Docs][rntl-llm-docs]
+   - Run [react.md](react.md).
+5. Run [upgrade-verification.md](upgrade-verification.md) for manual regression checks and release gates.
 
 ## Notes
 
 - Use `npx expo ...`; do not require global `expo-cli`.
 - Some package bumps may be optional if not SDK-bound; validate before deferring.
+- Read Expo and React Native release notes deeply before editing code, then map each breaking change to a concrete code/task item.
 
 ## Related Skills
 
 - [upgrading-react-native.md](upgrading-react-native.md) - Routing and mode selection
 - [upgrade-helper-core.md](upgrade-helper-core.md) - Base upgrade workflow
+- [react.md](react.md) - React and React 19 alignment
+- [upgrade-verification.md](upgrade-verification.md) - Manual post-upgrade validation
 - [monorepo-singlerepo-targeting.md](monorepo-singlerepo-targeting.md) - Repo/app selection and command scoping
 
 [expo-upgrading-expo-skill]: https://github.com/expo/skills/blob/main/plugins/upgrading-expo/skills/upgrading-expo/SKILL.md
-[expo-react-19-reference]: https://github.com/expo/skills/blob/main/plugins/upgrading-expo/skills/upgrading-expo/references/react-19.md
-[rntl-llm-docs]: https://oss.callstack.com/react-native-testing-library/llms.txt
-[expo-sdk-55-beta]: https://expo.dev/changelog/sdk-55-beta?utm_source=chatgpt.com
-[expo-sdk-54]: https://expo.dev/changelog/sdk-54?utm_source=chatgpt.com
-[expo-sdk-53]: https://expo.dev/changelog/sdk-53?utm_source=chatgpt.com
-[expo-sdk-52]: https://expo.dev/changelog/2024-11-12-sdk-52?utm_source=chatgpt.com
-[expo-sdk-51]: https://expo.dev/changelog/2024-05-07-sdk-51?utm_source=chatgpt.com
-[expo-sdk-50]: https://expo.dev/changelog/2024-01-18-sdk-50?utm_source=chatgpt.com
-[expo-sdk-49]: https://blog.expo.dev/expo-sdk-49-c6d398cdf740
-[expo-sdk-49-patch]: https://expo.dev/changelog/2023-09-28-new-xcode-ios?utm_source=chatgpt.com
-[expo-sdk-48]: https://blog.expo.dev/expo-sdk-48-ccb8302e231

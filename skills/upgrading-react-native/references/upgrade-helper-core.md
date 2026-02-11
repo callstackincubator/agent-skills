@@ -50,7 +50,6 @@ grep -n "^diff --git" /tmp/rn-diff-<current_version>..<target_version>.diff
 3. Collect canonical sources.
    - Upgrade Helper URL.
    - rn-diff-purge raw diff.
-   - React Native blog posts only between `current_version` and `target_version`.
 4. Fetch diff with fallback.
    - Try exact raw diff: `<current_version>..<target_version>`.
    - If 404, try nearest available patch versions and report what was attempted.
@@ -70,9 +69,10 @@ grep -n "^diff --git" /tmp/rn-diff-<current_version>..<target_version>.diff
    - iOS build passes.
    - Android build passes.
    - tests/typecheck/lint pass or failures are documented with next actions.
-   - If `react` was upgraded, verify companion versions are aligned (`react-test-renderer`, `@types/react`).
+   - If `react` was upgraded, run [react.md](react.md).
    - If `target_version >= 0.81` and tests fail due to missing modules, add proper mocks.
      - Example (`BackHandler` mock removal): https://github.com/facebook/react-native/issues/52667#issuecomment-3094788618
+   - Run [upgrade-verification.md](upgrade-verification.md) before closing the upgrade.
 
 ## Stop Conditions
 
@@ -106,4 +106,6 @@ grep -n "^diff --git" /tmp/rn-diff-<current_version>..<target_version>.diff
 - [upgrading-react-native.md](upgrading-react-native.md) - Routing and mode selection
 - [upgrading-dependencies.md](upgrading-dependencies.md) - Dependency compatibility and migration plan
 - [expo-sdk-upgrade.md](expo-sdk-upgrade.md) - Expo-only layer on top of core workflow
+- [react.md](react.md) - React and React 19 alignment
+- [upgrade-verification.md](upgrade-verification.md) - Manual post-upgrade validation
 - [monorepo-singlerepo-targeting.md](monorepo-singlerepo-targeting.md) - Repo/app selection and command scoping
