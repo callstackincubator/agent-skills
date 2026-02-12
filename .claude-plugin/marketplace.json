@@ -21,6 +21,12 @@
 			"description": "GitHub patterns using gh CLI for pull requests, stacked PRs, code review, branching strategies, and repository automation.",
 			"source": "./",
 			"skills": ["./skills/github"]
+		},
+		{
+			"name": "upgrading-react-native",
+			"description": "React Native upgrade workflow covering updated templates, dependencies, and common pitfalls. Use when migrating a React Native app to a newer release.",
+			"source": "./",
+			"skills": ["./skills/upgrading-react-native"]
 		}
 	]
 }
