@@ -1,6 +1,6 @@
 ---
 name: upgrading-react-native
-description: React Native upgrade workflow covering updated templates, dependencies, and common pitfalls. Use when migrating a React Native app to a newer release.
+description: Upgrades React Native apps to newer versions by applying rn-diff-purge template diffs, updating package.json dependencies, migrating native iOS and Android configuration, resolving CocoaPods and Gradle changes, and handling breaking API updates. Use when upgrading React Native, bumping RN version, updating from RN 0.x to 0.y, or migrating Expo SDK alongside a React Native upgrade.
 license: MIT
 metadata:
   author: Callstack
@@ -12,6 +12,35 @@ metadata:
 ## Overview
 
 Covers the full React Native upgrade workflow: template diffs via Upgrade Helper, dependency updates, Expo SDK steps, and common pitfalls.
+
+## Typical Upgrade Sequence
+
+1. **Route**: Choose the right upgrade path via [upgrading-react-native.md][upgrading-react-native]
+2. **Diff**: Fetch the canonical template diff using Upgrade Helper via [upgrade-helper-core.md][upgrade-helper-core]
+3. **Dependencies**: Assess and update third-party packages via [upgrading-dependencies.md][upgrading-dependencies]
+4. **React**: Align React version if upgraded via [react.md][react]
+5. **Expo** (if applicable): Apply Expo SDK layer via [expo-sdk-upgrade.md][expo-sdk-upgrade]
+6. **Verify**: Run post-upgrade checks via [upgrade-verification.md][upgrade-verification]
+
+```bash
+# Quick start: detect current version and fetch diff
+npm pkg get dependencies.react-native --prefix "$APP_DIR"
+npm view react-native dist-tags.latest
+
+# Example: upgrading from 0.76.9 to 0.78.2
+# 1. Fetch the template diff
+curl -L -f -o /tmp/rn-diff.diff \
+  "https://raw.githubusercontent.com/react-native-community/rn-diff-purge/diffs/diffs/0.76.9..0.78.2.diff" \
+  && echo "Diff downloaded OK" || echo "ERROR: diff not found, check versions"
+# 2. Review changed files
+grep -n "^diff --git" /tmp/rn-diff.diff
+# 3. Update package.json, apply native changes, then install + rebuild
+npm install --prefix "$APP_DIR"
+cd "$APP_DIR/ios" && pod install
+# 4. Validate: both platforms must build successfully
+npx react-native build-android --mode debug --no-packager
+xcodebuild -workspace "$APP_DIR/ios/App.xcworkspace" -scheme App -sdk iphonesimulator build
+```
 
 ## When to Apply
 

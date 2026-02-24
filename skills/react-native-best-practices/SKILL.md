@@ -49,6 +49,17 @@ Reference these guidelines when:
 
 ## Quick Reference
 
+### Optimization Workflow
+
+Follow this cycle for any performance issue: **Measure → Optimize → Re-measure → Validate**
+
+1. **Measure**: Capture baseline metrics (FPS, TTI, bundle size) before changes
+2. **Optimize**: Apply the targeted fix from the relevant reference
+3. **Re-measure**: Run the same measurement to get updated metrics
+4. **Validate**: Confirm improvement (e.g., FPS 45→60, TTI 3.2s→1.8s, bundle 2.1MB→1.6MB)
+
+If metrics did not improve, revert and try the next suggested fix.
+
 ### Critical: FPS & Re-renders
 
 **Profile first:**
@@ -75,6 +86,17 @@ npx react-native bundle \
   --dev false --minify true
 
 npx source-map-explorer output.js --no-border-checks
+```
+
+**Verify improvement after optimization:**
+```bash
+# Record baseline size before changes
+ls -lh output.js  # e.g., Before: 2.1 MB
+
+# After applying fixes, re-bundle and compare
+npx react-native bundle --entry-file index.js --bundle-output output.js \
+  --platform ios --dev false --minify true
+ls -lh output.js  # e.g., After: 1.6 MB  (24% reduction)
 ```
 
 **Common fixes:**
