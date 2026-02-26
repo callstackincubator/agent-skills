@@ -58,16 +58,9 @@ cd ios && pod install && cd ..
 cd android && ./gradlew assembleRelease && cd ..
 ```
 
-4. Verify brownfield CLI command help resolves.
-
-```bash
-npx brownfield --help
-```
-
-5. Confirm expected outcomes before platform-specific packaging:
+4. Confirm expected outcomes before platform-specific packaging:
    - iOS pod install succeeds without unresolved specs.
    - Android release assembly completes.
-   - Brownfield CLI commands are available via `npx brownfield ...`.
 
 ## Stop Conditions
 
@@ -75,7 +68,6 @@ Proceed only if all are true:
 - `npm install` exits with code `0`
 - `pod install` exits with code `0`
 - `./gradlew assembleRelease` exits with code `0`
-- `npx brownfield --help` exits with code `0` and prints command usage
 
 ## If Failed
 
@@ -83,9 +75,6 @@ Proceed only if all are true:
   - `cd ios && pod repo update && pod install && cd ..`
 - If Android build fails, run:
   - `cd android && ./gradlew clean assembleRelease && cd ..`
-- If CLI command is missing, verify package install:
-  - `npm ls @callstack/react-native-brownfield`
-  - reinstall package if missing, then retry help command
 - Do not continue to platform packaging until all stop conditions pass
 
 ## Common Pitfalls

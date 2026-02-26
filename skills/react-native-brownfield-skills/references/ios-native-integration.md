@@ -55,21 +55,28 @@ ReactNativeBrownfield.shared.startReactNative(onBundleLoaded: {
 }, launchOptions: launchOptions)
 ```
 
-3. Present React Native UI:
+3. Ensure `AppDelegate` contains:
+
+final class AppDelegate: NSObject, UIApplicationDelegate {
+    var window: UIWindow?
+    // ...
+}
+
+4. Present React Native UI:
    - UIKit path: `ReactNativeViewController(moduleName: "<registered_module_name>")`
    - SwiftUI path: `ReactNativeView(moduleName: "<registered_module_name>")`
 
-4. Validate Debug configuration:
+5. Validate Debug configuration:
 
 ```bash
 npx react-native start
 ```
 
-5. Validate Release configuration:
+6. Validate Release configuration:
    - Build and run without Metro.
    - Confirm JS bundle loads from XCFramework.
 
-6. Smoke-test navigation and component rendering for the registered module.
+7. Smoke-test navigation and component rendering for the registered module.
 
 ## Stop Conditions
 
@@ -78,6 +85,7 @@ Mark iOS integration complete only if all are true:
 - Debug run loads RN with Metro active
 - Release run loads RN without Metro
 - `onBundleLoaded` callback fires and RN screen renders with expected module name
+- AppDelegate contains var window: UIWindow? (when AppDelegate is used)
 
 ## If Failed
 
