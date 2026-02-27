@@ -113,4 +113,3 @@ Mark Android integration complete only if all are true:
 
 - [bare-android-aar-generation.md](./bare-android-aar-generation.md) - Bare Android artifact generation
 - [bare-quick-start.md](./bare-quick-start.md) - Bare setup prerequisites
-- [expo-android-integration.md](./expo-android-integration.md) - Expo Android path

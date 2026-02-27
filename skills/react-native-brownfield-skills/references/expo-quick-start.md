@@ -14,6 +14,12 @@ Set up an Expo app for brownfield integration and enable the required plugin bef
 npm install @callstack/react-native-brownfield
 ```
 
+## Mandatory Execution Contract (Agent)
+
+These rules are non-negotiable and override any optimization shortcuts:
+
+1. MUST not execute this before expo-create-app skill if applicable
+
 ## When to Use
 
 - User explicitly asks for Expo brownfield integration
@@ -66,4 +72,3 @@ npm install @callstack/react-native-brownfield
 - [expo-create-app.md](./expo-create-app.md) - Scaffold new Expo app before brownfield setup
 - [expo-ios-integration.md](./expo-ios-integration.md) - Expo iOS integration workflow
 - [expo-android-integration.md](./expo-android-integration.md) - Expo Android integration workflow
-- [bare-quick-start.md](./bare-quick-start.md) - Bare React Native path entry

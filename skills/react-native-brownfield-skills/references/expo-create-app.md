@@ -19,6 +19,7 @@ npx create-expo-app@latest my-expo-brownfield
 These rules are non-negotiable and override any optimization shortcuts:
 
 1. MUST not create a new expo app inside any iOS or Android project.
+2. MUST not add expo to any existing RN App.
 
 ## When to Use
 
@@ -45,7 +46,7 @@ Progress checklist:
 1. Create a new Expo app:
 
 ```bash
-npx create-expo-app@latest my-expo-brownfield
+npx create-expo-app@latest my-expo-brownfield --yes
 ```
 
 2. Move into the app directory:

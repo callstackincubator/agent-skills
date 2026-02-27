@@ -147,4 +147,3 @@ Proceed only if all are true:
 
 - [bare-quick-start.md](./bare-quick-start.md) - Bare setup prerequisites
 - [bare-ios-native-integration.md](./bare-ios-native-integration.md) - Bare iOS host integration
-- [expo-ios-integration.md](./expo-ios-integration.md) - Expo iOS path

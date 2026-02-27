@@ -252,5 +252,4 @@ Proceed only if all are true:
 
 - [bare-quick-start.md](./bare-quick-start.md) - Bare setup prerequisites
 - [bare-android-native-integration.md](./bare-android-native-integration.md) - Bare Android host integration
-- [expo-android-integration.md](./expo-android-integration.md) - Expo Android path
 

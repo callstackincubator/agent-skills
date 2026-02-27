@@ -31,7 +31,7 @@ npx brownfield package:ios --scheme BrownfieldLib --configuration Release
 ```text
 Progress checklist:
 - [ ] Build XCFramework artifacts
-- [ ] Link generated frameworks to host app
+- [ ] Import/Link generated frameworks into host app target
 - [ ] Configure startup sequence in app entrypoint
 - [ ] Forward didFinishLaunchingWithOptions
 - [ ] Present React Native UI
@@ -43,14 +43,16 @@ Progress checklist:
 npx brownfield package:ios --scheme BrownfieldLib --configuration Release
 ```
 
-2. Locate generated artifacts in:
-   - `ios/.brownfield/package/build`
-   - Link required XCFramework outputs into host iOS app target.
+2. Add/Link these artifacts from `ios/.brownfield/package/build` into the host app project:
+   - `<framework_target_name>.xcframework`
+   - `ReactBrownfield.xcframework`
+   - `hermesvm.xcframework`
 
 3. Configure app entrypoint initialization:
 
 ```swift
 import <framework_target_name>
+import ReactBrownfield
 
 @main
 struct IosApp: App {
@@ -89,13 +91,21 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 
 5. Present RN UI with either option:
 
+First Option:
+
 ```swift
-ReactNativeView(moduleName: "ExpoRNApp")
+import ReactBrownfield
+
+ReactNativeView(moduleName: "main")
   .background(Color(UIColor.systemBackground))
 ```
 
+Second Option:
+
 ```swift
-ReactNativeBrownfield.shared.view(moduleName, initialProps) // returns UIView
+import ReactBrownfield
+
+ReactNativeBrownfield.shared.view("main", initialProps) // returns UIView
 ```
 
 ## Common Pitfalls
@@ -110,5 +120,3 @@ ReactNativeBrownfield.shared.view(moduleName, initialProps) // returns UIView
 - [quick-start.md](./quick-start.md) - Shared setup and path gate
 - [expo-quick-start.md](./expo-quick-start.md) - Expo setup and plugin wiring
 - [expo-android-integration.md](./expo-android-integration.md) - Expo Android equivalent
-- [bare-ios-xcframework-generation.md](./bare-ios-xcframework-generation.md) - Bare RN iOS generation path
-- [bare-ios-native-integration.md](./bare-ios-native-integration.md) - Bare RN iOS host path

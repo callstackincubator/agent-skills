@@ -42,7 +42,7 @@ npm install @callstack/react-native-brownfield
 
 2. Determine path intent from user request:
    - Expo signals: `expo`, `managed workflow`, `prebuild`, `expo modules`
-   - Expo from-scratch signals: `create new expo app`, `npx create-expo-app`, `new RN app` + `prefer expo`
+   - Expo from-scratch signals: `create new expo app`, `npx create-expo-app`, `new RN app` + `prefer expo`, `add React Native`, `use expo`, `using expo`
    - Bare signals: `react-native init`, direct native folders, `xcframework`, `aar`
 
 3. Route to exactly one path:

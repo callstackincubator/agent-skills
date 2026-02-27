@@ -63,4 +63,3 @@ cd ios && pod install && cd ..
 - [quick-start.md](./quick-start.md) - Shared setup and path gate
 - [bare-ios-xcframework-generation.md](./bare-ios-xcframework-generation.md) - Bare iOS artifact generation
 - [bare-android-aar-generation.md](./bare-android-aar-generation.md) - Bare Android artifact generation
-- [expo-quick-start.md](./expo-quick-start.md) - Expo path entry

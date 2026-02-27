@@ -39,7 +39,7 @@ Progress checklist:
 - [ ] Validate Release behavior without Metro
 ```
 
-1. Add these artifacts from `.brownfield/ios/package/` into the host app project:
+1. Add/Link these artifacts from `.brownfield/ios/package/` into the host app project:
    - `<framework_target_name>.xcframework`
    - `ReactBrownfield.xcframework`
    - `hermesvm.xcframework`
@@ -110,4 +110,3 @@ Mark iOS integration complete only if all are true:
 
 - [bare-ios-xcframework-generation.md](./bare-ios-xcframework-generation.md) - Bare iOS artifact generation
 - [bare-quick-start.md](./bare-quick-start.md) - Bare setup prerequisites
-- [expo-ios-integration.md](./expo-ios-integration.md) - Expo iOS path

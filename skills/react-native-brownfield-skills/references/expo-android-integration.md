@@ -121,5 +121,3 @@ val rnView = ReactNativeBrownfield.shared.createView(
 - [quick-start.md](./quick-start.md) - Shared setup and path gate
 - [expo-quick-start.md](./expo-quick-start.md) - Expo setup and plugin wiring
 - [expo-ios-integration.md](./expo-ios-integration.md) - Expo iOS equivalent
-- [bare-android-aar-generation.md](./bare-android-aar-generation.md) - Bare RN Android generation path
-- [bare-android-native-integration.md](./bare-android-native-integration.md) - Bare RN Android host path
