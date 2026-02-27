@@ -36,7 +36,7 @@ ls -la .brownfield/ios/package
 
 These rules are non-negotiable and override any optimization shortcuts:
 
-1. MUST manually create or verify existence of a dedicated iOS framework target before running any `brownfield package:ios` command.
+1. MUST create or verify existence of a dedicated iOS framework target before running any `brownfield package:ios` command.
 2. MUST NOT probe for or rely on undocumented CLI target scaffolding/discovery flows.
 3. MUST NOT use the app target as the packaging target when the framework target is missing.
 4. MUST execute steps sequentially and MUST NOT continue to the next step unless the current step verification passes.
@@ -46,7 +46,7 @@ These rules are non-negotiable and override any optimization shortcuts:
    - Skip Install = `NO`
    - Enable Module Verifier = `NO`
 6. MUST verify `Podfile` contains framework target inheritance (`inherit! :complete`) before running packaging.
-7. MUST verify the .swift file containing `ReactNativeBundle` must exist on the framework target and not the App Target.
+7. MUST verify the framework Swift interface file exist on the framework target and not the App Target.
 8. MUST provide evidence after each step:
    - changed file path(s)
    - command executed
@@ -58,7 +58,7 @@ These rules are non-negotiable and override any optimization shortcuts:
 - Running `package:ios` against the app target as a substitute for framework target packaging.
 - Attempting undocumented CLI auto-scaffolding instead of manual framework target setup.
 - Proceeding to host integration without confirming all expected XCFramework artifacts.
-- Do not proceed with adding the .swift files containing the `ReactNativeBundle` to the App Target, only proceed if it's added to the framework target.
+- Do not proceed with adding the framework Swift interface file to the App Target, only proceed if it's added to the framework target.
 
 ## Step-by-Step Instructions
 
@@ -71,7 +71,7 @@ Progress checklist:
 - [ ] XCFramework outputs validated
 ```
 
-1. Open `ios/.xcworkspace` and ensure the framework target exists.
+1. Open `ios/.xcworkspace` and ensure the framework target exists. If it does not exist, create the framework and a group.
 
 2. Confirm Podfile framework target inheritance:
 
@@ -89,7 +89,7 @@ end
 cd ios && pod install && cd ..
 ```
 
-4. Add a framework Swift interface file exporting brownfield symbols to the framework target:
+4. Add a framework Swift interface file exporting brownfield symbols to the framework target under its group:
 
 ```swift
 @_exported import ReactBrownfield

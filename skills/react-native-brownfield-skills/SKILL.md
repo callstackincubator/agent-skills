@@ -80,8 +80,8 @@ Expected artifact locations:
 | Problem | Start With |
 |---------|------------|
 | Need initial brownfield setup and installation | [quick-start.md][quick-start] |
-| Need to generate XCFramework from RN app | [ios-xcframework-generation.md][ios-xcframework-generation] |
-| Need to generate/publish AAR for Android | [android-aar-generation.md][android-aar-generation] |
+| Need to create and generate XCFramework from RN app | [ios-xcframework-generation.md][ios-xcframework-generation] |
+| Need to create and generate/publish AAR for Android | [android-aar-generation.md][android-aar-generation] |
 | Need to consume XCFramework in iOS host | [ios-native-integration.md][ios-native-integration] |
 | Need to consume AAR in Android host | [android-native-integration.md][android-native-integration] |
 | Need full end-to-end iOS path | [quick-start.md][quick-start] -> [ios-xcframework-generation.md][ios-xcframework-generation] -> [ios-native-integration.md][ios-native-integration] |

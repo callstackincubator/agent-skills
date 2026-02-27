@@ -36,7 +36,6 @@ npx brownfield package:android --variant Release --module-name <android_module_n
 Progress checklist:
 - [ ] Install package and dependencies
 - [ ] Verify iOS dependency install
-- [ ] Verify Android project can build
 - [ ] Verify brownfield CLI commands resolve
 ```
 
@@ -52,36 +51,25 @@ npm install @callstack/react-native-brownfield
 cd ios && pod install && cd ..
 ```
 
-3. Validate Android baseline build.
-
-```bash
-cd android && ./gradlew assembleRelease && cd ..
-```
-
-4. Confirm expected outcomes before platform-specific packaging:
+3. Confirm expected outcomes before platform-specific packaging:
    - iOS pod install succeeds without unresolved specs.
-   - Android release assembly completes.
 
 ## Stop Conditions
 
 Proceed only if all are true:
 - `npm install` exits with code `0`
 - `pod install` exits with code `0`
-- `./gradlew assembleRelease` exits with code `0`
 
 ## If Failed
 
 - If `pod install` fails, run:
   - `cd ios && pod repo update && pod install && cd ..`
-- If Android build fails, run:
-  - `cd android && ./gradlew clean assembleRelease && cd ..`
 - Do not continue to platform packaging until all stop conditions pass
 
 ## Common Pitfalls
 
 - Running packaging commands before `pod install`
 - Using mismatched React Native/Hermes dependency versions across Android modules
-- Skipping Android release build preflight and discovering failures during packaging
 
 ## Related Skills
 
