@@ -14,6 +14,12 @@ Scaffold a new Expo app as the starting point for Expo brownfield integration in
 npx create-expo-app@latest my-expo-brownfield
 ```
 
+## Mandatory Execution Contract (Agent)
+
+These rules are non-negotiable and override any optimization shortcuts:
+
+1. MUST not create a new expo app inside any iOS or Android project.
+
 ## When to Use
 
 - User asks to integrate React Native in a native iOS app by creating a new Expo app
