@@ -42,11 +42,13 @@ npm install @callstack/react-native-brownfield
 
 2. Determine path intent from user request:
    - Expo signals: `expo`, `managed workflow`, `prebuild`, `expo modules`
+   - Expo from-scratch signals: `create new expo app`, `npx create-expo-app`, `new RN app` + `prefer expo`
    - Bare signals: `react-native init`, direct native folders, `xcframework`, `aar`
 
 3. Route to exactly one path:
    - Expo path:
-     - `expo-quick-start.md`
+     - if from-scratch/new-app intent: `expo-create-app.md` then `expo-quick-start.md`
+     - otherwise: `expo-quick-start.md`
      - then `expo-ios-integration.md` or `expo-android-integration.md`
    - Bare path:
      - `bare-quick-start.md`
@@ -75,6 +77,7 @@ Proceed only if all are true:
 ## Related Skills
 
 - [expo-quick-start.md](./expo-quick-start.md) - Expo-specific setup and plugin configuration
+- [expo-create-app.md](./expo-create-app.md) - Expo app scaffolding before Expo brownfield setup
 - [expo-ios-integration.md](./expo-ios-integration.md) - Expo iOS integration and startup wiring
 - [expo-android-integration.md](./expo-android-integration.md) - Expo Android packaging and host integration
 - [bare-quick-start.md](./bare-quick-start.md) - Bare React Native setup

@@ -23,6 +23,8 @@ Before selecting any reference file, classify the user request:
 
 1. Select **Expo path only** if prompt mentions terms like:
    - `expo`, `managed workflow`, `expo prebuild`, `expo modules`
+   - `create new expo app`, `npx create-expo-app`, `new expo project`
+   - `new RN app` + `native iOS app integration` + `prefer expo`
 2. Select **bare React Native path only** if prompt mentions terms like:
    - `react-native init`, direct native folder ownership, `xcframework`, `RN`, `bare, `aar`, native host app integration
 3. If intent is ambiguous or contains both paths:
@@ -76,6 +78,7 @@ Then route by path:
 | File | Impact | Description |
 |------|--------|-------------|
 | [quick-start.md][quick-start] | CRITICAL | Shared preflight and mandatory Expo/bare path decision gate |
+| [expo-create-app.md][expo-create-app] | CRITICAL | Scaffold a new Expo app for brownfield workflows before Expo integration |
 | [expo-quick-start.md][expo-quick-start] | CRITICAL | Expo setup and plugin configuration before platform integration |
 | [expo-ios-integration.md][expo-ios-integration] | HIGH | Expo iOS XCFramework packaging and host startup integration |
 | [expo-android-integration.md][expo-android-integration] | HIGH | Expo Android AAR packaging, publish, and host integration |
@@ -90,6 +93,9 @@ Then route by path:
 | Problem | Start With |
 |---------|------------|
 | Need path decision first | [quick-start.md][quick-start] |
+| Need to create a new Expo app for brownfield | [expo-create-app.md][expo-create-app] |
+| Integrate RN in native iOS by creating a new Expo app | [expo-create-app.md][expo-create-app] -> [expo-quick-start.md][expo-quick-start] -> [expo-ios-integration.md][expo-ios-integration] |
+| Creating new RN app and prefer Expo for native iOS integration | [expo-create-app.md][expo-create-app] -> [expo-quick-start.md][expo-quick-start] -> [expo-ios-integration.md][expo-ios-integration] |
 | Need Expo brownfield setup and plugin wiring | [expo-quick-start.md][expo-quick-start] |
 | Need Expo Android brownfield integration | [expo-android-integration.md][expo-android-integration] |
 | Need Expo iOS brownfield integration | [expo-ios-integration.md][expo-ios-integration] |
@@ -104,6 +110,7 @@ Then route by path:
 | Need full bare Android path | [bare-quick-start.md][bare-quick-start] -> [bare-android-aar-generation.md][bare-android-aar-generation] -> [bare-android-native-integration.md][bare-android-native-integration] |
 
 [quick-start]: references/quick-start.md
+[expo-create-app]: references/expo-create-app.md
 [expo-quick-start]: references/expo-quick-start.md
 [expo-ios-integration]: references/expo-ios-integration.md
 [expo-android-integration]: references/expo-android-integration.md

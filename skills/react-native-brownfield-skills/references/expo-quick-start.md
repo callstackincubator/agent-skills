@@ -19,10 +19,11 @@ npm install @callstack/react-native-brownfield
 - User explicitly asks for Expo brownfield integration
 - Expo-managed or Expo prebuild project needs brownfield setup
 - Preparing Expo project before iOS/Android integration steps
+- Continuing after creating a new Expo app for brownfield workflows
 
 ## Prerequisites
 
-- Expo project already initialized
+- Expo project is available (existing project or newly scaffolded via `expo-create-app.md`)
 - `app.json` present in project root
 - Package manager available in project
 
@@ -62,6 +63,7 @@ npm install @callstack/react-native-brownfield
 ## Related Skills
 
 - [quick-start.md](./quick-start.md) - Shared setup and path gate
+- [expo-create-app.md](./expo-create-app.md) - Scaffold new Expo app before brownfield setup
 - [expo-ios-integration.md](./expo-ios-integration.md) - Expo iOS integration workflow
 - [expo-android-integration.md](./expo-android-integration.md) - Expo Android integration workflow
 - [bare-quick-start.md](./bare-quick-start.md) - Bare React Native path entry
