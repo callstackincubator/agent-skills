@@ -1,33 +1,28 @@
 ---
 title: Brownfield Quick Start
 impact: CRITICAL
-tags: react-native, brownfield, setup, prerequisites, package-ios, package-android
+tags: react-native, brownfield, setup, path-selection, expo, bare
 ---
 
 # Skill: Brownfield Quick Start
 
-Set up a React Native app for brownfield packaging and verify baseline readiness before generating native artifacts.
+Run shared setup, then immediately route to Expo or bare React Native references without mixing paths.
 
 ## Quick Command
 
 ```bash
 npm install @callstack/react-native-brownfield
-cd ios && pod install && cd ..
-npx brownfield package:ios --scheme <framework_target_name> --configuration Release
-npx brownfield package:android --variant Release --module-name <android_module_name>
 ```
 
 ## When to Use
 
-- Starting brownfield enablement in an existing React Native app
-- Preparing a project before XCFramework or AAR generation
-- Verifying toolchain readiness and package command availability
+- Starting brownfield enablement and deciding Expo vs bare path
+- Preparing project-level prerequisites before path-specific steps
+- Verifying `@callstack/react-native-brownfield` install succeeds
 
 ## Prerequisites
 
 - Node.js, package manager, and React Native project already bootstrapped
-- Xcode and CocoaPods available for iOS flows
-- Android Studio and Gradle wrapper working for Android flows
 - `@callstack/react-native-brownfield` installed in `package.json`
 
 ## Step-by-Step Instructions
@@ -35,8 +30,8 @@ npx brownfield package:android --variant Release --module-name <android_module_n
 ```text
 Progress checklist:
 - [ ] Install package and dependencies
-- [ ] Verify iOS dependency install
-- [ ] Verify brownfield CLI commands resolve
+- [ ] Determine path intent (Expo or bare RN)
+- [ ] Route to one path and stop using the other
 ```
 
 1. Install brownfield package in the React Native app root.
@@ -45,35 +40,43 @@ Progress checklist:
 npm install @callstack/react-native-brownfield
 ```
 
-2. Install iOS pods.
+2. Determine path intent from user request:
+   - Expo signals: `expo`, `managed workflow`, `prebuild`, `expo modules`
+   - Bare signals: `react-native init`, direct native folders, `xcframework`, `aar`
 
-```bash
-cd ios && pod install && cd ..
-```
+3. Route to exactly one path:
+   - Expo path:
+     - `expo-quick-start.md`
+     - then `expo-ios-integration.md` or `expo-android-integration.md`
+   - Bare path:
+     - `bare-quick-start.md`
+     - then bare platform generation and native integration skills
 
-3. Confirm expected outcomes before platform-specific packaging:
-   - iOS pod install succeeds without unresolved specs.
+4. If both/unclear, ask one disambiguation question before proceeding.
 
 ## Stop Conditions
 
 Proceed only if all are true:
 - `npm install` exits with code `0`
-- `pod install` exits with code `0`
+- exactly one path is selected (Expo or bare)
 
 ## If Failed
 
-- If `pod install` fails, run:
-  - `cd ios && pod repo update && pod install && cd ..`
-- Do not continue to platform packaging until all stop conditions pass
+- If install fails, retry package installation and lockfile sync for the project package manager
+- If path intent is unclear, stop and ask one path-selection question
+- Do not continue until a single path is selected
 
 ## Common Pitfalls
 
-- Running packaging commands before `pod install`
-- Using mismatched React Native/Hermes dependency versions across Android modules
+- Mixing Expo and bare steps in one response
+- Continuing when path intent is ambiguous
+- Jumping to platform integration before selecting a path
 
 ## Related Skills
 
-- [ios-xcframework-generation.md](./ios-xcframework-generation.md) - Generate iOS XCFramework artifact
-- [android-aar-generation.md](./android-aar-generation.md) - Generate and publish Android AAR artifact
-- [ios-native-integration.md](./ios-native-integration.md) - Integrate XCFramework into host iOS app
-- [android-native-integration.md](./android-native-integration.md) - Integrate AAR into host Android app
+- [expo-quick-start.md](./expo-quick-start.md) - Expo-specific setup and plugin configuration
+- [expo-ios-integration.md](./expo-ios-integration.md) - Expo iOS integration and startup wiring
+- [expo-android-integration.md](./expo-android-integration.md) - Expo Android packaging and host integration
+- [bare-quick-start.md](./bare-quick-start.md) - Bare React Native setup
+- [bare-ios-xcframework-generation.md](./bare-ios-xcframework-generation.md) - Bare iOS XCFramework generation
+- [bare-android-aar-generation.md](./bare-android-aar-generation.md) - Bare Android AAR generation/publish
