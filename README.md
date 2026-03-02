@@ -11,15 +11,21 @@ A collection of agent-optimized skills for AI coding assistants. Skills provide 
 | [upgrading-react-native](./skills/upgrading-react-native/)           | React Native upgrade workflow: templates, dependencies, and common pitfalls |
 | [nestjs-best-practices](./skills/nestjs-best-practices/)             | NestJS clean architecture, TypeScript conventions, and testing playbook |
 
-## React Native Best Practices
+## Skill Catalog
 
-Performance optimization skills based on [**The Ultimate Guide to React Native Optimization**](https://www.callstack.com/ebooks/the-ultimate-guide-to-react-native-optimization) by [Callstack](https://www.callstack.com/).
+This repository includes skills for mobile performance, GitHub workflows, upgrade operations, and backend API architecture.
 
-Covers:
+### Included domains
 
-- **JavaScript/React**: Profiling, FPS, re-renders, lists, state management, animations
-- **Native**: iOS/Android profiling, TTI, memory management, Turbo Modules
-- **Bundling**: Bundle analysis, tree shaking, R8, app size optimization
+- **React Native Best Practices**
+  - Performance profiling, FPS/TTI measurement, memory patterns, bundle optimization
+  - Based on [**The Ultimate Guide to React Native Optimization**](https://www.callstack.com/ebooks/the-ultimate-guide-to-react-native-optimization)
+- **Upgrading React Native**
+  - RN template diff workflow, dependency upgrade strategy, Expo upgrade flow, verification checklist
+- **GitHub**
+  - `gh`-based workflows for PRs, branching, and stacked PR operations
+- **NestJS Best Practices**
+  - TypeScript clean code conventions, NestJS modular architecture, and testing playbook
 
 ### Quick Start
 
@@ -30,7 +36,7 @@ Covers:
 /plugin marketplace add callstackincubator/agent-skills
 ```
 
-**2. Install the skill:**
+**2. Install a skill (example):**
 ```bash
 /plugin install react-native-best-practices@callstack-agent-skills
 ```
@@ -40,12 +46,20 @@ Or use the interactive menu:
 /plugin menu
 ```
 
+Other available skills:
+
+```bash
+/plugin install upgrading-react-native@callstack-agent-skills
+/plugin install github@callstack-agent-skills
+/plugin install nestjs-best-practices@callstack-agent-skills
+```
+
 **For local development:**
 ```bash
 claude --plugin-dir ./path/to/agent-skills
 ```
 
-Once installed, Claude will automatically use the React Native best practices skill when working on React Native projects.
+Once installed, Claude will automatically use matching skills based on the task context.
 
 #### Use with Other AI Assistants
 
@@ -75,8 +89,11 @@ git clone https://github.com/callstackincubator/agent-skills.git ~/.cursor/skill
 
 **Install via skill-installer:**
 
-```
+```bash
 $skill-installer install react-native-best-practices from callstackincubator/agent-skills
+$skill-installer install upgrading-react-native from callstackincubator/agent-skills
+$skill-installer install github from callstackincubator/agent-skills
+$skill-installer install nestjs-best-practices from callstackincubator/agent-skills
 ```
 
 **Or clone manually:**
@@ -147,16 +164,22 @@ OpenCode also discovers Claude-compatible paths (`.claude/skills/`, `~/.claude/s
 For assistants without native skills support, point them to the skill file:
 
 ```
-Read skills/react-native-best-practices/SKILL.md for React Native performance guidelines
+Read one of:
+- skills/react-native-best-practices/SKILL.md
+- skills/upgrading-react-native/SKILL.md
+- skills/github/SKILL.md
+- skills/nestjs-best-practices/SKILL.md
 ```
 
 Or reference specific topics:
 
-```
-Look up js-profile-react.md for React DevTools profiling instructions
+```text
+Look up references/stacked-pr-workflow.md for GitHub stacked PR instructions
+Look up references/nest-module-architecture.md for NestJS module conventions
+Look up references/js-profile-react.md for React Native profiling instructions
 ```
 
-### Code Examples
+### React Native Code Examples
 
 The [callstack/optimization-best-practices](https://github.com/callstack/optimization-best-practices) repository contains runnable code examples for:
 
@@ -189,9 +212,13 @@ agent-skills/
     │   ├── SKILL.md              # Main skill file with workflow patterns
     │   └── references/           # Detailed workflow files
     │
-    └── nestjs-best-practices/
-        ├── SKILL.md              # Main skill file for NestJS architecture and coding standards
-        └── references/           # Detailed TypeScript, architecture, and testing guides
+    ├── nestjs-best-practices/
+    │   ├── SKILL.md              # Main skill file for NestJS architecture and coding standards
+    │   └── references/           # Detailed TypeScript, architecture, and testing guides
+    │
+    └── upgrading-react-native/
+        ├── SKILL.md              # Main skill file for React Native upgrade workflows
+        └── references/           # Detailed upgrade routes, dependency strategy, and verification
 ```
 
 The plugin follows the [Claude Code plugin marketplace structure](https://code.claude.com/docs/en/plugin-marketplaces):
@@ -243,7 +270,7 @@ For complete coverage, consider pairing with:
 
 ## Made with ❤️ at Callstack
 
-React Native performance skills based on The Ultimate Guide to React Native Optimization.
+A practical skill collection for React Native, GitHub workflows, and NestJS API development.
 
 [Callstack](https://www.callstack.com/) is a group of React and React Native experts. Contact us at [hello@callstack.com](mailto:hello@callstack.com) if you need help with performance optimization or just want to say hi!
 
