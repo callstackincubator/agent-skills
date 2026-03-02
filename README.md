@@ -9,6 +9,7 @@ A collection of agent-optimized skills for AI coding assistants. Skills provide 
 | [react-native-best-practices](./skills/react-native-best-practices/) | React Native optimization best practices from Callstack |
 | [github](./skills/github/)                                           | GitHub workflow patterns for PRs, code review, branching |
 | [upgrading-react-native](./skills/upgrading-react-native/)           | React Native upgrade workflow: templates, dependencies, and common pitfalls |
+| [nestjs-best-practices](./skills/nestjs-best-practices/)             | NestJS clean architecture, TypeScript conventions, and testing playbook |
 
 ## React Native Best Practices
 
@@ -184,9 +185,13 @@ agent-skills/
     │       ├── native-*.md       # Native iOS/Android skills
     │       └── bundle-*.md       # Bundling & app size skills
     │
-    └── github/
-        ├── SKILL.md              # Main skill file with workflow patterns
-        └── references/           # Detailed workflow files
+    ├── github/
+    │   ├── SKILL.md              # Main skill file with workflow patterns
+    │   └── references/           # Detailed workflow files
+    │
+    └── nestjs-best-practices/
+        ├── SKILL.md              # Main skill file for NestJS architecture and coding standards
+        └── references/           # Detailed TypeScript, architecture, and testing guides
 ```
 
 The plugin follows the [Claude Code plugin marketplace structure](https://code.claude.com/docs/en/plugin-marketplaces):
