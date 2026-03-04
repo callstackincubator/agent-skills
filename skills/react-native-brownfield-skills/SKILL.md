@@ -21,14 +21,14 @@ This package is optimized for agent execution with explicit command sequences, v
 
 Before selecting any reference file, classify the user request:
 
-1. Select **Expo path only** if prompt mentions terms like:
-   - `expo`, `managed workflow`, `expo prebuild`, `expo modules`
-   - `create new expo app`, `npx create-expo-app`, `new expo project`
-   - `new RN app` + `native iOS app integration` + `prefer expo`
-2. Select **bare React Native path only** if prompt mentions terms like:
-   - `react-native init`, direct native folder ownership, `xcframework`, `RN`, `bare, `aar`, native host app integration
-3. If intent is ambiguous or contains both paths:
-   - ask one disambiguation question first
+1. If there is no prior React Native app or the user is new to React Native, use the Expo migration path:
+   - initialize a new Expo app in a separate directory from `expo-create-app`
+   - apply the brownfield config plugin flow from `expo-quick-start`
+2. If a React Native app already exists, infer the project type from `package.json` dependencies/scripts and `app.json`:
+   - Expo managed/bare workflow
+   - Rock
+   - React Native Community CLI (if `app.json` is very basic and metadata/scripts indicate standard RN CLI)
+3. If detection is still inconclusive, ask one disambiguation question before continuing.
 4. Do not mix steps across Expo and bare paths in one response unless user explicitly asks for migration or comparison.
 
 ## Skill Format
