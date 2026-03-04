@@ -30,7 +30,7 @@
 		},
 		{
 			"name": "react-native-brownfield-migration",
-			"description": "React Native brownfield workflows for Expo and bare projects, including XCFramework/AAR packaging and native iOS/Android host integration.",
+			"description": "Incremental migration strategy for adopting React Native or Expo in native iOS/Android apps using @callstack/react-native-brownfield, including initial setup, packaging, and phased host integration.",
 			"source": "./",
 			"skills": ["./skills/react-native-brownfield-migration"]
 		}

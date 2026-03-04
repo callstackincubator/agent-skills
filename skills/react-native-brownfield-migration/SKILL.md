@@ -1,6 +1,6 @@
 ---
 name: react-native-brownfield-migration
-description: Guides migration of native iOS or Android apps to include React Native via Expo or bare brownfield workflows. Use when packaging XCFramework/AAR artifacts and integrating them into host apps.
+description: Provides an incremental adoption strategy to migrate native iOS or Android apps to React Native or Expo using @callstack/react-native-brownfield for initial setup. Use when planning migration steps, packaging XCFramework/AAR artifacts, and integrating them into host apps.
 license: MIT
 metadata:
   author: Callstack
@@ -11,12 +11,22 @@ metadata:
 
 ## Overview
 
-Prescriptive workflow for packaging React Native apps into native-consumable artifacts and integrating them into host apps.
+Prescriptive workflow for incremental adoption of React Native in existing native apps using `@callstack/react-native-brownfield`, from initial setup through phased host integration.
 
 - Expo track
 - Bare React Native track
 
 Use one track per task unless the user explicitly asks for migration or comparison.
+
+## Migration Strategy
+
+Use this strategy for brownfield migration planning and execution:
+
+1. Assess app state and select Expo or bare path.
+2. Perform initial setup with `@callstack/react-native-brownfield`.
+3. Package RN artifacts (`XCFramework`/`AAR`) from the RN source app.
+4. Integrate one RN surface into the host app and validate startup/runtime.
+5. Repeat integration by feature/screen for incremental rollout.
 
 ## Agent Guardrails (Global)
 
@@ -54,7 +64,9 @@ Before selecting any reference file, classify the project:
 
 Reference this package when:
 
+- Planning incremental migration from native-only apps to React Native or Expo
 - Creating brownfield integration flows for Expo or bare React Native projects
+- Performing initial setup with `@callstack/react-native-brownfield`
 - Generating iOS XCFramework artifacts from a React Native app
 - Generating and publishing Android AAR artifacts from a React Native app
 - Integrating generated artifacts into host iOS/Android apps

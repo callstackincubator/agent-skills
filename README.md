@@ -9,7 +9,7 @@ A collection of agent-optimized skills for AI coding assistants. Skills provide 
 | [react-native-best-practices](./skills/react-native-best-practices/) | React Native optimization best practices from Callstack |
 | [github](./skills/github/)                                           | GitHub workflow patterns for PRs, code review, branching |
 | [upgrading-react-native](./skills/upgrading-react-native/)           | React Native upgrade workflow: templates, dependencies, and common pitfalls |
-| [react-native-brownfield-migration](./skills/react-native-brownfield-migration/) | React Native brownfield workflows for Expo/bare paths, XCFramework/AAR packaging, and native iOS/Android integration |
+| [react-native-brownfield-migration](./skills/react-native-brownfield-migration/) | Incremental migration strategy to adopt React Native or Expo in native apps using @callstack/react-native-brownfield, with setup, packaging, and phased integration steps |
 
 ## React Native Best Practices
 
