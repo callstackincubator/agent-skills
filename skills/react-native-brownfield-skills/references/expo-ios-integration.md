@@ -105,7 +105,7 @@ Second Option:
 ```swift
 import ReactBrownfield
 
-ReactNativeBrownfield.shared.view("main", initialProps) // returns UIView
+ReactNativeBrownfield.shared.view(moduleName: "main", initialProps: nil) // returns UIView
 ```
 
 ## Common Pitfalls
