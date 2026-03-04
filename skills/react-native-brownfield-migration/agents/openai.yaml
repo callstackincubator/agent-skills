@@ -1,4 +1,4 @@
 interface:
-  display_name: "Migrating to React Native"
+  display_name: "React Native Brownfield Migration"
   short_description: "Expo and bare RN brownfield packaging plus native iOS/Android integration"
   default_prompt: "Use $react-native-brownfield-migration to package React Native apps as XCFramework/AAR and integrate them into native iOS or Android apps."
