@@ -27,6 +27,12 @@
 			"description": "React Native upgrade workflow covering updated templates, dependencies, and common pitfalls. Use when migrating a React Native app to a newer release.",
 			"source": "./",
 			"skills": ["./skills/upgrading-react-native"]
+		},
+		{
+			"name": "react-native-brownfield-migration",
+			"description": "React Native brownfield workflows for Expo and bare projects, including XCFramework/AAR packaging and native iOS/Android host integration.",
+			"source": "./",
+			"skills": ["./skills/react-native-brownfield-migration"]
 		}
 	]
 }

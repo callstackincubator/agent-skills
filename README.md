@@ -9,6 +9,7 @@ A collection of agent-optimized skills for AI coding assistants. Skills provide 
 | [react-native-best-practices](./skills/react-native-best-practices/) | React Native optimization best practices from Callstack |
 | [github](./skills/github/)                                           | GitHub workflow patterns for PRs, code review, branching |
 | [upgrading-react-native](./skills/upgrading-react-native/)           | React Native upgrade workflow: templates, dependencies, and common pitfalls |
+| [react-native-brownfield-migration](./skills/react-native-brownfield-migration/) | React Native brownfield workflows for Expo/bare paths, XCFramework/AAR packaging, and native iOS/Android integration |
 
 ## React Native Best Practices
 
@@ -184,9 +185,18 @@ agent-skills/
     │       ├── native-*.md       # Native iOS/Android skills
     │       └── bundle-*.md       # Bundling & app size skills
     │
-    └── github/
-        ├── SKILL.md              # Main skill file with workflow patterns
-        └── references/           # Detailed workflow files
+    ├── github/
+    │   ├── SKILL.md              # Main skill file with workflow patterns
+    │   └── references/           # Detailed workflow files
+    │
+    ├── upgrading-react-native/
+    │   ├── SKILL.md              # Main skill file with RN upgrade workflow routing
+    │   └── references/           # Detailed upgrade flow files
+    │
+    └── react-native-brownfield-migration/
+        ├── SKILL.md              # Main skill file for Expo/bare path routing
+        ├── agents/openai.yaml    # Codex Skills UI metadata
+        └── references/           # Brownfield packaging and integration flow files
 ```
 
 The plugin follows the [Claude Code plugin marketplace structure](https://code.claude.com/docs/en/plugin-marketplaces):
