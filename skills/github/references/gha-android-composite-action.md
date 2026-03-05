@@ -10,7 +10,7 @@ Composite action template for building React Native Android emulator APKs in Git
 
 ## Quick Config
 
-1. Create `.github/actions/github-actions-react-native-build-artifacts/android-build/action.yml`.
+1. Create `.github/actions/github/android-build/action.yml`.
 2. Copy the template below.
 3. Set `variant` (for emulator flows, use `Debug` by default).
 4. Use action outputs (`artifact-name`, `artifact-id`, `artifact-url`) in downstream jobs.
@@ -27,7 +27,7 @@ Composite action template for building React Native Android emulator APKs in Git
 - React Native dependencies installed.
 - Android SDK and Gradle wrapper available in the repository.
 
-## Template (`.github/actions/github-actions-react-native-build-artifacts/android-build/action.yml`)
+## Template (`.github/actions/github/android-build/action.yml`)
 
 ```yaml
 name: React Native Android Emulator Build

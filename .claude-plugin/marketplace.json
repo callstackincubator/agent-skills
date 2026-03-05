@@ -18,7 +18,7 @@
 		},
 		{
 			"name": "github",
-			"description": "GitHub patterns using gh CLI for pull requests, stacked PRs, code review, branching strategies, and repository automation.",
+			"description": "GitHub patterns using gh CLI and GitHub Actions for pull requests, stacked PRs, repository automation, and React Native build artifacts.",
 			"source": "./",
 			"skills": ["./skills/github"]
 		},
@@ -33,12 +33,6 @@
 			"description": "Incremental migration strategy for adopting React Native or Expo in native iOS/Android apps using @callstack/react-native-brownfield, including initial setup, packaging, and phased host integration.",
 			"source": "./",
 			"skills": ["./skills/react-native-brownfield-migration"]
-		},
-		{
-			"name": "github-actions-react-native-build-artifacts",
-			"description": "GitHub Actions workflow patterns for React Native iOS simulator and Android emulator cloud builds, including composite action templates and artifact download automation via gh CLI or GitHub API.",
-			"source": "./",
-			"skills": ["./skills/github-actions-react-native-build-artifacts"]
 		}
 	]
 }

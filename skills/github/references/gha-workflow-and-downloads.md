@@ -26,7 +26,7 @@ Set these before first run:
 ## Quick Config
 
 1. Create `.github/workflows/mobile-build.yml`.
-2. Call local composite actions from this skill (`github-actions-react-native-build-artifacts/ios-build`, `github-actions-react-native-build-artifacts/android-build`).
+2. Call local composite actions from this skill (`github/ios-build`, `github/android-build`).
 3. Keep `actions/upload-artifact@v4` output IDs.
 4. Retrieve with `gh run download` or `gh api`.
 
@@ -144,7 +144,7 @@ PY
 
       - name: Build iOS simulator
         id: build
-        uses: ./.github/actions/github-actions-react-native-build-artifacts/ios-build
+        uses: ./.github/actions/github/ios-build
         with:
           scheme: ${{ steps.ios-inputs.outputs.scheme }}
           configuration: ${{ steps.ios-inputs.outputs.config }}
@@ -205,7 +205,7 @@ PY
 
       - name: Build Android emulator APK
         id: build
-        uses: ./.github/actions/github-actions-react-native-build-artifacts/android-build
+        uses: ./.github/actions/github/android-build
         with:
           variant: ${{ steps.android-inputs.outputs.variant }}
           artifact-prefix: rn-android-emulator
