@@ -10,6 +10,7 @@ A collection of agent-optimized skills for AI coding assistants. Skills provide 
 | [github](./skills/github/)                                           | GitHub workflow patterns for PRs, code review, branching |
 | [upgrading-react-native](./skills/upgrading-react-native/)           | React Native upgrade workflow: templates, dependencies, and common pitfalls |
 | [react-native-brownfield-migration](./skills/react-native-brownfield-migration/) | Incremental migration strategy to adopt React Native or Expo in native apps using @callstack/react-native-brownfield, with setup, packaging, and phased integration steps |
+| [react-native-cloud-build-github-actions](./skills/react-native-cloud-build-github-actions/) | GitHub Actions workflow patterns for React Native iOS/Android cloud builds and downloadable CI artifacts |
 
 ## React Native Best Practices
 
@@ -193,10 +194,15 @@ agent-skills/
     │   ├── SKILL.md              # Main skill file with RN upgrade workflow routing
     │   └── references/           # Detailed upgrade flow files
     │
-    └── react-native-brownfield-migration/
-        ├── SKILL.md              # Main skill file for Expo/bare path routing
+    ├── react-native-brownfield-migration/
+    │   ├── SKILL.md              # Main skill file for Expo/bare path routing
+    │   ├── agents/openai.yaml    # Codex Skills UI metadata
+    │   └── references/           # Brownfield packaging and integration flow files
+    │
+    └── react-native-cloud-build-github-actions/
+        ├── SKILL.md              # Main skill file for RN cloud build workflows
         ├── agents/openai.yaml    # Codex Skills UI metadata
-        └── references/           # Brownfield packaging and integration flow files
+        └── references/           # iOS/Android action templates and download flows
 ```
 
 The plugin follows the [Claude Code plugin marketplace structure](https://code.claude.com/docs/en/plugin-marketplaces):

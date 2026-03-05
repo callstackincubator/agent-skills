@@ -1,0 +1,4 @@
+interface:
+  display_name: "RN Cloud Builds (GitHub)"
+  short_description: "GitHub Actions workflow patterns for React Native iOS/Android builds with downloadable artifacts"
+  default_prompt: "Use $react-native-cloud-build-github-actions to set up GitHub Actions for React Native iOS and Android cloud builds and artifact download via gh or REST API."

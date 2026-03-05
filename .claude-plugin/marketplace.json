@@ -33,6 +33,12 @@
 			"description": "Incremental migration strategy for adopting React Native or Expo in native iOS/Android apps using @callstack/react-native-brownfield, including initial setup, packaging, and phased host integration.",
 			"source": "./",
 			"skills": ["./skills/react-native-brownfield-migration"]
+		},
+		{
+			"name": "react-native-cloud-build-github-actions",
+			"description": "GitHub Actions workflow patterns for React Native iOS/Android cloud builds, including composite action templates and artifact download automation via gh CLI or GitHub API.",
+			"source": "./",
+			"skills": ["./skills/react-native-cloud-build-github-actions"]
 		}
 	]
 }
