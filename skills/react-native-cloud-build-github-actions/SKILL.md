@@ -1,25 +1,25 @@
 ---
 name: react-native-cloud-build-github-actions
-description: Establishes GitHub Actions workflows for React Native iOS and Android cloud builds using react-native-community/cli and uploads downloadable artifacts. Use when setting up CI build pipelines, PR installables, or artifact download automation via gh CLI and GitHub REST API.
+description: Establishes GitHub Actions workflows for React Native iOS simulator and Android emulator builds using react-native-community/cli and uploads downloadable artifacts. Use when setting up CI build pipelines for simulator/emulator installables and artifact download automation via gh CLI or GitHub REST API.
 license: MIT
 metadata:
   author: Callstack
-  tags: react-native, github-actions, ci, ios, android, artifacts, gh-cli
+  tags: react-native, github-actions, ci, ios, android, simulator, emulator, artifacts, gh-cli
 ---
 
-# React Native Cloud Build (GitHub Actions)
+# React Native Simulator/Emulator Cloud Build (GitHub Actions)
 
 ## Overview
 
-Reusable GitHub Actions patterns to build React Native apps in the cloud and publish artifacts that can be fetched via `gh` CLI or GitHub API.
+Reusable GitHub Actions patterns to build React Native apps for iOS simulators and Android emulators in the cloud, then publish artifacts retrievable via `gh` CLI or GitHub API.
 
-This skill recreates the architecture of Rock iOS/Android cloud actions, but replaces `rock` commands with `react-native-community/cli`-compatible steps (`npx react-native config`, `xcodebuild`, and `./gradlew`).
+This skill recreates the architecture of Rock iOS/Android cloud actions, but focuses only on simulator/emulator outputs and replaces `rock` commands with `react-native-community/cli`-compatible steps (`npx react-native config`, `xcodebuild`, and `./gradlew`).
 
 ## When to Apply
 
 Use this skill when:
-- Creating CI workflows that build both iOS and Android React Native apps.
-- Uploading installable artifacts from PRs or manual dispatch runs.
+- Creating CI workflows that build React Native simulator/emulator artifacts.
+- Uploading iOS simulator and Android emulator installables from PRs or manual dispatch runs.
 - Replacing local-only mobile builds with downloadable CI artifacts.
 - Needing stable artifact IDs/names for scripted retrieval with `gh` or REST API.
 
@@ -34,17 +34,17 @@ Use this skill when:
 
 | File | Description |
 |------|-------------|
-| [gha-ios-composite-action.md][gha-ios-composite-action] | Composite `action.yml` for iOS simulator/device builds and artifact upload |
-| [gha-android-composite-action.md][gha-android-composite-action] | Composite `action.yml` for Android APK/AAB builds and artifact upload |
+| [gha-ios-composite-action.md][gha-ios-composite-action] | Composite `action.yml` for iOS simulator `.app.tar.gz` builds and artifact upload |
+| [gha-android-composite-action.md][gha-android-composite-action] | Composite `action.yml` for Android emulator `.apk` builds and artifact upload |
 | [gha-workflow-and-downloads.md][gha-workflow-and-downloads] | End-to-end workflow wiring plus `gh` and REST download commands |
 
 ## Problem → Skill Mapping
 
 | Problem | Start With |
 |---------|------------|
-| Need CI `.app`/`.ipa` from React Native iOS | [gha-ios-composite-action.md][gha-ios-composite-action] |
-| Need CI `.apk`/`.aab` from React Native Android | [gha-android-composite-action.md][gha-android-composite-action] |
-| Need one workflow to trigger both platforms | [gha-workflow-and-downloads.md][gha-workflow-and-downloads] |
+| Need CI iOS simulator `.app.tar.gz` artifact | [gha-ios-composite-action.md][gha-ios-composite-action] |
+| Need CI Android emulator `.apk` artifact | [gha-android-composite-action.md][gha-android-composite-action] |
+| Need one workflow to trigger both platform jobs | [gha-workflow-and-downloads.md][gha-workflow-and-downloads] |
 | Need scripted artifact download | [gha-workflow-and-downloads.md][gha-workflow-and-downloads] |
 
 ## Source Inspiration

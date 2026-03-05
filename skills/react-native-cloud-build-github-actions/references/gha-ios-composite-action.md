@@ -1,24 +1,24 @@
 ---
-title: iOS Composite Action (RN CLI)
+title: iOS Simulator Composite Action (RN CLI)
 impact: HIGH
-tags: ios, github-actions, react-native, xcodebuild, artifact
+tags: ios, simulator, github-actions, react-native, xcodebuild, artifact
 ---
 
-# Skill: iOS Composite Action (RN CLI)
+# Skill: iOS Simulator Composite Action (RN CLI)
 
-Composite action template for building React Native iOS apps in GitHub Actions and uploading `.app.tar.gz` (simulator) or `.ipa` (device) artifacts.
+Composite action template for building React Native iOS simulator apps in GitHub Actions and uploading `.app.tar.gz` artifacts.
 
 ## Quick Config
 
 1. Create `.github/actions/rn-ios-build/action.yml`.
 2. Copy the template below.
-3. For `destination: device`, pass `export-options-plist-base64` secret.
+3. Set your app `scheme` and optional `configuration`.
 4. Use `actions/upload-artifact@v4` outputs (`artifact-id`, `artifact-url`).
 5. Download later by ID (REST) or by run/name (`gh run download`).
 
 ## When to Use
 
-- Need cloud iOS build artifacts for QA, PR validation, or smoke tests.
+- Need cloud iOS simulator build artifacts for QA or PR validation.
 - Need deterministic artifact naming and machine-readable IDs.
 - Need RN CLI project discovery without Rock (`npx react-native config`).
 
@@ -27,13 +27,12 @@ Composite action template for building React Native iOS apps in GitHub Actions a
 - macOS runner (`macos-14` or newer).
 - Xcode scheme is known and buildable in CI.
 - JS dependencies installed before invoking the action.
-- For device `.ipa`: signing/export configuration and `ExportOptions.plist`.
 
 ## Template (`.github/actions/rn-ios-build/action.yml`)
 
 ```yaml
-name: React Native iOS Build
-description: Build React Native iOS app in GitHub Actions and upload artifact
+name: React Native iOS Simulator Build
+description: Build React Native iOS simulator app in GitHub Actions and upload artifact
 
 inputs:
   working-directory:
@@ -47,34 +46,20 @@ inputs:
     description: Xcode configuration
     required: false
     default: Debug
-  destination:
-    description: simulator or device
-    required: false
-    default: simulator
   workspace-path:
     description: Optional path to .xcworkspace
     required: false
   project-path:
     description: Optional path to .xcodeproj
     required: false
-  sdk:
-    description: Optional override for SDK
-    required: false
   derived-data-path:
     description: DerivedData path relative to working-directory
     required: false
     default: build/ios/DerivedData
-  archive-path:
-    description: Archive path for device builds
-    required: false
-    default: build/ios/archive/App.xcarchive
-  export-options-plist-base64:
-    description: Base64 ExportOptions.plist for device builds
-    required: false
   artifact-prefix:
     description: Prefix for artifact naming
     required: false
-    default: rn-ios
+    default: rn-ios-simulator
   custom-identifier:
     description: Optional stable identifier (PR number, channel, etc.)
     required: false
@@ -102,18 +87,8 @@ runs:
       run: |
         set -euo pipefail
 
-        if [[ "${{ inputs.destination }}" != "simulator" && "${{ inputs.destination }}" != "device" ]]; then
-          echo "destination must be 'simulator' or 'device'"
-          exit 1
-        fi
-
         if [[ -n "${{ inputs.workspace-path }}" && -n "${{ inputs.project-path }}" ]]; then
           echo "Use workspace-path or project-path, not both"
-          exit 1
-        fi
-
-        if [[ "${{ inputs.destination }}" == "device" && -z "${{ inputs.export-options-plist-base64 }}" ]]; then
-          echo "export-options-plist-base64 is required for device builds"
           exit 1
         fi
 
@@ -146,15 +121,6 @@ runs:
           exit 1
         fi
 
-        SDK="${{ inputs.sdk }}"
-        if [[ -z "$SDK" ]]; then
-          if [[ "${{ inputs.destination }}" == "simulator" ]]; then
-            SDK="iphonesimulator"
-          else
-            SDK="iphoneos"
-          fi
-        fi
-
         IDENTIFIER="${{ inputs.custom-identifier }}"
         if [[ -z "$IDENTIFIER" ]]; then
           if [[ "${{ github.event_name }}" == "pull_request" ]]; then
@@ -164,14 +130,11 @@ runs:
           fi
         fi
 
-        echo "ios_source_dir=$IOS_SOURCE_DIR" >> "$GITHUB_OUTPUT"
         echo "container_kind=$CONTAINER_KIND" >> "$GITHUB_OUTPUT"
         echo "container_path=$CONTAINER_PATH" >> "$GITHUB_OUTPUT"
-        echo "sdk=$SDK" >> "$GITHUB_OUTPUT"
         echo "identifier=$IDENTIFIER" >> "$GITHUB_OUTPUT"
 
-    - name: Build iOS (simulator)
-      if: ${{ inputs.destination == 'simulator' }}
+    - name: Build iOS simulator
       shell: bash
       working-directory: ${{ inputs.working-directory }}
       run: |
@@ -187,14 +150,13 @@ runs:
           "${XCODE_CONTAINER[@]}" \
           -scheme "${{ inputs.scheme }}" \
           -configuration "${{ inputs.configuration }}" \
-          -sdk "${{ steps.resolve.outputs.sdk }}" \
+          -sdk iphonesimulator \
           -destination "generic/platform=iOS Simulator" \
           -derivedDataPath "${{ inputs.derived-data-path }}" \
           CODE_SIGNING_ALLOWED=NO \
           build
 
     - name: Package simulator app
-      if: ${{ inputs.destination == 'simulator' }}
       id: simulator
       shell: bash
       working-directory: ${{ inputs.working-directory }}
@@ -234,57 +196,6 @@ runs:
 
         echo "artifact_path=$TARBALL" >> "$GITHUB_OUTPUT"
 
-    - name: Build iOS archive (device)
-      if: ${{ inputs.destination == 'device' }}
-      shell: bash
-      working-directory: ${{ inputs.working-directory }}
-      run: |
-        set -euo pipefail
-
-        if [[ "${{ steps.resolve.outputs.container_kind }}" == "workspace" ]]; then
-          XCODE_CONTAINER=( -workspace "${{ steps.resolve.outputs.container_path }}" )
-        else
-          XCODE_CONTAINER=( -project "${{ steps.resolve.outputs.container_path }}" )
-        fi
-
-        xcodebuild \
-          "${XCODE_CONTAINER[@]}" \
-          -scheme "${{ inputs.scheme }}" \
-          -configuration "${{ inputs.configuration }}" \
-          -sdk "${{ steps.resolve.outputs.sdk }}" \
-          -destination "generic/platform=iOS" \
-          -archivePath "${{ inputs.archive-path }}" \
-          archive
-
-    - name: Export IPA
-      if: ${{ inputs.destination == 'device' }}
-      id: device
-      shell: bash
-      working-directory: ${{ inputs.working-directory }}
-      run: |
-        set -euo pipefail
-
-        EXPORT_PLIST="$RUNNER_TEMP/ExportOptions.plist"
-        if base64 --help 2>&1 | grep -q -- '--decode'; then
-          printf '%s' "${{ inputs.export-options-plist-base64 }}" | base64 --decode > "$EXPORT_PLIST"
-        else
-          printf '%s' "${{ inputs.export-options-plist-base64 }}" | base64 -D > "$EXPORT_PLIST"
-        fi
-
-        mkdir -p build/ios/export
-        xcodebuild -exportArchive \
-          -archivePath "${{ inputs.archive-path }}" \
-          -exportPath build/ios/export \
-          -exportOptionsPlist "$EXPORT_PLIST"
-
-        IPA_PATH="$(find build/ios/export -type f -name '*.ipa' | head -n1)"
-        if [[ -z "$IPA_PATH" ]]; then
-          echo "No .ipa found"
-          exit 1
-        fi
-
-        echo "artifact_path=$IPA_PATH" >> "$GITHUB_OUTPUT"
-
     - name: Build artifact name
       id: names
       shell: bash
@@ -292,7 +203,7 @@ runs:
         set -euo pipefail
 
         CONFIG="$(echo "${{ inputs.configuration }}" | tr '[:upper:]' '[:lower:]')"
-        NAME="${{ inputs.artifact-prefix }}-${{ inputs.destination }}-${CONFIG}-${{ steps.resolve.outputs.identifier }}"
+        NAME="${{ inputs.artifact-prefix }}-${CONFIG}-${{ steps.resolve.outputs.identifier }}"
         echo "artifact_name=$NAME" >> "$GITHUB_OUTPUT"
 
     - name: Upload artifact
@@ -300,7 +211,7 @@ runs:
       uses: actions/upload-artifact@v4
       with:
         name: ${{ steps.names.outputs.artifact_name }}
-        path: ${{ steps.simulator.outputs.artifact_path || steps.device.outputs.artifact_path }}
+        path: ${{ steps.simulator.outputs.artifact_path }}
         if-no-files-found: error
         retention-days: ${{ inputs.artifact-retention-days }}
 ```
@@ -308,7 +219,6 @@ runs:
 ## Common Pitfalls
 
 - Passing both `workspace-path` and `project-path`.
-- Forgetting `ExportOptions.plist` for device builds.
 - Uploading `.app` directly instead of `tar.gz` (permission loss risk).
 - Using non-macOS runner for iOS jobs.
 

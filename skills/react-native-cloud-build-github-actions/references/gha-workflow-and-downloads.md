@@ -1,24 +1,23 @@
 ---
 title: Workflow Wiring and Artifact Downloads
 impact: CRITICAL
-tags: github-actions, workflow, artifacts, gh-cli, rest-api
+tags: github-actions, workflow, artifacts, gh-cli, rest-api, simulator, emulator
 ---
 
 # Skill: Workflow Wiring and Artifact Downloads
 
-Use this workflow to run both platform builds in cloud CI and expose artifact metadata for scripted retrieval.
+Use this workflow to run iOS simulator and Android emulator builds in cloud CI and expose artifact metadata for scripted retrieval.
 
 ## Quick Config
 
 1. Create `.github/workflows/rn-cloud-build.yml`.
 2. Call local composite actions from this skill (`rn-ios-build`, `rn-android-build`).
 3. Keep `actions/upload-artifact@v4` output IDs.
-4. Add signing secrets only when needed.
-5. Retrieve with `gh run download` or `gh api`.
+4. Retrieve with `gh run download` or `gh api`.
 
 ## When to Use
 
-- Need one pipeline for iOS and Android build artifacts.
+- Need one pipeline for simulator/emulator artifacts.
 - Need PR and manual dispatch triggers.
 - Need deterministic artifact retrieval in CI/CD or external tooling.
 
@@ -32,23 +31,16 @@ on:
     branches: [main]
   workflow_dispatch:
     inputs:
-      ios_destination:
-        description: iOS destination
+      ios_configuration:
+        description: iOS configuration
         required: true
-        default: simulator
-        type: choice
-        options: [simulator, device]
+        default: Debug
+        type: string
       android_variant:
         description: Android Gradle variant
         required: true
         default: Debug
         type: string
-      android_binary:
-        description: Android output type
-        required: true
-        default: apk
-        type: choice
-        options: [apk, aab]
 
 permissions:
   contents: read
@@ -56,7 +48,7 @@ permissions:
 
 jobs:
   ios:
-    name: iOS build
+    name: iOS simulator build
     runs-on: macos-14
     outputs:
       artifact_name: ${{ steps.build.outputs.artifact-name }}
@@ -78,27 +70,25 @@ jobs:
           cd ios
           pod install --repo-update
 
-      - name: Determine iOS destination
-        id: ios-destination
+      - name: Determine iOS config
+        id: ios-config
         run: |
           if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
-            echo "value=${{ inputs.ios_destination }}" >> "$GITHUB_OUTPUT"
+            echo "value=${{ inputs.ios_configuration }}" >> "$GITHUB_OUTPUT"
           else
-            echo "value=simulator" >> "$GITHUB_OUTPUT"
+            echo "value=Debug" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Build iOS
+      - name: Build iOS simulator
         id: build
         uses: ./.github/actions/rn-ios-build
         with:
           scheme: YourApp
-          configuration: Debug
-          destination: ${{ steps.ios-destination.outputs.value }}
-          export-options-plist-base64: ${{ steps.ios-destination.outputs.value == 'device' && secrets.IOS_EXPORT_OPTIONS_PLIST_BASE64 || '' }}
-          artifact-prefix: rn-ios
+          configuration: ${{ steps.ios-config.outputs.value }}
+          artifact-prefix: rn-ios-simulator
 
   android:
-    name: Android build
+    name: Android emulator build
     runs-on: ubuntu-latest
     outputs:
       artifact_name: ${{ steps.build.outputs.artifact-name }}
@@ -121,24 +111,21 @@ jobs:
       - name: Install JS dependencies
         run: npm ci
 
-      - name: Determine Android params
-        id: android-params
+      - name: Determine Android variant
+        id: android-variant
         run: |
           if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
-            echo "variant=${{ inputs.android_variant }}" >> "$GITHUB_OUTPUT"
-            echo "binary=${{ inputs.android_binary }}" >> "$GITHUB_OUTPUT"
+            echo "value=${{ inputs.android_variant }}" >> "$GITHUB_OUTPUT"
           else
-            echo "variant=Debug" >> "$GITHUB_OUTPUT"
-            echo "binary=apk" >> "$GITHUB_OUTPUT"
+            echo "value=Debug" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Build Android
+      - name: Build Android emulator APK
         id: build
         uses: ./.github/actions/rn-android-build
         with:
-          variant: ${{ steps.android-params.outputs.variant }}
-          binary: ${{ steps.android-params.outputs.binary }}
-          artifact-prefix: rn-android
+          variant: ${{ steps.android-variant.outputs.value }}
+          artifact-prefix: rn-android-emulator
 
   summary:
     name: Build summary
@@ -150,8 +137,8 @@ jobs:
           {
             echo "## RN Cloud Build Artifacts"
             echo ""
-            echo "- iOS: name=${{ needs.ios.outputs.artifact_name }}, id=${{ needs.ios.outputs.artifact_id }}"
-            echo "- Android: name=${{ needs.android.outputs.artifact_name }}, id=${{ needs.android.outputs.artifact_id }}"
+            echo "- iOS simulator (.app.tar.gz): name=${{ needs.ios.outputs.artifact_name }}, id=${{ needs.ios.outputs.artifact_id }}"
+            echo "- Android emulator (.apk): name=${{ needs.android.outputs.artifact_name }}, id=${{ needs.android.outputs.artifact_id }}"
             echo ""
             echo "Artifact URLs (auth required):"
             echo "- iOS: ${{ needs.ios.outputs.artifact_url }}"
@@ -195,7 +182,6 @@ curl -L \
 - Forgetting to set `permissions.actions: read` for API-driven artifact listing.
 - Assuming artifact URLs are public; they require authenticated access.
 - Not pinning artifact names, making `gh run download -n` brittle.
-- Using `Release` on PR builds without signing inputs.
 
 ## Related Skills
 

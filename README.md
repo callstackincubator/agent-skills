@@ -10,7 +10,7 @@ A collection of agent-optimized skills for AI coding assistants. Skills provide 
 | [github](./skills/github/)                                           | GitHub workflow patterns for PRs, code review, branching |
 | [upgrading-react-native](./skills/upgrading-react-native/)           | React Native upgrade workflow: templates, dependencies, and common pitfalls |
 | [react-native-brownfield-migration](./skills/react-native-brownfield-migration/) | Incremental migration strategy to adopt React Native or Expo in native apps using @callstack/react-native-brownfield, with setup, packaging, and phased integration steps |
-| [react-native-cloud-build-github-actions](./skills/react-native-cloud-build-github-actions/) | GitHub Actions workflow patterns for React Native iOS/Android cloud builds and downloadable CI artifacts |
+| [react-native-cloud-build-github-actions](./skills/react-native-cloud-build-github-actions/) | GitHub Actions workflow patterns for React Native iOS simulator and Android emulator cloud builds with downloadable CI artifacts |
 
 ## React Native Best Practices
 

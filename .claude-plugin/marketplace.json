@@ -36,7 +36,7 @@
 		},
 		{
 			"name": "react-native-cloud-build-github-actions",
-			"description": "GitHub Actions workflow patterns for React Native iOS/Android cloud builds, including composite action templates and artifact download automation via gh CLI or GitHub API.",
+			"description": "GitHub Actions workflow patterns for React Native iOS simulator and Android emulator cloud builds, including composite action templates and artifact download automation via gh CLI or GitHub API.",
 			"source": "./",
 			"skills": ["./skills/react-native-cloud-build-github-actions"]
 		}
