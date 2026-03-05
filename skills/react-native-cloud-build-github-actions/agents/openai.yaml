@@ -1,4 +1,0 @@
-interface:
-  display_name: "RN Simulator/Emulator Builds"
-  short_description: "GitHub Actions patterns for React Native iOS simulator and Android emulator artifacts"
-  default_prompt: "Use $react-native-cloud-build-github-actions to set up GitHub Actions for React Native iOS simulator and Android emulator cloud builds with artifact download via gh or REST API."

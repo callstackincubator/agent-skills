@@ -35,10 +35,10 @@
 			"skills": ["./skills/react-native-brownfield-migration"]
 		},
 		{
-			"name": "react-native-cloud-build-github-actions",
+			"name": "github-actions-react-native-build-artifacts",
 			"description": "GitHub Actions workflow patterns for React Native iOS simulator and Android emulator cloud builds, including composite action templates and artifact download automation via gh CLI or GitHub API.",
 			"source": "./",
-			"skills": ["./skills/react-native-cloud-build-github-actions"]
+			"skills": ["./skills/github-actions-react-native-build-artifacts"]
 		}
 	]
 }

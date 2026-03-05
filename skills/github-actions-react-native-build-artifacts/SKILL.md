@@ -1,5 +1,5 @@
 ---
-name: react-native-cloud-build-github-actions
+name: github-actions-react-native-build-artifacts
 description: Establishes GitHub Actions workflows for React Native iOS simulator and Android emulator builds using react-native-community/cli and uploads downloadable artifacts. Use when setting up CI build pipelines for simulator/emulator installables and artifact download automation via gh CLI or GitHub REST API.
 license: MIT
 metadata:
@@ -26,7 +26,7 @@ Use this skill when:
 ## Quick Reference
 
 1. Add composite actions from [gha-ios-composite-action.md][gha-ios-composite-action] and [gha-android-composite-action.md][gha-android-composite-action].
-2. Wire them into `.github/workflows/rn-cloud-build.yml` from [gha-workflow-and-downloads.md][gha-workflow-and-downloads].
+2. Wire them into `.github/workflows/mobile-build.yml` from [gha-workflow-and-downloads.md][gha-workflow-and-downloads].
 3. Upload with `actions/upload-artifact@v4` and capture `artifact-id` output.
 4. Download with `gh run download` or `GET /repos/{owner}/{repo}/actions/artifacts/{artifact_id}/{archive_format}`.
 
