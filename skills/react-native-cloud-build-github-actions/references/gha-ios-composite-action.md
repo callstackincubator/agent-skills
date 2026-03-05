@@ -24,7 +24,7 @@ Composite action template for building React Native iOS simulator apps in GitHub
 
 ## Prerequisites
 
-- macOS runner (`macos-14` or newer).
+- macOS runner (`macos-latest` recommended).
 - Xcode scheme is known and buildable in CI.
 - JS dependencies installed before invoking the action.
 

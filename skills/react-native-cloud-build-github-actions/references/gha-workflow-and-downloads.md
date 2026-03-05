@@ -83,7 +83,7 @@ env:
 jobs:
   ios:
     name: iOS simulator build
-    runs-on: macos-14
+    runs-on: macos-latest
     outputs:
       artifact_name: ${{ steps.build.outputs.artifact-name }}
       artifact_id: ${{ steps.build.outputs.artifact-id }}
