@@ -201,9 +201,28 @@ runs:
       run: |
         set -euo pipefail
 
-        APP_PATH="$(find "${{ inputs.derived-data-path }}/Build/Products" -type d -name '*.app' | head -n1)"
+        PRODUCTS_DIR="${{ inputs.derived-data-path }}/Build/Products"
+        CONFIG_PRODUCTS_DIR="$PRODUCTS_DIR/${{ inputs.configuration }}-iphonesimulator"
+        SEARCH_DIR="$PRODUCTS_DIR"
+        if [[ -d "$CONFIG_PRODUCTS_DIR" ]]; then
+          SEARCH_DIR="$CONFIG_PRODUCTS_DIR"
+        fi
+
+        # Prefer the app matching the scheme, then deterministic non-test fallbacks.
+        APP_PATH="$(find "$SEARCH_DIR" -type d -name "${{ inputs.scheme }}.app" | sort | head -n1 || true)"
         if [[ -z "$APP_PATH" ]]; then
-          echo "No .app found"
+          APP_PATH="$(find "$SEARCH_DIR" -type d -name '*.app' \
+            ! -name '*Tests*.app' \
+            ! -name '*UITests*.app' \
+            ! -name '*-Runner.app' \
+            | sort | head -n1 || true)"
+        fi
+        if [[ -z "$APP_PATH" ]]; then
+          APP_PATH="$(find "$SEARCH_DIR" -type d -name '*.app' | sort | head -n1 || true)"
+        fi
+
+        if [[ -z "$APP_PATH" ]]; then
+          echo "No .app found in $SEARCH_DIR"
           exit 1
         fi
 
@@ -246,7 +265,11 @@ runs:
         set -euo pipefail
 
         EXPORT_PLIST="$RUNNER_TEMP/ExportOptions.plist"
-        printf '%s' "${{ inputs.export-options-plist-base64 }}" | base64 --decode > "$EXPORT_PLIST"
+        if base64 --help 2>&1 | grep -q -- '--decode'; then
+          printf '%s' "${{ inputs.export-options-plist-base64 }}" | base64 --decode > "$EXPORT_PLIST"
+        else
+          printf '%s' "${{ inputs.export-options-plist-base64 }}" | base64 -D > "$EXPORT_PLIST"
+        fi
 
         mkdir -p build/ios/export
         xcodebuild -exportArchive \
