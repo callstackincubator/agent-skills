@@ -18,9 +18,15 @@
 		},
 		{
 			"name": "github",
-			"description": "GitHub patterns using gh CLI and GitHub Actions for pull requests, stacked PRs, repository automation, and React Native build artifacts.",
+			"description": "GitHub patterns using gh CLI for pull requests, stacked PRs, code review, branching strategies, and repository automation.",
 			"source": "./",
 			"skills": ["./skills/github"]
+		},
+		{
+			"name": "github-actions",
+			"description": "GitHub Actions workflow patterns for React Native iOS simulator and Android emulator cloud builds, including composite action templates and artifact download automation via gh CLI or GitHub API.",
+			"source": "./",
+			"skills": ["./skills/github-actions"]
 		},
 		{
 			"name": "upgrading-react-native",

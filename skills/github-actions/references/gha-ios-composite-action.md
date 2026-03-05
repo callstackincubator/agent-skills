@@ -10,7 +10,7 @@ Composite action template for building React Native iOS simulator apps in GitHub
 
 ## Quick Config
 
-1. Create `.github/actions/github/ios-build/action.yml`.
+1. Create `.github/actions/github-actions/ios-build/action.yml`.
 2. Copy the template below.
 3. Set your app `scheme` and optional `configuration`.
 4. Use `actions/upload-artifact@v4` outputs (`artifact-id`, `artifact-url`).
@@ -28,7 +28,7 @@ Composite action template for building React Native iOS simulator apps in GitHub
 - Xcode scheme is known and buildable in CI.
 - JS dependencies installed before invoking the action.
 
-## Template (`.github/actions/github/ios-build/action.yml`)
+## Template (`.github/actions/github-actions/ios-build/action.yml`)
 
 ```yaml
 name: React Native iOS Simulator Build
