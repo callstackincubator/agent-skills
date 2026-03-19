@@ -17,6 +17,13 @@ Before applying performance optimizations, ensure:
 - React Native DevTools is available (**apply only for** profiling)
   - Press 'j' in Metro terminal or shake device → "Open DevTools"
 
+## Security Guardrails
+
+- Review shell commands before running them and prefer version-pinned tooling from trusted sources.
+- Do not pipe remote install scripts directly into a shell.
+- Treat third-party packages as normal supply-chain dependencies that require provenance and version review.
+- If using Re.Pack code splitting, only load first-party chunks from trusted HTTPS origins tied to the current release.
+
 # When to Load Reference Files
 
 Load specific reference files from `references/` based on the task:

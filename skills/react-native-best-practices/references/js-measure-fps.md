@@ -15,7 +15,7 @@ Monitor and measure JavaScript frame rate to quantify app smoothness and identif
 # Shake device → Dev Menu → "Perf Monitor"
 
 # Method 2: Flashlight (Android, detailed reports)
-curl https://get.flashlight.dev | bash
+# Install Flashlight from an official, verified release channel first.
 flashlight measure
 ```
 
@@ -71,10 +71,7 @@ The image shows FlatList (score: 3) vs FlashList (score: 67) - a dramatic differ
 
 **Installation:**
 
-```bash
-# Install Flashlight CLI
-curl https://get.flashlight.dev | bash
-```
+Install Flashlight from the vendor's official release channel before using it. Prefer a package manager or a version-pinned binary with checksum/signature verification. Do not pipe a remote install script directly into a shell.
 
 **Usage:**
 

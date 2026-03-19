@@ -6,7 +6,7 @@ tags: code-splitting, repack, lazy-loading, chunks
 
 # Skill: Remote Code Loading
 
-Set up code splitting with Re.Pack for on-demand bundle loading.
+Set up code splitting with Re.Pack for on-demand bundle loading from trusted, first-party assets.
 
 ## Quick Pattern
 
@@ -38,6 +38,16 @@ Consider code splitting when:
 - Other optimizations exhausted
 
 **Note**: Hermes already uses memory mapping for efficient bundle reading. Benefits of code splitting are minimal with Hermes or even counterproductive in some cases.
+
+## Security Model
+
+Remote chunks are executable application code. Only load chunks that you build and publish yourself.
+
+Keep these guardrails in place:
+- Serve chunks only from a first-party, HTTPS-only origin you control
+- Resolve `scriptId` through a fixed allowlist or release manifest
+- Fail closed if a chunk is missing or unexpected
+- Do not load chunks from user-controlled input, query params, or third-party domains
 
 ## Prerequisites
 
@@ -89,11 +99,23 @@ const App = () => {
 // index.js (before AppRegistry)
 import { ScriptManager, Script } from '@callstack/repack/client';
 
+const CHUNK_URLS = {
+  settings: 'https://assets.example.com/app/v42/settings.chunk.bundle',
+};
+
 ScriptManager.shared.addResolver((scriptId) => ({
-  url: __DEV__
-    ? Script.getDevServerURL(scriptId)  // Dev server
-    : `https://my-cdn.com/assets/${scriptId}`,  // Production CDN
+  url: __DEV__ ? Script.getDevServerURL(scriptId) : getChunkUrl(scriptId),
 }));
+
+function getChunkUrl(scriptId: keyof typeof CHUNK_URLS) {
+  const url = CHUNK_URLS[scriptId];
+
+  if (!url) {
+    throw new Error(`Unknown chunk: ${scriptId}`);
+  }
+
+  return url;
+}
 
 AppRegistry.registerComponent(appName, () => App);
 ```
@@ -104,7 +126,7 @@ Build generates:
 - `index.bundle` - Main bundle
 - `settings.chunk.bundle` - Lazy-loaded chunk
 
-Deploy chunks to your CDN at configured URL.
+Deploy chunks to a first-party CDN with versioned paths, and keep the allowlist or manifest in sync with the app release.
 
 ## Complete Example
 
@@ -154,7 +176,7 @@ Enables:
 - Shared dependencies
 - Runtime composition
 
-**Complexity warning**: Only use when organizational benefits outweigh overhead.
+**Complexity warning**: Only use when organizational benefits outweigh overhead. Federation increases the trust boundary, so keep the same first-party origin and allowlist rules as above.
 
 ### Version Management
 
@@ -167,7 +189,7 @@ Consider [Zephyr Cloud](https://zephyr-cloud.io/) for:
 
 ```tsx
 ScriptManager.shared.addResolver((scriptId) => ({
-  url: `https://my-cdn.com/${scriptId}`,
+  url: getChunkUrl(scriptId),
   cache: {
     // Enable caching
     enabled: true,
@@ -216,6 +238,7 @@ ScriptManager.shared.on('error', (scriptId, error) => {
 - **Wrong CDN path**: Chunks 404 in production
 - **No caching**: Re-downloads on every load
 - **Too many chunks**: Network overhead exceeds savings
+- **Untrusted chunk source**: Remote JS from third-party or user-controlled origins is equivalent to remote code execution
 
 ## Related Skills
 
