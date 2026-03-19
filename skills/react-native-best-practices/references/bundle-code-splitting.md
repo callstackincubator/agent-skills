@@ -95,7 +95,7 @@ const App = () => {
 
 ### 4. Configure Chunk Loading
 
-```tsx
+```jsx
 // index.js (before AppRegistry)
 import { ScriptManager, Script } from '@callstack/repack/client';
 
@@ -107,7 +107,7 @@ ScriptManager.shared.addResolver((scriptId) => ({
   url: __DEV__ ? Script.getDevServerURL(scriptId) : getChunkUrl(scriptId),
 }));
 
-function getChunkUrl(scriptId: keyof typeof CHUNK_URLS) {
+function getChunkUrl(scriptId) {
   const url = CHUNK_URLS[scriptId];
 
   if (!url) {
