@@ -182,7 +182,7 @@ RSDOCTOR=true npx react-native start
 
 - **Lodash full import**: Use `lodash-es` or specific imports
 - **Moment.js**: Replace with `date-fns` or `dayjs`
-- **Intl polyfills**: Check Hermes support
+- **Intl polyfills**: Check Hermes API and method coverage before removing them
 - **AWS SDK**: Import specific services only
 
 ## Code Examples

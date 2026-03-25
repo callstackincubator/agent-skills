@@ -107,7 +107,7 @@ ls -lh output.js  # e.g., After: 1.6 MB  (24% reduction)
 
 **Common fixes:**
 - Avoid barrel imports (import directly from source)
-- Remove unnecessary Intl polyfills (Hermes has native support)
+- Remove unnecessary Intl polyfills only after checking Hermes API and method coverage
 - Enable tree shaking (Expo SDK 52+ or Re.Pack)
 - Enable R8 for Android native code shrinking
 
