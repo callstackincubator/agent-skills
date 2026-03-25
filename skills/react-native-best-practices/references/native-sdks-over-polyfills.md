@@ -74,15 +74,19 @@ import '@formatjs/intl-displaynames/polyfill';
 
 ```tsx
 // AFTER: Keep only the polyfills your app still needs
-// Keep NumberFormat polyfill if you use formatToParts on Hermes/iOS
-import '@formatjs/intl-numberformat/polyfill';
-import '@formatjs/intl-numberformat/locale-data/en';
 import '@formatjs/intl-locale/polyfill';
 import '@formatjs/intl-pluralrules/polyfill';
 import '@formatjs/intl-pluralrules/locale-data/en';
 import '@formatjs/intl-relativetimeformat/polyfill';
 import '@formatjs/intl-relativetimeformat/locale-data/en';
 import '@formatjs/intl-displaynames/polyfill';
+```
+
+If you use `Intl.NumberFormat.prototype.formatToParts()` on Hermes/iOS, also keep:
+
+```tsx
+import '@formatjs/intl-numberformat/polyfill';
+import '@formatjs/intl-numberformat/locale-data/en';
 ```
 
 ### 2. Use Native Crypto
