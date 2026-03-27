@@ -175,8 +175,13 @@ See [AI Assistant Integration Guide](./docs/ai-assistant-integration.md) for det
 
 ```
 agent-skills/
-├── .claude-plugin/
-│   └── marketplace.json     # Marketplace configuration
+├── .agents/
+│   └── plugins/
+│       └── marketplace.json # Marketplace configuration for this repo
+├── plugins/
+│   ├── building-react-native-apps/
+│   ├── testing-react-native-apps/
+│   └── building-expo-apps/
 └── skills/
     ├── react-native-best-practices/
     │   ├── SKILL.md              # Main skill file with quick reference
@@ -205,10 +210,9 @@ agent-skills/
         └── references/           # Brownfield packaging and integration flow files
 ```
 
-The plugin follows the [Claude Code plugin marketplace structure](https://code.claude.com/docs/en/plugin-marketplaces):
+The repo marketplace lives at `.agents/plugins/marketplace.json`, and its `source.path` values are written relative to the repo root, for example `./plugins/building-react-native-apps`.
 
-- `.claude-plugin/marketplace.json` - Marketplace configuration with plugin definitions
-- `skills/` - Agent Skills that Claude automatically uses based on task context
+The standalone `skills/` directory contains repo-local skills. The `plugins/` directory contains installable Codex plugins.
 
 ## Contributing
 

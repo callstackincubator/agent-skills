@@ -20,8 +20,8 @@
   "interface": {
     "displayName": "Building React Native Apps",
     "shortDescription": "Best practices and upgrade guidance for React Native apps.",
-    "longDescription": "Groups React Native implementation skills for architecture, performance, and upgrades, including local Callstack skills and vendored external references.",
-    "developerName": "Callstack",
+    "longDescription": "Includes React Native skills from callstackincubator/agent-skills and vercel-labs/agent-skills for implementation best practices, performance work, and version upgrades.",
+    "developerName": "Callstack, Vercel (vercel-react-native-skills)",
     "category": "Coding",
     "capabilities": [
       "Read",
@@ -29,8 +29,9 @@
     ],
     "websiteURL": "https://github.com/callstackincubator/agent-skills/tree/main/plugins/building-react-native-apps",
     "defaultPrompt": [
-      "Review this React Native screen for performance and architecture issues.",
-      "Plan the upgrade steps to the latest React Native version."
+      "Review this React Native screen for architecture and performance issues.",
+      "Suggest better implementation patterns for a newly added React Native feature.",
+      "Plan the upgrade path for this app to a newer React Native version."
     ]
   }
 }

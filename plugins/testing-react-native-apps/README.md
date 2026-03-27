@@ -2,6 +2,12 @@
 
 Testing support for React Native projects that need both structured test-writing guidance and device-level QA workflows.
 
+## Example commands
+
+- Add tests for a newly added navigator public interface.
+- Verify accessibility for a core checkout flow and check whether it meets EEA guidelines.
+- Verify this PR on a simulator and record the full flow.
+
 ## Skills included
 
 - [React Native Testing](https://skills.sh/callstack/react-native-testing-library/react-native-testing)

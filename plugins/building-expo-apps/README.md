@@ -2,6 +2,12 @@
 
 Expo application skills for setup, implementation, deployment, and upgrades.
 
+## Example commands
+
+- Add a native-feeling settings screen in this Expo app.
+- Set up data fetching for this Expo screen and handle loading and error states properly.
+- Add Expo API routes for this feature and wire the screen to them.
+
 ## Credits
 
 This plugin includes skills from the [expo/skills](https://github.com/expo/skills) repository.

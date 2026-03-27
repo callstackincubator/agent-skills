@@ -2,7 +2,19 @@
 
 CLI for installing a remote Codex plugin marketplace from a GitHub repository into either project or global configuration.
 
-It clones the remote repository, reads `.codex-plugin/manifest.json`, copies plugin directories into `.codex/plugins/`, and writes marketplace entries that point to `./.codex/plugins/<plugin-name>`.
+It clones the remote repository, reads `.agents/plugins/marketplace.json`, copies plugin directories into `.codex/plugins/`, and writes marketplace entries that point to `./.codex/plugins/<plugin-name>`.
+
+Expected repository structure:
+
+- `.agents/plugins/marketplace.json` is the source marketplace file committed to the repo
+- `plugins/<plugin-name>` contains each plugin directory
+
+In the repo marketplace, `source.path` values should be relative to the repo root:
+
+- `./plugins/building-react-native-apps`
+- `./plugins/testing-react-native-apps`
+
+During installation, the CLI rewrites those entries to the installed layout under `.codex/plugins/`.
 
 It supports one command today:
 

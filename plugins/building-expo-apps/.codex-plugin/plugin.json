@@ -20,8 +20,8 @@
   "interface": {
     "displayName": "Building Expo Apps",
     "shortDescription": "Expo setup, implementation, deployment, and upgrade guidance.",
-    "longDescription": "Groups Expo skills for project setup, native UI, data fetching, API routes, deployment, CI/CD workflows, and upgrades using vendored external skills inside the plugin scope.",
-    "developerName": "Callstack",
+    "longDescription": "Includes Expo skills from expo/skills for project setup, native UI, data fetching, API routes, deployment workflows, CI/CD, and upgrades.",
+    "developerName": "Callstack, Expo (skills)",
     "category": "Coding",
     "capabilities": [
       "Read",
@@ -29,9 +29,9 @@
     ],
     "websiteURL": "https://github.com/callstackincubator/agent-skills/tree/main/plugins/building-expo-apps",
     "defaultPrompt": [
-      "Recommend the right Expo skill for this implementation task.",
-      "Plan an Expo app setup with native UI and data fetching.",
-      "Review this Expo release flow and suggest deployment improvements."
+      "Add a native-feeling settings screen in this Expo app.",
+      "Set up data fetching for this Expo screen and handle loading and error states properly.",
+      "Add Expo API routes for this feature and wire the screen to them."
     ]
   }
 }

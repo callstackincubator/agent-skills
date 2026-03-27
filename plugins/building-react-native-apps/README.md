@@ -2,6 +2,12 @@
 
 Build React Native apps with stronger defaults for architecture, performance, and long-term maintenance.
 
+## Example commands
+
+- Review this React Native screen for architecture and performance issues.
+- Suggest better implementation patterns for a newly added React Native feature.
+- Plan the upgrade path for this app to a newer React Native version.
+
 ## Skills included
 
 ### Best Practices

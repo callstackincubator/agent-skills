@@ -20,7 +20,7 @@
   "interface": {
     "displayName": "Testing React Native Apps",
     "shortDescription": "Testing, device automation, and QA support for React Native apps.",
-    "longDescription": "Groups React Native testing skills for test authoring, device automation, and exploratory QA.",
+    "longDescription": "Includes React Native skills from callstack/react-native-testing-library and callstackincubator/agent-device for test writing, device-driven verification, accessibility checks, and exploratory QA.",
     "developerName": "Callstack",
     "category": "Coding",
     "capabilities": [
@@ -29,9 +29,9 @@
     ],
     "websiteURL": "https://github.com/callstackincubator/agent-skills/tree/main/plugins/testing-react-native-apps",
     "defaultPrompt": [
-      "Suggest the right testing approach for this React Native feature.",
-      "Review these React Native tests and identify gaps or anti-patterns.",
-      "Plan a QA pass for this screen."
+      "Add tests for a newly added navigator public interface.",
+      "Verify accessibility for a core checkout flow and check whether it meets EEA guidelines.",
+      "Verify this PR on a simulator and record the full flow."
     ]
   }
 }

@@ -167,13 +167,13 @@ function loadJsonFile<T>(path: string): T {
 }
 
 function resolveSourceRepoRoot(clonedRepoRoot: string): string {
-  const clonedManifestPath = join(clonedRepoRoot, ".codex-plugin", "manifest.json");
+  const clonedManifestPath = join(clonedRepoRoot, ".agents", "plugins", "marketplace.json");
   if (existsSync(clonedManifestPath)) {
     return clonedRepoRoot;
   }
 
   throw new Error(
-    "Remote clone does not contain .codex-plugin/manifest.json. Push the marketplace files before using this installer."
+    "Remote clone does not contain .agents/plugins/marketplace.json. Push the marketplace files before using this installer."
   );
 }
 
@@ -284,7 +284,7 @@ async function main(): Promise<void> {
   try {
     const sourceRepoRoot = resolveSourceRepoRoot(clonedRepoRoot);
     const sourceManifest = loadJsonFile<MarketplaceManifest>(
-      join(sourceRepoRoot, ".codex-plugin", "manifest.json")
+      join(sourceRepoRoot, ".agents", "plugins", "marketplace.json")
     );
     const pluginNames = sourceManifest.plugins.map((plugin) => plugin.name);
     await confirmInstall(options.repoRef, scope, pluginNames, options.gitRef, options.yes);
