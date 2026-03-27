@@ -1,0 +1,46 @@
+name: Update vendored skills
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 2 * * *"
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: update-vendored-skills
+  cancel-in-progress: true
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Update vendored skills
+        env:
+          SKILLS_UPDATE_REHOME: "1"
+        run: ./plugins/vendored/scripts/update-skills.sh
+
+      - name: Create pull request
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch: automation/update-vendored-skills
+          commit-message: "chore: update vendored skills"
+          title: "chore: update vendored skills"
+          body: |
+            Automated nightly refresh of vendored skills.
+
+            This updates the vendored `.agents/skills` content and any related lockfile changes produced by `npx skills update`.
+          delete-branch: true
