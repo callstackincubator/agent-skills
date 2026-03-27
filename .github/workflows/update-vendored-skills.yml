@@ -35,7 +35,7 @@ jobs:
         uses: peter-evans/create-pull-request@v7
         with:
           branch: automation/update-vendored-skills
-          commit-message: "updated skills"
+          commit-message: "chore: update vendored skills"
           title: "chore: update vendored skills"
           labels: enhancement
           body: |
