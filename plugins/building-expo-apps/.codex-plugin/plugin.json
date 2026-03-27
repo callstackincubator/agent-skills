@@ -1,0 +1,37 @@
+{
+  "name": "building-expo-apps",
+  "version": "0.1.0",
+  "description": "Expo app-building skills covering setup, UI, data, API routes, deployment, CI/CD, and upgrades.",
+  "author": {
+    "name": "Callstack",
+    "email": "hello@callstack.com",
+    "url": "https://www.callstack.com/"
+  },
+  "homepage": "https://github.com/callstackincubator/agent-skills/tree/main/plugins/building-expo-apps",
+  "repository": "https://github.com/callstackincubator/agent-skills",
+  "license": "MIT",
+  "keywords": [
+    "expo",
+    "react-native",
+    "deployment",
+    "mobile"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Building Expo Apps",
+    "shortDescription": "Expo setup, implementation, deployment, and upgrade guidance.",
+    "longDescription": "Groups Expo skills for project setup, native UI, data fetching, API routes, deployment, CI/CD workflows, and upgrades using vendored external skills inside the plugin scope.",
+    "developerName": "Callstack",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "websiteURL": "https://github.com/callstackincubator/agent-skills/tree/main/plugins/building-expo-apps",
+    "defaultPrompt": [
+      "Recommend the right Expo skill for this implementation task.",
+      "Plan an Expo app setup with native UI and data fetching.",
+      "Review this Expo release flow and suggest deployment improvements."
+    ]
+  }
+}

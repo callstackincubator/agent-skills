@@ -1,0 +1,44 @@
+{
+  "name": "callstack-agent-skills",
+  "interface": {
+    "displayName": "Callstack Agent Skills"
+  },
+  "plugins": [
+    {
+      "name": "building-expo-apps",
+      "source": {
+        "source": "local",
+        "path": "./plugins/building-expo-apps"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Developer Tools"
+    },
+    {
+      "name": "building-react-native-apps",
+      "source": {
+        "source": "local",
+        "path": "./plugins/building-react-native-apps"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Developer Tools"
+    },
+    {
+      "name": "testing-react-native-apps",
+      "source": {
+        "source": "local",
+        "path": "./plugins/testing-react-native-apps"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Developer Tools"
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "name": "marketplace",
+  "version": "0.1.0",
+  "description": "CLI for installing a remote Codex marketplace into project or global configuration.",
+  "type": "module",
+  "author": {
+    "name": "Mike Grabowski",
+    "email": "mike@callstack.com"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/callstackincubator/agent-skills.git",
+    "directory": "packages/install-marketplace"
+  },
+  "homepage": "https://github.com/callstackincubator/agent-skills/tree/main/packages/install-marketplace",
+  "bugs": {
+    "url": "https://github.com/callstackincubator/agent-skills/issues"
+  },
+  "bin": {
+    "marketplace": "./dist/index.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "dependencies": {
+    "@clack/prompts": "^0.10.1"
+  },
+  "scripts": {
+    "build": "mkdir -p dist && bun build src/index.ts --target=node --outfile dist/index.js",
+    "prepare": "bun run build",
+    "start": "bun run src/index.ts"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.3.11"
+  }
+}

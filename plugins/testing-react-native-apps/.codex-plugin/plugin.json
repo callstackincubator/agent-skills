@@ -1,0 +1,37 @@
+{
+  "name": "testing-react-native-apps",
+  "version": "0.1.0",
+  "description": "React Native testing support spanning test authoring, device automation, and QA workflows.",
+  "author": {
+    "name": "Callstack",
+    "email": "hello@callstack.com",
+    "url": "https://www.callstack.com/"
+  },
+  "homepage": "https://github.com/callstackincubator/agent-skills/tree/main/plugins/testing-react-native-apps",
+  "repository": "https://github.com/callstackincubator/agent-skills",
+  "license": "MIT",
+  "keywords": [
+    "react-native",
+    "testing",
+    "qa",
+    "automation"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Testing React Native Apps",
+    "shortDescription": "Testing, device automation, and QA support for React Native apps.",
+    "longDescription": "Groups React Native testing skills for test authoring, device automation, and exploratory QA.",
+    "developerName": "Callstack",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "websiteURL": "https://github.com/callstackincubator/agent-skills/tree/main/plugins/testing-react-native-apps",
+    "defaultPrompt": [
+      "Suggest the right testing approach for this React Native feature.",
+      "Review these React Native tests and identify gaps or anti-patterns.",
+      "Plan a QA pass for this screen."
+    ]
+  }
+}
