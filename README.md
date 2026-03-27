@@ -1,6 +1,6 @@
 # Agent Skills
 
-A collection of agent-optimized skills for AI coding assistants. Skills provide structured, actionable instructions for domain-specific tasks.
+A collection of agent-optimized skills for AI coding assistants. The repo ships raw Agent Skills for assistants that can read `skills/` directly, plus marketplace metadata for both Claude Code and Codex plugin workflows.
 
 ## Available Skills
 
@@ -24,55 +24,60 @@ Covers:
 
 ### Quick Start
 
-#### Install as Claude Code Plugin
+#### Claude Code
+
+Use the Claude Code marketplace metadata in `.claude-plugin/marketplace.json`.
 
 **1. Add the marketplace:**
+
 ```bash
-codex-plugin add callstackincubator/agent-skills
+/plugin marketplace add callstackincubator/agent-skills
 ```
 
-**2. Install the skill:**
+**2. Install the skill you want:**
+
 ```bash
 /plugin install react-native-best-practices@callstack-agent-skills
 ```
 
+Other available installs:
+
+```bash
+/plugin install github@callstack-agent-skills
+/plugin install github-actions@callstack-agent-skills
+/plugin install upgrading-react-native@callstack-agent-skills
+/plugin install react-native-brownfield-migration@callstack-agent-skills
+```
+
 Or use the interactive menu:
+
 ```bash
 /plugin menu
 ```
 
 **For local development:**
+
 ```bash
 claude --plugin-dir ./path/to/agent-skills
 ```
 
-Once installed, Claude will automatically use the React Native best practices skill when working on React Native projects.
+Once installed, Claude will automatically load the relevant skill based on the task.
 
-#### Use with Other AI Assistants
+#### OpenAI Codex
 
-All major AI coding assistants support the Agent Skills standard.
+This repo supports Codex in two different ways.
 
-##### Cursor
-
-**Option 1: Install from GitHub (Recommended)**
-
-1. Open Cursor Settings (`Cmd+Shift+J` / `Ctrl+Shift+J`)
-2. Navigate to **Rules → Add Rule → Remote Rule (GitHub)**
-3. Enter: `https://github.com/callstackincubator/agent-skills.git`
-
-**Option 2: Local Installation**
+**Option 1: Install the bundled Codex plugins**
 
 ```bash
-# Project-level
-git clone https://github.com/callstackincubator/agent-skills.git .cursor/skills/agent-skills
-
-# User-level (available in all projects)
-git clone https://github.com/callstackincubator/agent-skills.git ~/.cursor/skills/agent-skills
+npx codex-plugin add callstackincubator/agent-skills
 ```
 
-**Usage:** Type `/` in Agent chat to search and select skills by name.
+This reads `.agents/plugins/marketplace.json`, installs the bundled plugins into `.codex/plugins/`, and makes them available after restarting Codex.
 
-##### OpenAI Codex CLI
+**Option 2: Install standalone skills**
+
+All major AI coding assistants support the Agent Skills standard.
 
 **Install via skill-installer:**
 
@@ -96,6 +101,28 @@ Restart Codex to recognize newly installed skills.
 **Usage:** Type `$` to mention a skill or use `/skills` command.
 
 These skills include `agents/openai.yaml` metadata for Codex Skills UI compatibility.
+
+#### Other AI Assistants
+
+##### Cursor
+
+**Option 1: Install from GitHub (Recommended)**
+
+1. Open Cursor Settings (`Cmd+Shift+J` / `Ctrl+Shift+J`)
+2. Navigate to **Rules → Add Rule → Remote Rule (GitHub)**
+3. Enter: `https://github.com/callstackincubator/agent-skills.git`
+
+**Option 2: Local Installation**
+
+```bash
+# Project-level
+git clone https://github.com/callstackincubator/agent-skills.git .cursor/skills/agent-skills
+
+# User-level (available in all projects)
+git clone https://github.com/callstackincubator/agent-skills.git ~/.cursor/skills/agent-skills
+```
+
+**Usage:** Type `/` in Agent chat to search and select skills by name.
 
 ##### Gemini CLI
 
@@ -171,13 +198,15 @@ See [AI Assistant Integration Guide](./docs/ai-assistant-integration.md) for det
 
 ## Structure
 
-### Plugin Structure
+### Repo Structure
 
 ```
 agent-skills/
+├── .claude-plugin/
+│   └── marketplace.json     # Claude Code marketplace definition
 ├── .agents/
 │   └── plugins/
-│       └── marketplace.json # Marketplace configuration for this repo
+│       └── marketplace.json # Codex marketplace definition for bundled plugins
 ├── plugins/
 │   ├── building-react-native-apps/
 │   └── testing-react-native-apps/
@@ -209,9 +238,9 @@ agent-skills/
         └── references/           # Brownfield packaging and integration flow files
 ```
 
-The repo marketplace lives at `.agents/plugins/marketplace.json`, and its `source.path` values are written relative to the repo root, for example `./plugins/building-react-native-apps`.
+Use `.claude-plugin/marketplace.json` for Claude Code plugin installs and `.agents/plugins/marketplace.json` for Codex plugin installs.
 
-The standalone `skills/` directory contains repo-local skills. The `plugins/` directory contains installable Codex plugins.
+The standalone `skills/` directory contains repo-local skills. The `plugins/` directory contains installable Codex plugin bundles.
 
 ## Contributing
 
@@ -220,6 +249,8 @@ Contributions welcome! Skills should be:
 - **Actionable**: Step-by-step instructions, not theory
 - **Searchable**: Clear headings and keywords
 - **Complete**: Include code examples and common pitfalls
+
+When adding or editing skills, follow the [agentskills.io specification](https://agentskills.io/specification) and [Claude Code best practices](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices). The maintainer checklist lives in [AGENTS.md](./AGENTS.md), with supporting details in [docs/skill-conventions.md](./docs/skill-conventions.md).
 
 ## Roadmap / Work in Progress
 
