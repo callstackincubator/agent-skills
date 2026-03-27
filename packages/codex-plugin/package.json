@@ -1,7 +1,7 @@
 {
-  "name": "marketplace",
-  "version": "0.1.0",
-  "description": "CLI for installing a remote Codex marketplace into project or global configuration.",
+  "name": "codex-plugin",
+  "version": "0.1.2",
+  "description": "CLI for installing a remote Codex plugin marketplace into project or global configuration.",
   "type": "module",
   "author": {
     "name": "Mike Grabowski",
@@ -18,7 +18,7 @@
     "url": "https://github.com/callstackincubator/agent-skills/issues"
   },
   "bin": {
-    "marketplace": "./dist/index.js"
+    "codex-plugin": "node dist/index.js"
   },
   "files": [
     "dist",

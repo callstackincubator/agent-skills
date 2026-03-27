@@ -1,5 +1,3 @@
-#!/usr/bin/env bun
-
 import { cpSync, existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
@@ -41,7 +39,7 @@ function parseArgs(argv: string[]): CliOptions {
   const [command, ...rest] = argv;
   if (command !== "add") {
     throw new Error(
-      "Usage: marketplace add <org/repo> [--project|--global] [--ref <branch-or-tag>] [--yes]"
+      "Usage: codex-plugin add <org/repo> [--project|--global] [--ref <branch-or-tag>] [--yes]"
     );
   }
 
@@ -90,7 +88,7 @@ function parseArgs(argv: string[]): CliOptions {
 
   if (!repoRef || !/^[^/\s]+\/[^/\s]+$/.test(repoRef)) {
     throw new Error(
-      "Usage: marketplace add <org/repo> [--project|--global] [--ref <branch-or-tag>] [--yes]"
+      "Usage: codex-plugin add <org/repo> [--project|--global] [--ref <branch-or-tag>] [--yes]"
     );
   }
 

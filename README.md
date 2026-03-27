@@ -28,7 +28,7 @@ Covers:
 
 **1. Add the marketplace:**
 ```bash
-/plugin marketplace add callstackincubator/agent-skills
+codex-plugin add callstackincubator/agent-skills
 ```
 
 **2. Install the skill:**

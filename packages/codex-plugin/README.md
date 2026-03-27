@@ -1,4 +1,4 @@
-# install-marketplace
+# codex-plugin
 
 CLI for installing a remote Codex plugin marketplace from a GitHub repository into either project or global configuration.
 
@@ -18,7 +18,7 @@ During installation, the CLI rewrites those entries to the installed layout unde
 
 It supports one command today:
 
-- `marketplace add <org/repo>`
+- `codex-plugin add <org/repo>`
 
 Install targets:
 
@@ -48,6 +48,6 @@ bun run src/index.ts add callstackincubator/agent-skills --project --yes
 Intended published usage:
 
 ```bash
-npx marketplace add callstackincubator/agent-skills
-npx marketplace add callstackincubator/agent-skills --ref feat/codex-plugin
+npx codex-plugin add callstackincubator/agent-skills
+npx codex-plugin add callstackincubator/agent-skills --ref feat/codex-plugin
 ```
