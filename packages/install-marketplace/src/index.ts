@@ -143,7 +143,7 @@ function cloneRepo(repoUrl: string, gitRef?: string): string {
   return cloneRoot;
 }
 
-function getPaths(scope: InstallScope, cwd: string, repoRef: string) {
+function getPaths(scope: InstallScope, cwd: string) {
   const home = process.env.HOME;
   if (!home) {
     throw new Error("HOME is not set.");
@@ -152,13 +152,13 @@ function getPaths(scope: InstallScope, cwd: string, repoRef: string) {
   if (scope === "global") {
     return {
       marketplacePath: join(home, ".agents", "plugins", "marketplace.json"),
-      pluginRepoRoot: join(home, ".agents", "plugins")
+      pluginRepoRoot: join(home, ".codex", "plugins")
     };
   }
 
   return {
     marketplacePath: join(cwd, ".agents", "plugins", "marketplace.json"),
-    pluginRepoRoot: join(cwd, ".agents", "plugins")
+    pluginRepoRoot: join(cwd, ".codex", "plugins")
   };
 }
 
@@ -196,10 +196,22 @@ function copyPluginsPayload(
   }
 }
 
+function rewriteEntriesForScope(manifest: MarketplaceManifest): MarketplacePluginEntry[] {
+  return manifest.plugins.map((plugin) => {
+    return {
+      ...plugin,
+      source: {
+        source: "local",
+        path: `./.codex/plugins/${plugin.name}`
+      }
+    };
+  });
+}
+
 function mergeMarketplace(
   marketplacePath: string,
   sourceManifest: MarketplaceManifest,
-  rewrittenPlugins: MarketplacePluginEntry[]
+  pluginsToMerge: MarketplacePluginEntry[]
 ): MarketplaceManifest {
   const existing = existsSync(marketplacePath)
     ? loadJsonFile<MarketplaceManifest>(marketplacePath)
@@ -216,7 +228,7 @@ function mergeMarketplace(
   for (const plugin of existing.plugins) {
     mergedByName.set(plugin.name, plugin);
   }
-  for (const plugin of rewrittenPlugins) {
+  for (const plugin of pluginsToMerge) {
     mergedByName.set(plugin.name, plugin);
   }
 
@@ -277,14 +289,15 @@ async function main(): Promise<void> {
     const pluginNames = sourceManifest.plugins.map((plugin) => plugin.name);
     await confirmInstall(options.repoRef, scope, pluginNames, options.gitRef, options.yes);
 
-    const { marketplacePath, pluginRepoRoot } = getPaths(scope, process.cwd(), options.repoRef);
+    const { marketplacePath, pluginRepoRoot } = getPaths(scope, process.cwd());
 
     copyPluginsPayload(sourceRepoRoot, pluginRepoRoot, sourceManifest);
+    const pluginsToMerge = rewriteEntriesForScope(sourceManifest);
 
     const mergedMarketplace = mergeMarketplace(
       marketplacePath,
       sourceManifest,
-      sourceManifest.plugins
+      pluginsToMerge
     );
 
     saveMarketplace(marketplacePath, mergedMarketplace);

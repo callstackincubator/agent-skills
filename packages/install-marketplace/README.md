@@ -2,7 +2,7 @@
 
 CLI for installing a remote Codex plugin marketplace from a GitHub repository into either project or global configuration.
 
-It clones the remote repository, reads `.codex-plugin/manifest.json`, copies each plugin into the target `.agents/plugins/` directory, and merges the manifest entries into the selected marketplace file without rewriting plugin paths.
+It clones the remote repository, reads `.codex-plugin/manifest.json`, copies plugin directories into `.codex/plugins/`, and writes marketplace entries that point to `./.codex/plugins/<plugin-name>`.
 
 It supports one command today:
 
@@ -10,8 +10,13 @@ It supports one command today:
 
 Install targets:
 
-- personal Codex configuration under `~/.agents/plugins/marketplace.json`
-- project configuration under `<cwd>/.agents/plugins/marketplace.json`
+- personal Codex marketplace under `~/.agents/plugins/marketplace.json`
+- project Codex marketplace under `<cwd>/.agents/plugins/marketplace.json`
+
+Install layout:
+
+- global: marketplace in `~/.agents/plugins/marketplace.json`, plugins copied into `~/.codex/plugins/`
+- project: marketplace in `<cwd>/.agents/plugins/marketplace.json`, plugins copied into `<cwd>/.codex/plugins/`
 
 Run with:
 
