@@ -27,6 +27,7 @@
       "Read",
       "Write"
     ],
+    "logo": "./assets/callstack-plugin-icon.png",
     "websiteURL": "https://github.com/callstackincubator/agent-skills/tree/main/plugins/building-react-native-apps",
     "defaultPrompt": [
       "Review this React Native screen for architecture and performance issues.",

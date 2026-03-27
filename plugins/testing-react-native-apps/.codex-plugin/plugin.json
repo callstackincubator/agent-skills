@@ -27,6 +27,7 @@
       "Read",
       "Write"
     ],
+    "logo": "./assets/callstack-plugin-icon.png",
     "websiteURL": "https://github.com/callstackincubator/agent-skills/tree/main/plugins/testing-react-native-apps",
     "defaultPrompt": [
       "Add tests for a newly added navigator public interface.",

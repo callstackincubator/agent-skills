@@ -180,8 +180,7 @@ agent-skills/
 │       └── marketplace.json # Marketplace configuration for this repo
 ├── plugins/
 │   ├── building-react-native-apps/
-│   ├── testing-react-native-apps/
-│   └── building-expo-apps/
+│   └── testing-react-native-apps/
 └── skills/
     ├── react-native-best-practices/
     │   ├── SKILL.md              # Main skill file with quick reference
