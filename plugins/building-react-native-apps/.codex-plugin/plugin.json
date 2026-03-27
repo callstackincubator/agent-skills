@@ -22,7 +22,7 @@
     "shortDescription": "Best practices and upgrade guidance for React Native apps.",
     "longDescription": "Groups React Native implementation skills for architecture, performance, and upgrades, including local Callstack skills and vendored external references.",
     "developerName": "Callstack",
-    "category": "Developer Tools",
+    "category": "Coding",
     "capabilities": [
       "Read",
       "Write"

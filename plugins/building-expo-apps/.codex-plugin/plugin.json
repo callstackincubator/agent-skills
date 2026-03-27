@@ -22,7 +22,7 @@
     "shortDescription": "Expo setup, implementation, deployment, and upgrade guidance.",
     "longDescription": "Groups Expo skills for project setup, native UI, data fetching, API routes, deployment, CI/CD workflows, and upgrades using vendored external skills inside the plugin scope.",
     "developerName": "Callstack",
-    "category": "Developer Tools",
+    "category": "Coding",
     "capabilities": [
       "Read",
       "Write"

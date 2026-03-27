@@ -14,7 +14,7 @@
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
       },
-      "category": "Developer Tools"
+      "category": "Coding"
     },
     {
       "name": "building-react-native-apps",
@@ -26,7 +26,7 @@
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
       },
-      "category": "Developer Tools"
+      "category": "Coding"
     },
     {
       "name": "testing-react-native-apps",
@@ -38,7 +38,7 @@
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
       },
-      "category": "Developer Tools"
+      "category": "Coding"
     }
   ]
 }

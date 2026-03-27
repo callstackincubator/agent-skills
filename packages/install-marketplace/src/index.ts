@@ -2,7 +2,7 @@
 
 import { cpSync, existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
-import { dirname, join, relative } from "node:path";
+import { dirname, join } from "node:path";
 import { execFileSync } from "node:child_process";
 import { cancel, confirm, intro, isCancel, outro, select } from "@clack/prompts";
 
@@ -33,20 +33,26 @@ type CliOptions = {
   command: "add";
   repoRef: string;
   scope?: InstallScope;
+  gitRef?: string;
   yes: boolean;
 };
 
 function parseArgs(argv: string[]): CliOptions {
   const [command, ...rest] = argv;
   if (command !== "add") {
-    throw new Error("Usage: marketplace add <org/repo> [--project|--global] [--yes]");
+    throw new Error(
+      "Usage: marketplace add <org/repo> [--project|--global] [--ref <branch-or-tag>] [--yes]"
+    );
   }
 
+  const input = [...rest];
   let repoRef = "";
   let scope: InstallScope | undefined;
+  let gitRef: string | undefined;
   let yes = false;
 
-  for (const arg of rest) {
+  while (input.length > 0) {
+    const arg = input.shift()!;
     if (arg === "--project") {
       if (scope) {
         throw new Error("Use only one of --project or --global.");
@@ -65,6 +71,14 @@ function parseArgs(argv: string[]): CliOptions {
       yes = true;
       continue;
     }
+    if (arg === "--ref") {
+      const value = input.shift()?.trim();
+      if (!value) {
+        throw new Error("Pass a branch, tag, or commit after --ref.");
+      }
+      gitRef = value;
+      continue;
+    }
     if (arg.startsWith("--")) {
       throw new Error(`Unknown flag: ${arg}`);
     }
@@ -75,10 +89,12 @@ function parseArgs(argv: string[]): CliOptions {
   }
 
   if (!repoRef || !/^[^/\s]+\/[^/\s]+$/.test(repoRef)) {
-    throw new Error("Usage: marketplace add <org/repo> [--project|--global] [--yes]");
+    throw new Error(
+      "Usage: marketplace add <org/repo> [--project|--global] [--ref <branch-or-tag>] [--yes]"
+    );
   }
 
-  return { command: "add", repoRef, scope, yes };
+  return { command: "add", repoRef, scope, gitRef, yes };
 }
 
 async function chooseScope(providedScope?: InstallScope): Promise<InstallScope> {
@@ -114,9 +130,14 @@ function getRepoUrl(repoRef: string): string {
   return `https://github.com/${repoRef}.git`;
 }
 
-function cloneRepo(repoUrl: string): string {
+function cloneRepo(repoUrl: string, gitRef?: string): string {
   const cloneRoot = join(tmpdir(), `callstack-marketplace-${Date.now()}`);
-  execFileSync("git", ["clone", "--depth", "1", repoUrl, cloneRoot], {
+  const args = ["clone", "--depth", "1"];
+  if (gitRef) {
+    args.push("--branch", gitRef);
+  }
+  args.push(repoUrl, cloneRoot);
+  execFileSync("git", args, {
     stdio: "inherit"
   });
   return cloneRoot;
@@ -131,13 +152,13 @@ function getPaths(scope: InstallScope, cwd: string, repoRef: string) {
   if (scope === "global") {
     return {
       marketplacePath: join(home, ".agents", "plugins", "marketplace.json"),
-      pluginRepoRoot: join(home, ".codex", "plugins", repoRef)
+      pluginRepoRoot: join(home, ".agents", "plugins")
     };
   }
 
   return {
     marketplacePath: join(cwd, ".agents", "plugins", "marketplace.json"),
-    pluginRepoRoot: join(cwd, ".codex", "plugins", repoRef)
+    pluginRepoRoot: join(cwd, ".agents", "plugins")
   };
 }
 
@@ -146,13 +167,13 @@ function loadJsonFile<T>(path: string): T {
 }
 
 function resolveSourceRepoRoot(clonedRepoRoot: string): string {
-  const clonedManifestPath = join(clonedRepoRoot, "plugins", "manifest.json");
+  const clonedManifestPath = join(clonedRepoRoot, ".codex-plugin", "manifest.json");
   if (existsSync(clonedManifestPath)) {
     return clonedRepoRoot;
   }
 
   throw new Error(
-    "Remote clone does not contain plugins/manifest.json. Push the marketplace files before using this installer."
+    "Remote clone does not contain .codex-plugin/manifest.json. Push the marketplace files before using this installer."
   );
 }
 
@@ -160,42 +181,19 @@ function ensureDir(path: string): void {
   mkdirSync(path, { recursive: true });
 }
 
-function copyPluginsPayload(clonedRepoRoot: string, pluginRepoRoot: string): void {
-  const sourcePluginsDir = join(clonedRepoRoot, "plugins");
-  const targetPluginsDir = join(pluginRepoRoot, "plugins");
+function copyPluginsPayload(
+  clonedRepoRoot: string,
+  pluginRoot: string,
+  manifest: MarketplaceManifest
+): void {
+  ensureDir(pluginRoot);
 
-  rmSync(pluginRepoRoot, { recursive: true, force: true });
-  ensureDir(pluginRepoRoot);
-  cpSync(sourcePluginsDir, targetPluginsDir, { recursive: true, dereference: false });
-}
-
-function rewriteEntries(
-  manifest: MarketplaceManifest,
-  marketplacePath: string,
-  repoRef: string
-): MarketplacePluginEntry[] {
-  const marketplaceRoot = dirname(marketplacePath);
-
-  return manifest.plugins.map((plugin) => {
-    const absolutePluginPath = join(
-      marketplaceRoot,
-      "..",
-      "..",
-      ".codex",
-      "plugins",
-      repoRef,
-      "plugins",
-      plugin.name
-    );
-
-    return {
-      ...plugin,
-      source: {
-        source: "local",
-        path: relative(marketplaceRoot, absolutePluginPath)
-      }
-    };
-  });
+  for (const plugin of manifest.plugins) {
+    const sourcePluginDir = join(clonedRepoRoot, "plugins", plugin.name);
+    const targetPluginDir = join(pluginRoot, plugin.name);
+    rmSync(targetPluginDir, { recursive: true, force: true });
+    cpSync(sourcePluginDir, targetPluginDir, { recursive: true, dereference: true });
+  }
 }
 
 function mergeMarketplace(
@@ -206,8 +204,10 @@ function mergeMarketplace(
   const existing = existsSync(marketplacePath)
     ? loadJsonFile<MarketplaceManifest>(marketplacePath)
     : {
-        name: sourceManifest.name,
-        interface: sourceManifest.interface,
+        name: "user-personal-marketplace",
+        interface: {
+          displayName: "User Personal Makretplace"
+        },
         plugins: []
       };
 
@@ -236,6 +236,7 @@ async function confirmInstall(
   repoRef: string,
   scope: InstallScope,
   pluginNames: string[],
+  gitRef: string | undefined,
   yes: boolean
 ): Promise<void> {
   if (yes) {
@@ -245,6 +246,7 @@ async function confirmInstall(
   const message = [
     `Install marketplace from ${repoRef}?`,
     `Scope: ${scope}`,
+    gitRef ? `Ref: ${gitRef}` : "Ref: default branch",
     "Plugins:",
     ...pluginNames.map((name) => `- ${name}`)
   ].join("\n");
@@ -265,25 +267,24 @@ async function main(): Promise<void> {
 
   const scope = await chooseScope(options.scope);
   const repoUrl = getRepoUrl(options.repoRef);
-  const clonedRepoRoot = cloneRepo(repoUrl);
+  const clonedRepoRoot = cloneRepo(repoUrl, options.gitRef);
 
   try {
     const sourceRepoRoot = resolveSourceRepoRoot(clonedRepoRoot);
     const sourceManifest = loadJsonFile<MarketplaceManifest>(
-      join(sourceRepoRoot, "plugins", "manifest.json")
+      join(sourceRepoRoot, ".codex-plugin", "manifest.json")
     );
     const pluginNames = sourceManifest.plugins.map((plugin) => plugin.name);
-    await confirmInstall(options.repoRef, scope, pluginNames, options.yes);
+    await confirmInstall(options.repoRef, scope, pluginNames, options.gitRef, options.yes);
 
     const { marketplacePath, pluginRepoRoot } = getPaths(scope, process.cwd(), options.repoRef);
 
-    copyPluginsPayload(sourceRepoRoot, pluginRepoRoot);
+    copyPluginsPayload(sourceRepoRoot, pluginRepoRoot, sourceManifest);
 
-    const rewrittenPlugins = rewriteEntries(sourceManifest, marketplacePath, options.repoRef);
     const mergedMarketplace = mergeMarketplace(
       marketplacePath,
       sourceManifest,
-      rewrittenPlugins
+      sourceManifest.plugins
     );
 
     saveMarketplace(marketplacePath, mergedMarketplace);
@@ -291,7 +292,7 @@ async function main(): Promise<void> {
     outro(
       [
         `Installed marketplace to ${marketplacePath}`,
-        `Copied plugin payload to ${join(pluginRepoRoot, "plugins")}`,
+        `Copied plugins to ${pluginRepoRoot}`,
         "Restart Codex to pick up the updated marketplace."
       ].join("\n")
     );
