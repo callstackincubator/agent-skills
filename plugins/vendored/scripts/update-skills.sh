@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/usr/bin/env bash
 set -euo pipefail
 
 script_dir="$(cd "$(dirname "$0")" && pwd)"
@@ -11,7 +11,7 @@ cd "$vendored_root"
 npx -y skills update
 
 # In CI, allow explicitly re-homing a generated global .agents tree back into vendored/.
-if [[ "${SKILLS_UPDATE_REHOME:-0}" == "1" && -d "$home_agents_dir" ]]; then
+if [[ "${SKILLS_UPDATE_REHOME:-0}" == "1" && -d "$home_agents_dir/skills" ]]; then
   rm -rf "$vendored_root/.agents"
   mv "$home_agents_dir" "$vendored_root/.agents"
 fi
