@@ -62,7 +62,7 @@ npm install @gorhom/bottom-sheet react-native-reanimated react-native-gesture-ha
 
 ## Problem Description
 
-Gesture and scroll callbacks bridge UI→JS via `runOnJS`, call `setState`, update context providers, and re-render the entire bottom sheet subtree every frame. At 60 FPS each frame has a 16.6ms budget — a single `setState` in a gesture handler can blow through that, causing visible jank and dropped frames.
+Gesture and scroll callbacks that bridge UI to JS and call `setState` can re-render the sheet subtree during drag, causing jank and dropped frames.
 
 ## Step-by-Step Instructions
 
@@ -151,12 +151,16 @@ const SheetVisibilityWrapper = ({ animatedIndex, threshold = 1, children }) => {
 </SheetVisibilityWrapper>
 ```
 
-### 3. Throttle Scroll Events Inside the Sheet
+### 3. Keep Scroll-Driven Logic off the JS Thread
 
-`onScroll` on `BottomSheetScrollView` without throttling fires every frame on the JS thread. Always set `scrollEventThrottle={16}`, or use `useAnimatedScrollHandler` (see [js-animations-reanimated.md](./js-animations-reanimated.md)) to keep handlers on the UI thread:
+`BottomSheetScrollView` ignores `scrollEventThrottle`, so setting it is not an optimization. Keep JS `onScroll` work minimal, or move scroll-driven logic to `useAnimatedScrollHandler` (see [js-animations-reanimated.md](./js-animations-reanimated.md)) so it stays on the UI thread:
 
 ```jsx
-<BottomSheetScrollView onScroll={scrollHandler} scrollEventThrottle={16}>
+const scrollHandler = useAnimatedScrollHandler((event) => {
+  scrollY.value = event.contentOffset.y;
+});
+
+<BottomSheetScrollView onScroll={scrollHandler}>
   <Content />
 </BottomSheetScrollView>
 ```
@@ -172,15 +176,19 @@ import {
   BottomSheetSectionList,
 } from '@gorhom/bottom-sheet';
 
-// For FlashList (v5): BottomSheetFlashList is deprecated — use the hook instead:
+// FlashList v2: BottomSheetFlashList is deprecated.
+// Create the scroll component, then pass it to FlashList.
 import { useBottomSheetScrollableCreator } from '@gorhom/bottom-sheet';
-const ScrollableFlashList = useBottomSheetScrollableCreator(FlashList);
+import { FlashList } from '@shopify/flash-list';
+
+const BottomSheetFlashListScrollComponent = useBottomSheetScrollableCreator();
 
 <BottomSheet snapPoints={snapPoints} enableDynamicSizing={false}>
-  <BottomSheetFlatList
+  <FlashList
     data={data}
     keyExtractor={(item) => item.id}
     renderItem={renderItem}
+    renderScrollComponent={BottomSheetFlashListScrollComponent}
   />
 </BottomSheet>
 ```
@@ -305,7 +313,7 @@ npm install @lodev09/react-native-true-sheet
 - **Bundling independent state values in one context** — see [js-atomic-state.md](./js-atomic-state.md) for splitting patterns.
 - **Using `enableDynamicSizing` with static snap points in v5** — v5 defaults to `true`, which conflicts with explicit `snapPoints`. Set `enableDynamicSizing={false}`.
 - **Using React Native `ScrollView`/`FlatList` inside bottom sheet** — gestures won't coordinate. Use `BottomSheetScrollView`, `BottomSheetFlatList`, etc.
-- **Using React Native touchables on Android** — use `BottomSheetTouchableOpacity` and similar from the library.
+- **Using React Native touchables on Android** — import `TouchableOpacity`, `TouchableHighlight`, or `TouchableWithoutFeedback` from `@gorhom/bottom-sheet`.
 - **Not providing `containerHeight`** — causes an extra re-render on mount for measurement.
 - **Using regular `TextInput` instead of `BottomSheetTextInput`** — keyboard handling won't work properly.
 
