@@ -241,5 +241,6 @@ const TodoList = () => {
 
 ## Related Skills
 
+- [js-bottomsheet.md](./js-bottomsheet.md) - Avoid context-driven bottom sheet subtree re-renders
 - [js-react-compiler.md](./js-react-compiler.md) - Automatic memoization alternative
 - [js-profile-react.md](./js-profile-react.md) - Verify re-render reduction

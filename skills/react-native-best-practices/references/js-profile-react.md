@@ -158,4 +158,5 @@ const Button = memo(({onPress, title}) => (
 
 - [js-react-compiler.md](./js-react-compiler.md) - Automatic memoization
 - [js-atomic-state.md](./js-atomic-state.md) - Reduce re-renders with Jotai/Zustand
+- [js-bottomsheet.md](./js-bottomsheet.md) - Profile bottom sheet callback-driven re-renders
 - [js-measure-fps.md](./js-measure-fps.md) - Quantify frame rate impact

@@ -251,4 +251,5 @@ withSpring(value, {
 ## Related Skills
 
 - [js-measure-fps.md](./js-measure-fps.md) - Verify animation frame rate
+- [js-bottomsheet.md](./js-bottomsheet.md) - Keep bottom sheet visual state on the UI thread
 - [js-concurrent-react.md](./js-concurrent-react.md) - React-level deferral with useTransition

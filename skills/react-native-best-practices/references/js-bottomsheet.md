@@ -10,7 +10,7 @@ Optimize `@gorhom/bottom-sheet` for smooth 60 FPS by keeping gesture/scroll-driv
 
 ## Quick Pattern
 
-**Incorrect (bridges to JS every frame — full subtree re-render):**
+**Incorrect (can re-enter JS repeatedly during interaction — full subtree re-render):**
 
 ```jsx
 const handleAnimate = useCallback((fromIndex, toIndex) => {
@@ -51,24 +51,24 @@ const overlayStyle = useAnimatedStyle(() => ({
 ## Prerequisites
 
 - `@gorhom/bottom-sheet` v4+ (v5 recommended)
-- `react-native-reanimated` v3+ (v4 recommended — requires New Architecture)
+- `react-native-reanimated` v3+ (`@gorhom/bottom-sheet` v5 is built for Reanimated v3)
 - `react-native-gesture-handler` v2+
 
 ```bash
 npm install @gorhom/bottom-sheet react-native-reanimated react-native-gesture-handler
 ```
 
-> **Note**: In v5, `enableDynamicSizing` defaults to `true`. If you use static `snapPoints`, set `enableDynamicSizing={false}` explicitly to avoid unexpected behavior.
+> **Note**: In v5, `enableDynamicSizing` defaults to `true`. If you need fixed snap-point indexing or do not want the library to insert a dynamic snap point based on content height, set `enableDynamicSizing={false}` explicitly.
 
 ## Problem Description
 
-Gesture and scroll callbacks that bridge UI to JS and call `setState` can re-render the sheet subtree during drag, causing jank and dropped frames.
+Bottom-sheet gesture, animation, and scroll callbacks that update React state can re-render the sheet subtree during interaction. In practice, callbacks like `onAnimate` may run repeatedly as the sheet retargets animations, which can cause visible jank if they drive expensive React updates.
 
 ## Step-by-Step Instructions
 
 ### 1. Convert Gesture-Driven State to SharedValue
 
-Remove the `runOnJS` bridge — set `.value` directly and consume via `useAnimatedStyle`.
+Avoid React state for gesture-driven visual state. Update a shared value and consume it via `useAnimatedStyle`.
 
 **Before:**
 
@@ -198,11 +198,11 @@ const BottomSheetFlashListScrollComponent = useBottomSheetScrollableCreator();
 | Prop | Purpose |
 |------|---------|
 | `containerHeight` | Provide to skip extra measurement re-render on mount |
-| `enableDynamicSizing={false}` | Required with static `snapPoints` in v5 |
+| `enableDynamicSizing={false}` | Use when you want fixed snap-point indexing and do not want a dynamic content-height snap point inserted |
 | `animatedIndex` | SharedValue for continuous index tracking on UI thread |
 | `animatedPosition` | SharedValue for continuous position tracking on UI thread |
 | `onChange` | Fires on snap **completion** only (discrete) — use for analytics/side effects |
-| `onAnimate` | Fires **once** before animation starts — v5 signature: `(fromIndex, toIndex, fromPosition, toPosition)` |
+| `onAnimate` | Fires before each animation start/retarget — use sparingly, because it can run repeatedly during interaction |
 
 ### 5. BottomSheetModal Setup
 
@@ -217,9 +217,7 @@ const App = () => (
     <BottomSheetModal
       ref={modalRef}
       snapPoints={snapPoints}
-      enableDynamicSizing={false}
       enableDismissOnClose={true}
-      stackBehavior="push" // 'push' | 'switch' | 'replace'
     >
       <Content />
     </BottomSheetModal>
@@ -260,7 +258,7 @@ import { FullWindowOverlay } from 'react-native-screens';
 | `fillParent` | Sheet fills parent when keyboard appears |
 | `interactive` | Sheet follows keyboard position interactively |
 
-> Always use `BottomSheetTextInput` instead of React Native's `TextInput` inside a bottom sheet.
+> Prefer `BottomSheetTextInput` inside a bottom sheet. If you need a custom input, copy the focus/blur handlers from the library's `BottomSheetTextInput` implementation so keyboard handling still works correctly.
 
 ## Derived Animations with `animatedPosition`
 
@@ -311,11 +309,11 @@ npm install @lodev09/react-native-true-sheet
 - **Forgetting `pointerEvents='none'` on always-mounted hidden elements** — invisible elements still capture touches.
 - **Missing accessibility attributes on hidden elements** — add `accessibilityElementsHidden` and `importantForAccessibility='no-hide-descendants'`.
 - **Bundling independent state values in one context** — see [js-atomic-state.md](./js-atomic-state.md) for splitting patterns.
-- **Using `enableDynamicSizing` with static snap points in v5** — v5 defaults to `true`, which conflicts with explicit `snapPoints`. Set `enableDynamicSizing={false}`.
+- **Assuming `enableDynamicSizing` must be disabled whenever you pass `snapPoints`** — it does not have to be, but leaving it enabled can insert an additional snap point and change indexing.
 - **Using React Native `ScrollView`/`FlatList` inside bottom sheet** — gestures won't coordinate. Use `BottomSheetScrollView`, `BottomSheetFlatList`, etc.
 - **Using React Native touchables on Android** — import `TouchableOpacity`, `TouchableHighlight`, or `TouchableWithoutFeedback` from `@gorhom/bottom-sheet`.
 - **Not providing `containerHeight`** — causes an extra re-render on mount for measurement.
-- **Using regular `TextInput` instead of `BottomSheetTextInput`** — keyboard handling won't work properly.
+- **Using a custom `TextInput` without porting the library's focus/blur handlers** — keyboard handling will be incomplete. Prefer `BottomSheetTextInput` unless you need a custom input.
 
 ## Related Skills
 

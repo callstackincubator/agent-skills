@@ -174,4 +174,5 @@ flashlight compare baseline.json current.json
 
 - [js-profile-react.md](./js-profile-react.md) - Find what's causing FPS drops
 - [js-animations-reanimated.md](./js-animations-reanimated.md) - Fix animation-related drops
+- [js-bottomsheet.md](./js-bottomsheet.md) - Measure bottom sheet gesture and snap performance
 - [js-lists-flatlist-flashlist.md](./js-lists-flatlist-flashlist.md) - Fix scroll-related drops
