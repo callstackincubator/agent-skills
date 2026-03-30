@@ -50,12 +50,14 @@ const overlayStyle = useAnimatedStyle(() => ({
 
 ## Prerequisites
 
-- `@gorhom/bottom-sheet` v4+ (v5 recommended)
-- `react-native-reanimated` v3+ (`@gorhom/bottom-sheet` v5 is built for Reanimated v3)
+- Check the official [`@gorhom/bottom-sheet` versioning / compatibility table](https://github.com/gorhom/react-native-bottom-sheet#versioning) first.
+- If your app is on `@gorhom/bottom-sheet` below v5, upgrade to v5 before applying the patterns in this skill.
+- `@gorhom/bottom-sheet` v5 is the current maintained line and is built for `react-native-reanimated` v3.
+- `react-native-reanimated` v4 may work in some apps, but the bottom-sheet docs do not officially guarantee it. Decide explicitly whether to stay on v3 or try v4 and validate thoroughly on device.
 - `react-native-gesture-handler` v2+
 
 ```bash
-npm install @gorhom/bottom-sheet react-native-reanimated react-native-gesture-handler
+npm install @gorhom/bottom-sheet@^5 react-native-reanimated@^3 react-native-gesture-handler
 ```
 
 > **Note**: In v5, `enableDynamicSizing` defaults to `true`. If you need fixed snap-point indexing or do not want the library to insert a dynamic snap point based on content height, set `enableDynamicSizing={false}` explicitly.
