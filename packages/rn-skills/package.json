@@ -1,0 +1,41 @@
+{
+  "name": "rn-skills",
+  "version": "0.1.0",
+  "description": "Suggests and manages React Native agent skills based on project dependencies.",
+  "type": "module",
+  "author": {
+    "name": "Callstack",
+    "email": "hello@callstack.com"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/callstackincubator/agent-skills.git",
+    "directory": "packages/rn-skills"
+  },
+  "homepage": "https://github.com/callstackincubator/agent-skills/tree/main/packages/rn-skills",
+  "bugs": {
+    "url": "https://github.com/callstackincubator/agent-skills/issues"
+  },
+  "bin": {
+    "rn-skills": "dist/index.js"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "dependencies": {
+    "@clack/prompts": "^1.1.0",
+    "colorette": "^2.0.20"
+  },
+  "scripts": {
+    "build": "mkdir -p dist && bun build src/index.ts --target=node --outfile dist/index.js",
+    "prepare": "bun run build",
+    "start": "bun run src/index.ts",
+    "sync:lookup": "node ./scripts/sync-lookup.mjs",
+    "test": "bun test"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.3.11"
+  }
+}

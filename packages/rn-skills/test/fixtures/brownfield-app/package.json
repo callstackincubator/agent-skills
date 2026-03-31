@@ -1,0 +1,7 @@
+{
+  "name": "brownfield-app",
+  "private": true,
+  "dependencies": {
+    "@callstack/react-native-brownfield": "^0.1.0"
+  }
+}

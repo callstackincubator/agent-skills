@@ -1,0 +1,7 @@
+{
+  "name": "reanimated-app",
+  "private": true,
+  "dependencies": {
+    "react-native-reanimated": "^4.0.0"
+  }
+}

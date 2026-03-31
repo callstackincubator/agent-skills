@@ -1,0 +1,158 @@
+{
+  "catalogVersion": 1,
+  "lastSyncedAt": "2026-03-31T14:55:12.244Z",
+  "sources": {
+    "callstackincubator/agent-skills": {
+      "repo": "callstackincubator/agent-skills",
+      "displayName": "Callstack Agent Skills",
+      "skills": [
+        {
+          "name": "github",
+          "description": "GitHub workflow patterns for PRs, code review, branching."
+        },
+        {
+          "name": "github-actions",
+          "description": "GitHub Actions workflow patterns for React Native simulator/emulator build artifacts."
+        },
+        {
+          "name": "upgrading-react-native",
+          "description": "React Native upgrade workflow: templates, dependencies, and common pitfalls."
+        },
+        {
+          "name": "react-native-best-practices",
+          "description": "React Native optimization best practices from Callstack."
+        },
+        {
+          "name": "react-native-brownfield-migration",
+          "description": "Incremental migration strategy to adopt React Native or Expo in native apps using @callstack/react-native-brownfield, with setup, packaging, and phased integration steps."
+        }
+      ]
+    },
+    "software-mansion-labs/skills": {
+      "repo": "software-mansion-labs/skills",
+      "displayName": "Software Mansion Skills",
+      "skills": [
+        {
+          "name": "radon-mcp",
+          "description": "Best practices for using Radon IDE's MCP tools when developing, debugging, and inspecting React Native and Expo apps."
+        },
+        {
+          "name": "react-native-best-practices",
+          "description": "Software Mansion's best practices for production React Native and Expo apps on the New Architecture."
+        }
+      ]
+    },
+    "callstack/react-native-testing-library": {
+      "repo": "callstack/react-native-testing-library",
+      "displayName": "React Native Testing Library Skills",
+      "skills": [
+        {
+          "name": "react-native-testing",
+          "description": "Write tests using React Native Testing Library (RNTL) for React Native and Expo apps."
+        }
+      ]
+    },
+    "callstackincubator/agent-device": {
+      "repo": "callstackincubator/agent-device",
+      "displayName": "Agent Device",
+      "skills": [
+        {
+          "name": "agent-device",
+          "description": "Automates interactions for Apple-platform apps (iOS, tvOS, macOS) and Android devices."
+        },
+        {
+          "name": "dogfood",
+          "description": "Systematically explore and test a mobile app on iOS/Android with agent-device to find bugs, UX issues, and other problems."
+        }
+      ]
+    },
+    "vercel-labs/agent-skills": {
+      "repo": "vercel-labs/agent-skills",
+      "displayName": "Vercel Agent Skills",
+      "skills": [
+        {
+          "name": "vercel-react-native-skills",
+          "description": "Vercel's collection of React Native and Expo best practices for building performant mobile apps."
+        }
+      ]
+    }
+  },
+  "libraries": {
+    "@callstack/react-native-brownfield": {
+      "skillRefs": [
+        "callstackincubator/agent-skills:react-native-brownfield-migration"
+      ]
+    },
+    "@react-navigation/native": {
+      "skillRefs": ["vercel-labs/agent-skills:vercel-react-native-skills"]
+    },
+    "@react-navigation/native-stack": {
+      "skillRefs": ["vercel-labs/agent-skills:vercel-react-native-skills"]
+    },
+    "@shopify/flash-list": {
+      "skillRefs": [
+        "callstackincubator/agent-skills:react-native-best-practices",
+        "vercel-labs/agent-skills:vercel-react-native-skills"
+      ]
+    },
+    "@testing-library/react-native": {
+      "skillRefs": [
+        "callstack/react-native-testing-library:react-native-testing"
+      ]
+    },
+    "expo": {
+      "skillRefs": [
+        "callstackincubator/agent-skills:react-native-best-practices",
+        "vercel-labs/agent-skills:vercel-react-native-skills"
+      ]
+    },
+    "expo-font": {
+      "skillRefs": ["vercel-labs/agent-skills:vercel-react-native-skills"]
+    },
+    "expo-image": {
+      "skillRefs": ["vercel-labs/agent-skills:vercel-react-native-skills"]
+    },
+    "react-native": {
+      "skillRefs": [
+        "callstackincubator/agent-skills:react-native-best-practices",
+        "callstackincubator/agent-skills:upgrading-react-native"
+      ]
+    },
+    "react-native-audio-api": {
+      "skillRefs": ["software-mansion-labs/skills:react-native-best-practices"]
+    },
+    "react-native-enriched": {
+      "skillRefs": ["software-mansion-labs/skills:react-native-best-practices"]
+    },
+    "react-native-enriched-markdown": {
+      "skillRefs": ["software-mansion-labs/skills:react-native-best-practices"]
+    },
+    "react-native-executorch": {
+      "skillRefs": ["software-mansion-labs/skills:react-native-best-practices"]
+    },
+    "react-native-gesture-handler": {
+      "skillRefs": ["software-mansion-labs/skills:react-native-best-practices"]
+    },
+    "react-native-reanimated": {
+      "skillRefs": ["software-mansion-labs/skills:react-native-best-practices"]
+    },
+    "react-native-safe-area-context": {
+      "skillRefs": ["vercel-labs/agent-skills:vercel-react-native-skills"]
+    },
+    "react-native-screens": {
+      "skillRefs": [
+        "callstackincubator/agent-skills:react-native-best-practices",
+        "vercel-labs/agent-skills:vercel-react-native-skills"
+      ]
+    },
+    "react-native-svg": {
+      "skillRefs": ["software-mansion-labs/skills:react-native-best-practices"]
+    },
+    "react-native-video": {
+      "skillRefs": ["software-mansion-labs/skills:react-native-best-practices"]
+    },
+    "react-native-worklets": {
+      "skillRefs": ["software-mansion-labs/skills:react-native-best-practices"]
+    }
+  }
+}

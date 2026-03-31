@@ -1,0 +1,12 @@
+{
+  "name": "expo-app",
+  "private": true,
+  "dependencies": {
+    "expo": "^54.0.0",
+    "react-native": "0.82.0",
+    "react-native-screens": "^4.11.1"
+  },
+  "devDependencies": {
+    "@testing-library/react-native": "^13.3.3"
+  }
+}

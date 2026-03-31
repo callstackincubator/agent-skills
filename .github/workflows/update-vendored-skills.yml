@@ -3,7 +3,7 @@ name: Update vendored skills
 on:
   workflow_dispatch:
   schedule:
-    - cron: "17 2 * * *"
+    - cron: '17 2 * * *'
 
 permissions:
   contents: write
@@ -28,15 +28,18 @@ jobs:
 
       - name: Update vendored skills
         env:
-          SKILLS_UPDATE_REHOME: "1"
+          SKILLS_UPDATE_REHOME: '1'
         run: ./plugins/vendored/scripts/update-skills.sh
+
+      - name: Sync rn-skills lookup table
+        run: node ./packages/rn-skills/scripts/sync-lookup.mjs
 
       - name: Create pull request
         uses: peter-evans/create-pull-request@v7
         with:
           branch: automation/update-vendored-skills
-          commit-message: "chore: update vendored skills"
-          title: "chore: update vendored skills"
+          commit-message: 'chore: update vendored skills'
+          title: 'chore: update vendored skills'
           labels: enhancement
           body: |
             Automated nightly refresh of vendored skills.
