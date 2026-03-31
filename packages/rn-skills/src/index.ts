@@ -2,6 +2,8 @@
 import {execFileSync} from 'node:child_process';
 import {cwd} from 'node:process';
 import {cancel, intro, isCancel, multiselect, outro} from '@clack/prompts';
+import {dim, italic} from 'colorette';
+
 import {
   buildSkillPlan,
   getLookupTable,
@@ -276,7 +278,11 @@ async function applyChanges(options: {
 
   for (const ref of options.installs) {
     const [sourceRepo, skillName] = ref.split(':');
-    info(`Installing ${skillName} from ${sourceRepo}`);
+    info(
+      `Installing ${skillName} from ${sourceRepo} using the Vercel Skills CLI (${dim(
+        italic('npx skills add'),
+      )})`,
+    );
     execFileSync(
       'npx',
       [
