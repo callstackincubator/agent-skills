@@ -20,10 +20,11 @@ type CliOptions = {
   scope: Scope;
   rootDirectory: string;
   help: boolean;
+  remove: boolean;
 };
 
 function getUsage(): string {
-  return 'Usage: rn-skills [report|interactive|auto|list-supported] [--global] [--cwd <path>] [--help]';
+  return 'Usage: rn-skills [report|interactive|auto|list-supported] [--global] [--cwd <path>] [--no-remove] [--help]';
 }
 
 function parseArgs(argv: string[]): CliOptions {
@@ -33,6 +34,7 @@ function parseArgs(argv: string[]): CliOptions {
       scope: 'project',
       rootDirectory: cwd(),
       help: true,
+      remove: true,
     };
   }
 
@@ -53,6 +55,7 @@ function parseArgs(argv: string[]): CliOptions {
         })();
   let scope: Scope = 'project';
   let rootDirectory = cwd();
+  let remove = true;
 
   if (
     firstArg === 'auto' ||
@@ -78,6 +81,10 @@ function parseArgs(argv: string[]): CliOptions {
       rootDirectory = value;
       continue;
     }
+    if (arg === '--no-remove') {
+      remove = false;
+      continue;
+    }
 
     throw new Error(`Unknown argument: ${arg}`);
   }
@@ -87,6 +94,7 @@ function parseArgs(argv: string[]): CliOptions {
     scope,
     rootDirectory,
     help: false,
+    remove,
   };
 }
 
@@ -147,7 +155,7 @@ async function main(): Promise<void> {
       rootDirectory: options.rootDirectory,
       scope: options.scope,
       installs: plan.missingSkills.map((skill) => skill.ref),
-      removals: plan.extraInstalledSkills.map((skill) => skill.name),
+      removals: options.remove ? plan.extraInstalledSkills.map((skill) => skill.name) : [],
     });
     outro('Finished applying recommended skill changes.');
     return;
@@ -157,7 +165,7 @@ async function main(): Promise<void> {
     plan.missingSkills.map((skill) => skill.ref),
   );
   const removalNames = await askForRemovals(
-    plan.extraInstalledSkills.map((skill) => skill.name),
+    options.remove ? plan.extraInstalledSkills.map((skill) => skill.name) : [],
   );
 
   await applyChanges({

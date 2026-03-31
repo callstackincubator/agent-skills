@@ -143,6 +143,30 @@ describe('rn-skills e2e', () => {
 
     expect(result.exitCode).toBe(0);
   });
+
+  it('does not remove extra managed skills when --no-remove is passed', async () => {
+    const result = await runAutoWithFixture({
+      fixtureName: 'expo-app',
+      installedSkills: [
+        {
+          name: 'react-native-brownfield-migration',
+          path: '/tmp/.agents/skills/react-native-brownfield-migration',
+          scope: 'project',
+          agents: ['Cursor'],
+        },
+      ],
+      expectedAdds: [
+        ['callstackincubator/agent-skills', 'react-native-best-practices'],
+        ['callstack/react-native-testing-library', 'react-native-testing'],
+        ['callstackincubator/agent-skills', 'upgrading-react-native'],
+        ['vercel-labs/agent-skills', 'vercel-react-native-skills'],
+      ],
+      expectedRemovals: [],
+      command: ['auto', '--no-remove'],
+    });
+
+    expect(result.exitCode).toBe(0);
+  });
 });
 
 async function runAutoWithFixture(options: {
