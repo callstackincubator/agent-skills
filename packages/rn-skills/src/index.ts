@@ -13,7 +13,7 @@ import {
 import type {InstalledSkill, Scope} from './core';
 import {error, info, printBanner, section, success, warn} from './logger';
 
-type Command = 'auto' | 'interactive' | 'report';
+type Command = 'auto' | 'interactive' | 'report' | 'list-supported';
 
 type CliOptions = {
   command: Command;
@@ -23,7 +23,7 @@ type CliOptions = {
 };
 
 function getUsage(): string {
-  return 'Usage: rn-skills [report|interactive|auto] [--global] [--cwd <path>] [--help]';
+  return 'Usage: rn-skills [report|interactive|auto|list-supported] [--global] [--cwd <path>] [--help]';
 }
 
 function parseArgs(argv: string[]): CliOptions {
@@ -43,7 +43,8 @@ function parseArgs(argv: string[]): CliOptions {
       ? []
       : firstArg === 'auto' ||
         firstArg === 'interactive' ||
-        firstArg === 'report'
+        firstArg === 'report' ||
+        firstArg === 'list-supported'
       ? [...rest]
       : firstArg.startsWith('--')
       ? [...argv]
@@ -56,7 +57,8 @@ function parseArgs(argv: string[]): CliOptions {
   if (
     firstArg === 'auto' ||
     firstArg === 'interactive' ||
-    firstArg === 'report'
+    firstArg === 'report' ||
+    firstArg === 'list-supported'
   ) {
     command = firstArg;
   }
@@ -114,6 +116,13 @@ async function main(): Promise<void> {
   }
 
   printBanner();
+  if (options.command === 'list-supported') {
+    intro('Listing curated React Native library mappings');
+    printSupportedMappings();
+    outro('Listed supported libraries and skills.');
+    return;
+  }
+
   intro(`Inspecting ${options.rootDirectory}`);
   info(
     'Using the Vercel Skills CLI documented at https://vercel.com/docs/agent-resources/skills',
@@ -159,6 +168,34 @@ async function main(): Promise<void> {
   });
 
   outro('Finished applying selected skill changes.');
+}
+
+function printSupportedMappings(): void {
+  const lookup = getLookupTable();
+  const sortedLibraries = Object.entries(lookup.libraries).sort(
+    ([left], [right]) => left.localeCompare(right),
+  );
+
+  info(
+    `The CLI provides the following ${sortedLibraries.length} curated library mappings.`,
+  );
+
+  for (const [libraryName, library] of sortedLibraries) {
+    process.stdout.write(`- ${libraryName}\n`);
+
+    for (const skillRef of library.skillRefs) {
+      const [sourceRepo, skillName] = skillRef.split(':');
+      const source = lookup.sources[sourceRepo];
+      const skill = source?.skills.find(
+        (candidate) => candidate.name === skillName,
+      );
+      const hint = source
+        ? `\t· ${skillName} from ${source.displayName}`
+        : skillRef;
+
+      process.stdout.write(`  ${hint}\n`);
+    }
+  }
 }
 
 function printPlan(
