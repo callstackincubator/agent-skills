@@ -6,7 +6,8 @@ import {dim, italic} from 'colorette';
 
 import {
   buildSkillPlan,
-  getLookupTable,
+  getBundledLookupTable,
+  getLookupTableWithOptions,
   getSkillsCliArgs,
   scanProjectLibraries,
 } from './core';
@@ -21,10 +22,11 @@ type CliOptions = {
   rootDirectory: string;
   help: boolean;
   remove: boolean;
+  disableRemoteLookup: boolean;
 };
 
 function getUsage(): string {
-  return 'Usage: rn-skills [report|interactive|auto|list-supported] [--global] [--cwd <path>] [--no-remove] [--help]';
+  return 'Usage: rn-skills [report|interactive|auto|list-supported] [--global] [--cwd <path>] [--no-remove] [--no-mapping-update] [--help]';
 }
 
 function parseArgs(argv: string[]): CliOptions {
@@ -35,6 +37,7 @@ function parseArgs(argv: string[]): CliOptions {
       rootDirectory: cwd(),
       help: true,
       remove: true,
+      disableRemoteLookup: false,
     };
   }
 
@@ -56,6 +59,7 @@ function parseArgs(argv: string[]): CliOptions {
   let scope: Scope = 'project';
   let rootDirectory = cwd();
   let remove = true;
+  let disableRemoteLookup = false;
 
   if (
     firstArg === 'auto' ||
@@ -85,6 +89,10 @@ function parseArgs(argv: string[]): CliOptions {
       remove = false;
       continue;
     }
+    if (arg === '--no-mapping-update') {
+      disableRemoteLookup = true;
+      continue;
+    }
 
     throw new Error(`Unknown argument: ${arg}`);
   }
@@ -95,6 +103,7 @@ function parseArgs(argv: string[]): CliOptions {
     rootDirectory,
     help: false,
     remove,
+    disableRemoteLookup,
   };
 }
 
@@ -124,9 +133,12 @@ async function main(): Promise<void> {
   }
 
   printBanner();
+  const lookup = await getLookupTableWithOptions({
+    disableRemoteLookup: options.disableRemoteLookup,
+  });
   if (options.command === 'list-supported') {
     intro('Listing curated React Native library mappings');
-    printSupportedMappings();
+    printSupportedMappings(lookup);
     outro('Listed supported libraries and skills.');
     return;
   }
@@ -141,7 +153,7 @@ async function main(): Promise<void> {
     options.scope,
     options.rootDirectory,
   );
-  const plan = buildSkillPlan(scan, installedSkills);
+  const plan = buildSkillPlan(scan, installedSkills, lookup);
 
   printPlan(plan, options.scope);
 
@@ -155,7 +167,9 @@ async function main(): Promise<void> {
       rootDirectory: options.rootDirectory,
       scope: options.scope,
       installs: plan.missingSkills.map((skill) => skill.ref),
-      removals: options.remove ? plan.extraInstalledSkills.map((skill) => skill.name) : [],
+      removals: options.remove
+        ? plan.extraInstalledSkills.map((skill) => skill.name)
+        : [],
     });
     outro('Finished applying recommended skill changes.');
     return;
@@ -163,6 +177,7 @@ async function main(): Promise<void> {
 
   const installRefs = await askForInstalls(
     plan.missingSkills.map((skill) => skill.ref),
+    lookup,
   );
   const removalNames = await askForRemovals(
     options.remove ? plan.extraInstalledSkills.map((skill) => skill.name) : [],
@@ -178,8 +193,9 @@ async function main(): Promise<void> {
   outro('Finished applying selected skill changes.');
 }
 
-function printSupportedMappings(): void {
-  const lookup = getLookupTable();
+function printSupportedMappings(
+  lookup: Awaited<ReturnType<typeof getLookupTableWithOptions>>,
+): void {
   const sortedLibraries = Object.entries(lookup.libraries).sort(
     ([left], [right]) => left.localeCompare(right),
   );
@@ -259,12 +275,15 @@ function printPlan(
   }
 }
 
-async function askForInstalls(skillRefs: string[]): Promise<string[]> {
+async function askForInstalls(
+  skillRefs: string[],
+  lookup: Awaited<
+    ReturnType<typeof getLookupTableWithOptions>
+  > = getBundledLookupTable(),
+): Promise<string[]> {
   if (skillRefs.length === 0) {
     return [];
   }
-
-  const lookup = getLookupTable();
   const selection = await multiselect<string>({
     message: 'Which missing skills should rn-skills install?',
     options: skillRefs.map((ref) => {

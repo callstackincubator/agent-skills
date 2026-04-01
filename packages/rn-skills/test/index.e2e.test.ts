@@ -18,7 +18,7 @@ describe('rn-skills e2e', () => {
   it('prints usage for --help', () => {
     const cliPath = resolve(testRoot, '..', 'src', 'index.ts');
     const processResult = Bun.spawnSync({
-      cmd: ['bun', cliPath, '--help'],
+      cmd: ['bun', cliPath, '--help', '--no-mapping-update'],
       cwd: dirname(cliPath),
       stdout: 'pipe',
       stderr: 'pipe',
@@ -33,7 +33,7 @@ describe('rn-skills e2e', () => {
   it('lists curated supported libraries and skills', () => {
     const cliPath = resolve(testRoot, '..', 'src', 'index.ts');
     const processResult = Bun.spawnSync({
-      cmd: ['bun', cliPath, 'list-supported'],
+      cmd: ['bun', cliPath, 'list-supported', '--no-mapping-update'],
       cwd: dirname(cliPath),
       stdout: 'pipe',
       stderr: 'pipe',
@@ -203,7 +203,7 @@ async function runAutoWithFixture(options: {
   await writeFile(
     fakeNpxPath,
     fakeNpxTemplate.replace(
-      '__INSTALLED_SKILLS_JSON__',
+      "'__INSTALLED_SKILLS_JSON__'",
       JSON.stringify(JSON.stringify(options.installedSkills)),
     ),
     'utf8',
@@ -212,7 +212,14 @@ async function runAutoWithFixture(options: {
 
   const cliPath = resolve(testRoot, '..', 'src', 'index.ts');
   const processResult = Bun.spawnSync({
-    cmd: ['bun', cliPath, ...options.command, '--cwd', projectDirectory],
+    cmd: [
+      'bun',
+      cliPath,
+      ...options.command,
+      '--no-mapping-update',
+      '--cwd',
+      projectDirectory,
+    ],
     cwd: dirname(cliPath),
     env: {
       ...process.env,

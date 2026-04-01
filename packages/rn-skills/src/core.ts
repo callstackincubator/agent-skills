@@ -9,6 +9,7 @@ import {
 } from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import {dirname, join} from 'node:path';
+import {z} from 'zod';
 import lookupTableJson from './lookup-table.json';
 
 export type Scope = 'project' | 'global';
@@ -73,6 +74,35 @@ type PackageManifest = {
 };
 
 const lookupTable = lookupTableJson as LookupTable;
+const REMOTE_LOOKUP_TABLE_URL =
+  'https://raw.githubusercontent.com/callstackincubator/agent-skills/refs/heads/main/packages/rn-skills/src/lookup-table.json';
+const LOOKUP_TABLE_FETCH_TIMEOUT_MS = 1500;
+
+let remoteLookupTablePromise: Promise<LookupTable> | undefined;
+
+const lookupTableSchema = z.object({
+  catalogVersion: z.number(),
+  lastSyncedAt: z.string(),
+  sources: z.record(
+    z.string(),
+    z.object({
+      repo: z.string(),
+      displayName: z.string(),
+      skills: z.array(
+        z.object({
+          name: z.string(),
+          description: z.string(),
+        }),
+      ),
+    }),
+  ),
+  libraries: z.record(
+    z.string(),
+    z.object({
+      skillRefs: z.array(z.string()),
+    }),
+  ),
+});
 
 const IGNORE_DIRECTORY_NAMES = new Set([
   '.git',
@@ -89,7 +119,21 @@ const IGNORE_DIRECTORY_NAMES = new Set([
   'Pods',
 ]);
 
-export function getLookupTable(): LookupTable {
+export async function getLookupTableWithOptions(options?: {
+  disableRemoteLookup?: boolean;
+}): Promise<LookupTable> {
+  if (options?.disableRemoteLookup) {
+    return lookupTable;
+  }
+
+  if (!remoteLookupTablePromise) {
+    remoteLookupTablePromise = fetchRemoteLookupTable();
+  }
+
+  return remoteLookupTablePromise;
+}
+
+export function getBundledLookupTable(): LookupTable {
   return lookupTable;
 }
 
@@ -163,8 +207,8 @@ export async function scanProjectLibraries(
 export function buildSkillPlan(
   scan: ProjectScan,
   installedSkills: InstalledSkill[],
+  catalog: LookupTable = lookupTable,
 ): SkillPlan {
-  const catalog = getLookupTable();
   const matchedByRef = new Map<string, Set<string>>();
 
   for (const libraryName of scan.libraries) {
@@ -184,7 +228,7 @@ export function buildSkillPlan(
 
   const recommendedSkills = Array.from(matchedByRef.entries())
     .map(([ref, matchedLibraries]) =>
-      getRecommendedSkill(ref, matchedLibraries),
+      getRecommendedSkill(ref, matchedLibraries, catalog),
     )
     .sort(
       (left, right) =>
@@ -252,13 +296,14 @@ export async function removeTempProject(directory: string): Promise<void> {
 function getRecommendedSkill(
   ref: string,
   matchedLibraries: Set<string>,
+  catalog: LookupTable,
 ): RecommendedSkill {
   const [sourceRepo, skillName] = ref.split(':');
   if (!sourceRepo || !skillName) {
     throw new Error(`Invalid skill reference: ${ref}`);
   }
 
-  const source = lookupTable.sources[sourceRepo];
+  const source = catalog.sources[sourceRepo];
   if (!source) {
     throw new Error(`Unknown source repository in lookup table: ${sourceRepo}`);
   }
@@ -284,4 +329,25 @@ async function readJsonFile<T>(path: string): Promise<T> {
 
 export function getSkillsCliArgs(scope: Scope): string[] {
   return scope === 'global' ? ['-g'] : [];
+}
+
+async function fetchRemoteLookupTable(): Promise<LookupTable> {
+  try {
+    const response = await fetch(REMOTE_LOOKUP_TABLE_URL, {
+      signal: AbortSignal.timeout(LOOKUP_TABLE_FETCH_TIMEOUT_MS),
+    });
+
+    if (!response.ok) {
+      return lookupTable;
+    }
+
+    const payload = lookupTableSchema.safeParse(await response.json());
+    if (!payload.success) {
+      return lookupTable;
+    }
+
+    return payload.data;
+  } catch {
+    return lookupTable;
+  }
 }
