@@ -1,0 +1,4 @@
+interface:
+  display_name: "Create React Native Library"
+  short_description: "Scaffold standalone libraries or local app modules"
+  default_prompt: "Use $create-react-native-library to scaffold a standalone React Native library or a local app module with create-react-native-library, verify the current CLI help first, and route to the correct official native docs after scaffolding."
