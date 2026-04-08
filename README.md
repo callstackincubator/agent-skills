@@ -252,6 +252,28 @@ Contributions welcome! Skills should be:
 
 When adding or editing skills, follow the [agentskills.io specification](https://agentskills.io/specification) and [Claude Code best practices](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices). The maintainer checklist lives in [AGENTS.md](./AGENTS.md), with supporting details in [docs/skill-conventions.md](./docs/skill-conventions.md).
 
+### Validation
+
+Before opening a PR, run the local validation checks that match the current repository setup:
+
+```bash
+bun install
+bun test
+```
+
+This repository's smoke suite covers:
+
+- `SKILL.md` frontmatter parsing
+- marketplace drift between shipped skills/plugins and metadata
+- Codex plugin installation in project and pseudo-global modes
+- Claude Code layout checks
+- standalone skill installation checks
+
+The GitHub Actions smoke workflow runs the same suite twice:
+
+- once with the pinned local `skills` CLI version from `package.json`
+- once with `skills@latest` as a lightweight forward-compatibility signal
+
 ## Roadmap / Work in Progress
 
 This is just the start! The following features are planned or in progress.
