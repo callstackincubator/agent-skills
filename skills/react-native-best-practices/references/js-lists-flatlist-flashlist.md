@@ -25,7 +25,6 @@ Replace ScrollView with FlatList or FlashList for performant large list renderin
   data={items}
   keyExtractor={(item) => item.id}
   renderItem={({ item }) => <Item {...item} />}
-  estimatedItemSize={50}
 />
 ```
 
@@ -40,6 +39,12 @@ Replace ScrollView with FlatList or FlashList for performant large list renderin
 
 - `@shopify/flash-list` for FlashList (recommended)
 - Understanding of list virtualization
+
+## Version Guardrail
+
+- FlashList v1: `estimatedItemSize` is part of the optimization guidance.
+- FlashList v2 and newer: `estimatedItemSize`, `estimatedListSize`, and `estimatedFirstItemOffset` are deprecated and no longer used. Do not flag them as missing.
+- Before suggesting a FlashList fix, confirm the installed major version and tailor the advice. See [FlashList v2 changes](https://shopify.github.io/flash-list/docs/v2-changes/).
 
 ## Step-by-Step Instructions
 
@@ -145,11 +150,13 @@ const BestList = ({ items }) => {
     <FlashList
       data={items}
       renderItem={renderItem}
-      estimatedItemSize={50}  // Required for FlashList
+      keyExtractor={(item) => item.id}
     />
   );
 };
 ```
+
+For FlashList v1, add `estimatedItemSize` with a realistic average item height. For FlashList v2+, skip that prop and focus on stable keys, lightweight item components, and `getItemType` when item shapes differ.
 
 **FlashList advantages:**
 - Recycles views instead of creating new ones
@@ -158,7 +165,7 @@ const BestList = ({ items }) => {
 
 ## Code Examples
 
-### Variable Height Items
+### Variable Height Items (FlashList v1)
 
 ```jsx
 // Calculate average for estimatedItemSize
@@ -183,9 +190,10 @@ const BestList = ({ items }) => {
     return <DefaultItem {...item} />;
   }}
   getItemType={(item) => item.type}  // Helps recycling
-  estimatedItemSize={80}
 />
 ```
+
+If the project is still on FlashList v1, keep `estimatedItemSize` alongside `getItemType`.
 
 ### FlatList Optimizations (if not using FlashList)
 
@@ -221,13 +229,13 @@ const BestList = ({ items }) => {
 | 20-100 items | FlatList minimum |
 | > 100 items | FlashList |
 | Complex item layouts | FlashList with `getItemType` |
-| Fixed height items | Add `getItemLayout` or `estimatedItemSize` |
+| Fixed height items | FlatList: `getItemLayout`; FlashList v1: `estimatedItemSize`; FlashList v2+: stable item structure |
 
 ## Common Pitfalls
 
 - **Inline renderItem functions**: Causes re-renders. Define outside or use `useCallback`.
 - **Missing keyExtractor**: Use unique IDs, not array index when possible.
-- **Ignoring estimatedItemSize warning**: FlashList warns if not set. Always provide it.
+- **Assuming all FlashList versions need `estimatedItemSize`**: FlashList v2 ignores it. Check the installed version before suggesting it.
 - **Heavy item components**: Keep list items light. Move side effects out.
 
 ## Related Skills

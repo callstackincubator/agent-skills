@@ -16,6 +16,8 @@ Identify unnecessary re-renders and performance bottlenecks in React Native apps
 # Go to Profiler tab → Start profiling → Perform actions → Stop
 ```
 
+For targeted audits, profile the exact flow under review. Baseline output should include commit timeline, re-render counts, slow components, and a breakdown of the heaviest commit.
+
 ## When to Use
 
 - App feels sluggish or janky during interactions
@@ -53,11 +55,18 @@ Identify unnecessary re-renders and performance bottlenecks in React Native apps
 
 ```
 1. Click "Start profiling" (blue circle) or "Reload and start profiling"
-2. Perform the interaction you want to analyze
+2. Perform the exact interaction or navigation flow you want to analyze
 3. Click "Stop profiling"
 ```
 
 **Use "Reload and start profiling"** for startup performance analysis.
+
+For AI-agent workflows, treat this as a required sequence:
+
+1. Start profiling.
+2. Drive the audited flow, not just app startup or idle state.
+3. Stop profiling.
+4. Inspect commit timeline, re-renders, slow components, and the heaviest commit before proposing fixes.
 
 ### 4. Analyze the Flame Graph
 
@@ -148,11 +157,14 @@ const Button = memo(({onPress, title}) => (
 | "Parent component rendered" | State too high in tree | Move state down or use atomic state |
 | Long JS thread block | Heavy computation | Move to background or use `useDeferredValue` |
 
+Only propose callback or dependency-array changes when the profiler or a reproducible bug shows they matter. Do not infer stale closures from a snippet alone.
+
 ## Common Pitfalls
 
 - **Profiling in dev mode**: Always disable JS Dev Mode for accurate measurements (Settings > JS Dev Mode on Android)
 - **Not using production builds**: Some issues only appear with minified code
 - **Ignoring "Why did this render?"**: This tells you exactly what to fix
+- **Using component tree depth or count as the main baseline**: These are secondary context, not the core performance signal
 
 ## Related Skills
 

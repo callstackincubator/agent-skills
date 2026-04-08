@@ -90,11 +90,20 @@ Use this quick lookup when debugging specific issues:
 # Press 'j' in Metro, or shake device → "Open DevTools"
 ```
 
+Baseline runtime metrics should come from the target interaction itself:
+- Capture commit timeline, re-render counts, slow components, and heaviest-commit breakdown.
+- Treat component tree depth and count as supporting context only.
+
 **Common fixes:**
 - Replace ScrollView with FlatList/FlashList for lists
 - Use React Compiler for automatic memoization
 - Use atomic state (Jotai/Zustand) to reduce re-renders
 - Use `useDeferredValue` for expensive computations
+
+**Review guardrails:**
+- Check library versions before suggesting API-specific fixes. FlashList v2 deprecates `estimatedItemSize`.
+- Do not suggest `useMemo` or `useCallback` dependency changes without a reproducible correctness issue or profiling evidence.
+- Do not report stale closures unless the stale read path or repro is clear.
 
 ### Analyze Bundle Size
 ```bash
