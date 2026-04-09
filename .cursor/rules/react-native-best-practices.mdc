@@ -1,0 +1,15 @@
+---
+description: React Native performance — route to react-native-best-practices SKILL.md and profiling first
+globs: "**/*.{tsx,ts,jsx,js}"
+alwaysApply: false
+---
+
+# React Native performance
+
+When editing matched files for **React Native or Expo** performance work:
+
+1. Open [`skills/react-native-best-practices/SKILL.md`](https://github.com/callstackincubator/agent-skills/blob/main/skills/react-native-best-practices/SKILL.md) (or the local file if this repo is in the workspace) for problem → reference routing.
+2. **Profile before** suggesting memoization hooks or micro-optimizations.
+3. Prefer concrete references under `skills/react-native-best-practices/references/` (lists, bundle, native, JS) over generic advice.
+
+If `skills/` is not in the workspace, tell the user to add this repository’s `skills/` content per the upstream README.

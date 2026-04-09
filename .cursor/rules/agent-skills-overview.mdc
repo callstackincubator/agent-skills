@@ -1,0 +1,26 @@
+---
+description: Callstack agent-skills — SKILL.md entry points and workflow for this repository
+alwaysApply: true
+---
+
+# Agent skills (Callstack)
+
+This repository uses the [agentskills.io](https://agentskills.io/specification) layout. Read the relevant **`SKILL.md` first**, then follow links into `references/`.
+
+## Skill entry points
+
+Use the copy under `skills/` when this repository is checked out; otherwise use the web view:
+
+- [react-native-best-practices](https://github.com/callstackincubator/agent-skills/blob/main/skills/react-native-best-practices/SKILL.md) — RN performance (FPS, lists, native, bundle)
+- [github](https://github.com/callstackincubator/agent-skills/blob/main/skills/github/SKILL.md) — PRs, review, branching
+- [github-actions](https://github.com/callstackincubator/agent-skills/blob/main/skills/github-actions/SKILL.md) — Actions, simulators, artifacts
+- [upgrading-react-native](https://github.com/callstackincubator/agent-skills/blob/main/skills/upgrading-react-native/SKILL.md) — RN / Expo upgrades
+- [react-native-brownfield-migration](https://github.com/callstackincubator/agent-skills/blob/main/skills/react-native-brownfield-migration/SKILL.md) — brownfield adoption
+
+## Consuming these rules in another project
+
+If you **imported** this ruleset from GitHub into a different workspace, the markdown files above may not exist locally. Clone or copy the `skills/` tree (see the repository README **Cursor** section) so paths resolve, or ask the user to add the skill files.
+
+## Workflow
+
+Follow **measure → optimize → re-measure**. Prefer profiler evidence over speculative optimizations.

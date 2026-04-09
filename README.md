@@ -106,11 +106,15 @@ These skills include `agents/openai.yaml` metadata for Codex Skills UI compatibi
 
 ##### Cursor
 
-**Option 1: Install from GitHub (Recommended)**
+**Option 1: Import rules from GitHub**
+
+Cursor’s GitHub / GitLab rule importer only discovers **`.mdc` files** (typically under `.cursor/rules/`). This repository includes those files so import succeeds.
 
 1. Open Cursor Settings (`Cmd+Shift+J` / `Ctrl+Shift+J`)
-2. Navigate to **Rules → Add Rule → Remote Rule (GitHub)**
+2. Navigate to **Rules** and use **Import rules from GitHub** (wording may vary by version), or add a remote rule from a Git URL
 3. Enter: `https://github.com/callstackincubator/agent-skills.git`
+
+Imported rules are short Cursor **project rules**; they point at the full Agent Skills under `skills/`. Clone or copy the `skills/` tree into your workspace when you want the model to read the complete markdown skills locally (see Option 2).
 
 **Option 2: Local Installation**
 
@@ -202,6 +206,8 @@ See [AI Assistant Integration Guide](./docs/ai-assistant-integration.md) for det
 
 ```
 agent-skills/
+├── .cursor/
+│   └── rules/                 # Cursor importable project rules (.mdc) for “Import rules from GitHub”
 ├── .claude-plugin/
 │   └── marketplace.json     # Claude Code marketplace definition
 ├── .agents/

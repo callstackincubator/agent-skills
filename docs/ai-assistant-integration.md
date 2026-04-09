@@ -4,9 +4,13 @@ How to use agent skills with various AI coding assistants beyond the primary ins
 
 ## Cursor
 
-### Method 1: Rules for AI (Recommended)
+### Method 1: Import rules from GitHub (Recommended)
 
-Add to your project's `.cursor/rules`:
+The upstream repository ships **`.mdc`** files under [`.cursor/rules/`](https://github.com/callstackincubator/agent-skills/tree/main/.cursor/rules) so Cursor’s **Import rules from GitHub** flow can find importable rules. Point the importer at `https://github.com/callstackincubator/agent-skills.git`, then add the `skills/` content to your workspace (clone or copy) when you want full skill text available locally.
+
+### Method 2: Hand-written project rules
+
+Add to your project's `.cursor/rules` (for example a `.mdc` file) with guidance such as:
 
 ```
 When working on React Native code, reference the skills in skills/react-native-best-practices/SKILL.md for performance optimization guidelines.
@@ -18,7 +22,7 @@ For specific issues:
 - Slow startup: Read native-measure-tti.md
 ```
 
-### Method 2: Direct Reference
+### Method 3: Direct Reference
 
 In chat, ask Cursor to read the skill file:
 
@@ -26,7 +30,7 @@ In chat, ask Cursor to read the skill file:
 Read skills/react-native-best-practices/SKILL.md and help me optimize my FlatList performance
 ```
 
-### Method 3: @ Mention
+### Method 4: @ Mention
 
 Use `@file` to include skill context:
 
