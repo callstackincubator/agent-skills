@@ -20,6 +20,10 @@ Open this file when the app or screen is already running and you need to discove
 - User asks what is visible on screen: `snapshot`
 - User asks for exact text from a known target: `get text`
 - User asks you to tap, type, or choose an element: `snapshot -i`, then act
+- User asks for the React Native component tree, props/state/hooks, or render profiling: use `agent-device react-devtools ...` and the `skills/react-devtools` workflow
+- User asks to reload a Metro-backed React Native app after JS changes: `agent-device metro reload`, then wait briefly and re-run `snapshot` or `snapshot -i`
+- React Native dev or debug build shows warning/error UI: capture enough evidence to identify it, dismiss it if it is not the requested behavior, then continue the flow and report it in the summary
+- The on-screen keyboard is blocking the next step: `keyboard dismiss`; on iOS do this only while an app session is active, and use `keyboard status|get` only on Android
 - UI does not expose the answer: say so plainly; do not browse or force the app into a new state unless asked
 
 ## Read-only commands
@@ -28,6 +32,7 @@ Open this file when the app or screen is already running and you need to discove
 - `get`
 - `is`
 - `find`
+- `keyboard status|get` on Android when keyboard visibility or input type matters
 
 ## Interaction commands
 
@@ -35,11 +40,36 @@ Open this file when the app or screen is already running and you need to discove
 - `press`
 - `fill`
 - `type`
+- `scroll`
 - `wait`
+- `keyboard dismiss` when the keyboard obscures the next target
 
-## Most common mistake to avoid
+## Common mistakes to avoid
 
-Do not treat `@ref` values as durable after navigation or dynamic updates. Re-snapshot after the UI changes, and switch to selectors when the flow must stay stable.
+**Stale refs.** Do not treat `@ref` values as durable after navigation or dynamic updates. Re-snapshot after the UI changes, and switch to selectors when the flow must stay stable.
+
+**Android AX tree lag.** After submits, route changes, or composer transitions, the accessibility tree can lag behind the visible UI. If `snapshot -i` and `screenshot` disagree:
+
+1. Trust the screenshot as visual truth.
+2. Take one fresh `snapshot -i`. Android retries suspicious trees for a short post-action deadline after navigation-sensitive actions.
+3. If the tree still disagrees with the screenshot, wait briefly, then take one more fresh snapshot. Do not loop snapshots immediately.
+4. For animation-heavy Android runs, use `settings animations off` as an opt-in stabilizer and restore with `settings animations on` after the run.
+
+**React Native dev overlays.** In dev or debug builds, warning or error overlays can block taps, change focus, or hide the real UI. Check for them near app open and after major transitions.
+
+- Not blocking the task: dismiss and continue.
+- Blocking or recurring: switch to [debugging.md](debugging.md) and collect evidence.
+- Seen at any point: mention in the final summary even if dismissed.
+
+**React Native Metro reload.** When a dev app is already running and connected to Metro, prefer a Metro reload over restarting the native app process:
+
+```bash
+agent-device metro reload
+agent-device wait 1000
+agent-device snapshot -i
+```
+
+Use `--metro-host`, `--metro-port`, or `--bundle-url` only when the active connection does not already carry the right runtime hints. Fall back to `open <app> --relaunch` when the app is not connected to Metro, Metro reload fails, or native startup state needs a clean process.
 
 ## Common example loops
 
@@ -70,8 +100,12 @@ agent-device close
 
 - Use plain `snapshot` when you only need to verify whether visible text or structure is on screen.
 - Use `snapshot -i` when you need refs such as `@e3` for interactive exploration or for an intended interaction.
+- On iOS and Android, default snapshot output is visible-first. Off-screen interactive content is surfaced as discovery hints (including inline scroll/list hidden-content hints when known), not shown as directly tappable refs.
 - Treat large text-surface lines in `snapshot -i` as discovery output. If a node shows preview or truncation metadata, use `get text @ref` only after you have already decided that `snapshot -i` is needed for that surface.
 - Use `snapshot -i -s "Camera"` or `snapshot -i -s @e3` when you want a smaller, scoped result.
+- If `snapshot -i -s "<query>"` returns 0 nodes, the scope did not match the current screen. Widen the query or re-check the screen state instead of assuming the command silently fell back to the full tree.
+- If `snapshot -i` returns 0 nodes but the screen is visibly populated, treat `screenshot` as visual truth, wait briefly, then re-run `snapshot -i` once before escalating.
+- If `snapshot -i -d <n>` says the interactive output is empty at that depth, retry without `-d` instead of taking more shallow snapshots.
 
 Example:
 
@@ -88,11 +122,16 @@ App: com.apple.Preferences
 @e1 [ioscontentgroup]
   @e2 [button] "Camera"
   @e3 [button] "Privacy & Security"
+[off-screen below] 2 interactive items: "Location Services", "Battery"
 ```
 
 ## Refs vs selectors
 
 - Use refs for discovery, debugging, and short local loops.
+- When a target appears only in a visible-first off-screen summary, such as `[off-screen below] ... "Battery"`, use `scroll down` and then `snapshot -i`. For `[off-screen above]`, use `scroll up` and then `snapshot -i`.
+- For more than two repeated scroll checks, create a short shell loop instead of issuing each command by hand. Stop when the label appears or the snapshot stops changing.
+- Visible-first off-screen summaries are intentionally compact. If you need the full off-screen tree instead of a short summary, retry with `snapshot --raw`.
+- Cap long searches in the loop when the list may be unbounded or the target may not exist.
 - Use selectors for deterministic scripts, assertions, and replay-friendly actions.
 - Prefer selector or `@ref` targeting over raw coordinates.
 - For tap interactions, `press` is canonical and `click` is an equivalent alias.
@@ -106,11 +145,62 @@ agent-device press 'id="camera_row" || label="Camera" role=button'
 agent-device is visible 'id="camera_settings_anchor"'
 ```
 
+Example loop:
+
+```bash
+previous=''
+for _ in 1 2 3 4 5 6; do
+  current="$(agent-device snapshot -i)"
+  printf '%s\n' "$current"
+  printf '%s\n' "$current" | grep -q 'Battery' && break
+  [ "$current" = "$previous" ] && break
+  previous="$current"
+  agent-device scroll down 0.5 >/dev/null
+done
+```
+
+## Interaction fallbacks
+
+When `press @ref` fails:
+
+1. If the error says the ref is off-screen, use the off-screen summary direction to run `scroll <direction>`, then take a fresh `snapshot -i`.
+2. Re-snapshot if the UI may have changed.
+3. Retry `press @ref` or a selector-based `press`.
+4. If `screenshot --overlay-refs --json` returned a reliable `overlayRefs[].center`, use `agent-device press <x> <y>`.
+5. Use an external vision-based tap tool only after semantic and coordinate targeting fail.
+
+- Prefer `@ref` over coordinates.
+- Do not guess coordinates from the image when structured `center` is available.
+- `agent-device` does not provide a built-in vision-tap flag.
+
 ## Text entry rules
 
 - Use `fill` to replace text in an editable field.
 - Use `type` to append text to the current insertion point.
+- Use `fill @ref "text"` when you need to target a field directly by ref.
+- Use `press @ref`, then `type "text"` when the field is already focused and you need append semantics.
+- Do not write `type @ref "text"`; `type` only accepts text and will not target that ref for you.
+- If the keyboard blocks the next control after text entry, prefer `keyboard dismiss` instead of backing out of the screen.
+- On iOS, `keyboard dismiss` depends on the active app session to keep the target app foregrounded, so do not rely on selector-only dismiss calls after closing or without `open`.
 - Do not use `fill` or `type` just to make the app reveal information that is not currently visible unless the user asked for that interaction.
+
+## React Native dev or debug overlays
+
+Use this loop for React Native dev clients, Metro-backed builds, and local debug sessions where warnings or errors may appear as tooltips, banners, toasts, or modal overlays.
+
+1. After `open`, inspect the visible UI for warning or error surfaces before relying on the next tap.
+2. If a warning or error is visible, capture enough evidence to identify it:
+   - preferred: `screenshot`
+   - optional: `logs mark "warning visible"` or `logs mark "error visible"` if you are already in a debug window
+3. If the overlay is not the thing the user asked you to investigate, dismiss or close it with the smallest reversible action.
+4. Re-check the intended screen before continuing the task.
+5. Report any visible warnings or errors in the final summary, even if the flow succeeded after dismissal.
+
+Use this rule of thumb:
+
+- Warning overlay that does not block the task: dismiss and keep going.
+- Error overlay that does not block the task: dismiss, keep going, and report it.
+- Error overlay that blocks the task or keeps returning: stop treating it as noise and switch to [debugging.md](debugging.md).
 
 ## Query and sync rules
 
@@ -118,6 +208,7 @@ agent-device is visible 'id="camera_settings_anchor"'
 - Use `is` for assertions.
 - Use `wait` when the UI needs time to settle after a mutation.
 - Use `find "<query>" click --json` when you need search-driven targeting plus matched-target metadata.
+- Use `find "<query>" click --first` or `--last` when ambiguous matches are expected and you want the first or last occurrence without falling back to raw coordinates.
 - If you are forced onto raw coordinates, open [coordinate-system.md](coordinate-system.md) first.
 
 Example:
@@ -144,6 +235,7 @@ Preferred mapping:
 Notes:
 
 - `wait text` is useful for synchronizing on text presence, but it is not the same as `is visible`.
+- After a nearby navigation or submit on Android, prefer `screenshot`, then one fresh `snapshot -i`; `@ref` interactions refresh while the Android freshness window is active.
 
 Anti-hallucination rules:
 
@@ -155,6 +247,7 @@ Avoid this escalation path for visible-text questions:
 
 - Do not jump from `snapshot -i` to `get text @ref`, then to web search, then to typing into a search box just to force the app to reveal the answer.
 - Start with `snapshot`. If the text is not visible or exposed, report that directly.
+- After Android submit or navigation-heavy actions when the UI looks wrong: `screenshot` first, then `snapshot -i`.
 
 Canonical QA loop:
 
@@ -202,6 +295,18 @@ agent-device batch --session sim --platform ios --steps-file /tmp/batch-steps.js
 - Add `wait` or `is exists` guards after mutating steps.
 - Do not use `batch` for highly dynamic flows that need replanning after each step.
 
+Example: known chat-send flow
+
+```json
+[
+  { "command": "open", "positionals": ["ChatApp"], "flags": { "platform": "android" } },
+  { "command": "click", "positionals": ["label=\"Travel chat\""], "flags": {} },
+  { "command": "wait", "positionals": ["label=\"Message\"", "3000"], "flags": {} },
+  { "command": "fill", "positionals": ["label=\"Message\"", "Filed the expense"], "flags": {} },
+  { "command": "press", "positionals": ["label=\"Send\""], "flags": {} }
+]
+```
+
 Step payload contract:
 
 ```json
@@ -226,12 +331,27 @@ Response handling:
 - Failed runs include `details.step`, `details.command`, `details.executed`, and `details.partialResults`.
 - Replan from the first failing step instead of rerunning the whole flow blindly.
 
+Canonical batch recipe: open app -> open action menu -> choose option -> verify
+
+```json
+[
+  { "command": "open", "positionals": ["com.example.app"], "flags": { "platform": "android" } },
+  { "command": "wait", "positionals": ["text", "Home", "3000"], "flags": {} },
+  { "command": "press", "positionals": ["label=\"More actions\" role=button"], "flags": {} },
+  { "command": "wait", "positionals": ["text", "Camera scan", "2000"], "flags": {} },
+  { "command": "press", "positionals": ["label=\"Camera scan\""], "flags": {} },
+  { "command": "wait", "positionals": ["text", "Expense created", "15000"], "flags": {} },
+  { "command": "is", "positionals": ["visible", "label=\"Expense created\""], "flags": {} }
+]
+```
+
 Common batch error categories:
 
 - `INVALID_ARGS`: fix the payload shape and retry.
 - `SESSION_NOT_FOUND`: open or select the correct session, then retry.
 - `UNSUPPORTED_OPERATION`: switch to a supported command or surface.
 - `AMBIGUOUS_MATCH`: refine the selector or locator, then retry the failed step.
+- `DEVICE_IN_USE`: the device is held by another session — close or reuse the existing session before retrying.
 - `COMMAND_FAILED`: add sync guards and retry from the failing step.
 
 ## Stop conditions

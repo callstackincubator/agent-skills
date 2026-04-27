@@ -166,6 +166,7 @@ agent-device --session {SESSION} close
 - Re-snapshot after any mutation (navigation, modal, list update, form submit).
 - Use `fill` for clear-then-type semantics; use `type` for incremental typing behavior checks.
 - Keep logs optional and targeted: enable/read app logs only when useful for diagnosis.
+- If the issue appears rooted in React Native internals rather than device/app runtime behavior, use `agent-device react-devtools ...` and the `skills/react-devtools` workflow for component-tree or render-profiling inspection.
 - Never read source code of the app under test; findings must come from observed runtime behavior.
 - Write each issue immediately to avoid losing evidence.
 - Never delete screenshots/videos/report artifacts during a session.

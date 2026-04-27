@@ -12,9 +12,13 @@ Open this file when you still need to choose the right target, start the right s
 - `open`
 - `session list`
 
+Use this exact order when you are not sure about the installed app identifier. On Android dev builds in particular, `apps` is cheaper than guessing package suffixes and retrying failed `open` calls.
+
 ## Install path
 
 - `install` or `reinstall`
+- `install-from-source` when the artifact already exists at a URL the daemon can reach
+- `install-from-source --github-actions-artifact` when a compatible remote daemon should resolve a GitHub Actions artifact
 
 ## Most common mistake to avoid
 
@@ -32,8 +36,6 @@ After setup is confirmed or completed, move to `exploration.md` before doing UI 
 - If `open <app>` fails, run `agent-device apps` and retry with a discovered app name before considering install steps.
 - Do not install or reinstall on the first attempt unless the user explicitly asks for installation or provides a concrete artifact path or URL.
 - When installation is required from a known location, prefer a checked-in shell script or other deterministic bootstrap command over ad hoc path guessing.
-
-- If `open <app>` fails, or you are not sure which app name is available on the target, run `agent-device apps` first and choose from the discovered app list instead of guessing.
 - Use `apps --platform <platform>` together with `--device`, `--udid`, or `--serial` when target selection matters.
 - Once you have the correct app name, retry `open` with that exact discovered value.
 
@@ -58,15 +60,49 @@ agent-device install com.example.app ./build/app.apk --platform android --serial
 agent-device install com.example.app ./build/MyApp.app --platform ios --device "iPhone 17 Pro"
 ```
 
+```bash
+ARTIFACT_URL="<trusted-artifact-url>"
+agent-device install-from-source "$ARTIFACT_URL" --platform android
+```
+
+Daemon-resolved GitHub Actions artifacts:
+
+```bash
+agent-device install-from-source \
+  --github-actions-artifact ORG/REPO:1234567890 \
+  --platform android
+```
+
+Project config can provide an artifact name instead:
+
+```json
+{
+  "platform": "android",
+  "installSource": {
+    "type": "github-actions-artifact",
+    "repo": "ORG/REPO",
+    "artifact": "app-debug"
+  }
+}
+```
+
 ## Install guidance
 
 - Use `install <app> <path>` when the app may already be installed and you do not need a fresh-state reset.
 - Use `reinstall <app> <path>` when you explicitly need uninstall plus install as one deterministic step.
+- Use `install-from-source <url>` only when an existing artifact URL is trusted, operator-approved, and reachable by the daemon.
+- Use `--github-actions-artifact <org>/<repo>:<artifact>` when a compatible remote daemon should resolve a GitHub Actions artifact. Numeric artifacts are IDs; non-numeric artifacts are names.
+- Local `.apk`, `.aab`, `.app`, and `.ipa` paths go through `install` or `reinstall`; existing reachable URLs go through `install-from-source`.
+- Do not download, re-zip, publish temporary GitHub releases, or move CI artifacts elsewhere just to make an install command work.
 - Keep install and open as separate phases. Do not turn them into one default command flow.
 - Supported binary formats:
   - Android: `.apk` and `.aab`
   - iOS: `.app` and `.ipa`
-- For iOS `.ipa` files, `<app>` is used as the bundle id or bundle name hint when the archive contains multiple app bundles.
+- Android URL sources can be direct `.apk` or `.aab` files.
+- Trusted artifact service URLs may point at archive-backed downloads that contain one installable artifact. Prefer `--github-actions-artifact` for GitHub Actions artifacts that a compatible remote daemon can resolve with its own credentials.
+- If a trusted artifact archive contains multiple installables, stop and ask for the intended artifact instead of guessing.
+- `.aab` still requires `bundletool` in `PATH`, or `AGENT_DEVICE_BUNDLETOOL_JAR=<absolute-path-to-bundletool-all.jar>` with `java` in `PATH`, when the daemon installs the materialized artifact.
+- For `.ipa` archives with multiple app bundles, `<app>` is the bundle id or bundle name selection hint.
 - After install or reinstall, later use `open <app>` with the exact discovered or known package/bundle identifier, not the artifact path.
 
 ## Choose the right starting point
@@ -98,6 +134,7 @@ agent-device --session auth snapshot -i
 - Use semantic session names when you need multiple concurrent runs.
 - Use `--save-script=<path>` on `close` when you want to keep a replay script.
 - For dev loops where state can linger, prefer `open <app> --relaunch`.
+- For Metro-backed React Native JS changes with the app already running, prefer `metro reload` instead of `open <app> --relaunch`; it asks Metro to reload connected apps without restarting the native process.
 - In iOS sessions, use `open <app>` for the app itself. Use `open <url>` for deep links, and `open <app> <url>` when you need to launch the app and deep link in one step.
 - On iOS, `appstate` is session-scoped and requires the matching active session on the target device.
 
