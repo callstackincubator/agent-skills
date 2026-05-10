@@ -299,3 +299,187 @@ React Native performance skills based on The Ultimate Guide to React Native Opti
 [Callstack](https://www.callstack.com/) is a group of React and React Native experts. Contact us at [hello@callstack.com](mailto:hello@callstack.com) if you need help with performance optimization or just want to say hi!
 
 Like what we do? ⚛️ [Join the Callstack team](https://www.callstack.com/careers) and work on amazing React Native projects!
+## ❓ Frequently Asked Questions (FAQ)
+
+### General
+
+**Q: What are Agent Skills?**
+
+A: Agent Skills are a collection of agent-optimized skills for AI coding assistants. They provide step-by-step, actionable guidance for specific development tasks. The repo ships raw Agent Skills for assistants that can read `skills/` directly, plus marketplace metadata for Claude Code and Codex plugin workflows.
+
+**Q: Which AI assistants support Agent Skills?**
+
+A: Supported assistants:
+- **Claude Code** — via `/plugin` marketplace
+- **OpenAI Codex** — via bundled plugins or standalone skills
+- **Cursor** — via GitHub rule import or local installation
+- **Gemini CLI** — via `gemini skills install`
+- **OpenCode** — via `.opencode/skill/` directory
+- **Other assistants** — reference SKILL.md files directly
+
+### Installation
+
+**Q: How do I install skills in Claude Code?**
+
+A:
+```bash
+# Add marketplace
+/plugin marketplace add callstackincubator/agent-skills
+
+# Install specific skill
+/plugin install react-native-best-practices@callstack-agent-skills
+
+# Or use interactive menu
+/plugin menu
+```
+
+**Q: How do I install in OpenAI Codex?**
+
+A: Two options:
+
+Option 1 (bundled plugins):
+```bash
+npx codex-plugin add callstackincubator/agent-skills
+```
+
+Option 2 (standalone skills):
+```bash
+git clone https://github.com/callstackincubator/agent-skills.git
+cp -r agent-skills/skills/* .codex/skills/
+```
+
+**Q: How do I install in Cursor?**
+
+A: Option 1 (GitHub import):
+1. Open Cursor Settings (`Cmd+Shift+J`)
+2. Navigate to Rules → Import rules from GitHub
+3. Enter: `https://github.com/callstackincubator/agent-skills.git`
+
+Option 2 (local):
+```bash
+git clone https://github.com/callstackincubator/agent-skills.git .cursor/skills/agent-skills
+```
+
+**Q: How do I install in Gemini CLI?**
+
+A:
+```bash
+gemini skills install https://github.com/callstackincubator/agent-skills.git
+
+# Workspace-level
+gemini skills install https://github.com/callstackincubator/agent-skills.git --scope workspace
+```
+
+**Q: How do I install in OpenCode?**
+
+A:
+```bash
+# Project-level
+git clone https://github.com/callstackincubator/agent-skills.git
+cp -r agent-skills/skills/* .opencode/skill/
+
+# User-level
+cp -r agent-skills/skills/* ~/.config/opencode/skill/
+```
+
+### Available Skills
+
+**Q: What skills are available?**
+
+A: Current skills:
+- **react-native-best-practices** — React Native optimization (profiling, FPS, re-renders, lists, memory, bundling)
+- **github** — GitHub workflow patterns (PRs, code review, branching)
+- **github-actions** — GitHub Actions for React Native build artifacts
+- **upgrading-react-native** — React Native upgrade workflow (templates, dependencies, pitfalls)
+- **react-native-brownfield-migration** — Incremental migration to React Native/Expo in native apps
+
+**Q: What does react-native-best-practices cover?**
+
+A: Based on Callstack's "Ultimate Guide to React Native Optimization":
+- JavaScript/React: Profiling, FPS, re-renders, lists, state management, animations
+- Native: iOS/Android profiling, TTI, memory management, Turbo Modules
+- Bundling: Bundle analysis, tree shaking, R8, app size optimization
+
+### Usage
+
+**Q: How do I use skills in Claude Code?**
+
+A: After installation, Claude automatically loads relevant skills based on your task. You can also mention skills explicitly with `$skill-name`.
+
+**Q: How do I use skills in Codex?**
+
+A: Type `$` to mention a skill or use `/skills` command to list available skills.
+
+**Q: How do I use skills in Cursor?**
+
+A: Type `/` in Agent chat to search and select skills by name.
+
+**Q: How do I use skills in Gemini CLI?**
+
+A: Management commands:
+- `/skills list` — view all discovered skills
+- `/skills enable <name>` — enable a skill
+- `/skills disable <name>` — disable a skill
+- `/skills reload` — refresh skill inventory
+
+**Q: Can I use skills with assistants without native support?**
+
+A: Yes! Reference skill files directly:
+```
+Read skills/react-native-best-practices/SKILL.md for React Native performance guidelines
+```
+
+Or for specific topics:
+```
+Look up js-profile-react.md for React DevTools profiling instructions
+```
+
+### Contributing
+
+**Q: How can I contribute new skills?**
+
+A: Contributions welcome! Skills should be:
+- **Actionable** — step-by-step instructions, not theory
+- **Searchable** — clear headings and keywords
+- **Complete** — include code examples and common pitfalls
+
+Follow the [agentskills.io specification](https://agentskills.io/specification) and [Claude Code best practices](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices).
+
+**Q: What is the skill structure?**
+
+A: Each skill follows:
+```
+skill-name/
+├── SKILL.md              # Main skill file
+├── agents/openai.yaml    # Codex metadata (optional)
+└── references/           # Detailed skill files
+```
+
+### Troubleshooting
+
+**Q: Skills not appearing after installation?**
+
+A: Try:
+- Restart your AI assistant
+- Check installation path matches expected directory
+- Use `/skills reload` (Gemini CLI) or `/skills list` (Codex)
+
+**Q: Cursor GitHub import not working?**
+
+A: Cursor's GitHub rule importer discovers `.mdc` files under `.cursor/rules/`. This repo includes those files. If import fails:
+- Try Option 2 (local installation)
+- Verify `.cursor/skills/agent-skills/skills/` exists
+
+**Q: Codex plugin not loading?**
+
+A: Check:
+- `.codex/plugins/` directory exists
+- Plugin was installed via `npx codex-plugin add`
+- Restart Codex after installation
+
+**Q: Where can I get help?**
+
+A: Resources:
+- [AI Assistant Integration Guide](./docs/ai-assistant-integration.md)
+- [Skill Conventions](./docs/skill-conventions.md)
+- [GitHub Issues](https://github.com/callstackincubator/agent-skills/issues)
