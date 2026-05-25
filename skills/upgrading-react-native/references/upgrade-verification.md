@@ -6,14 +6,24 @@ tags: verification, regression, android, ios, navigation
 
 # Skill: Upgrade Verification
 
-Manual validation checklist for human developers after React Native and/or Expo upgrades.
+Manual and agent-assisted validation checklist after React Native and/or Expo upgrades.
 
 ## Scope
 
 - Focus on behavior and UX regressions that static diffs cannot prove.
 - Keep checks small, repeatable, and tied to critical user flows.
 
-## Manual Checks (Required)
+## Agent-Assisted Checks
+
+Use `agent-device` for runnable app verification. If it is missing and device verification is needed, install it through the environment's approved/trusted path or ask the user to install or enable it.
+
+1. If the agent environment exposes an `agent-device` skill, read it before planning exact commands.
+2. If the `agent-device` CLI is available, follow its `agent-device help workflow` guidance.
+3. Open or install the upgraded app, drive each critical scenario, and verify with UI snapshots.
+4. Capture screenshots, logs, and pass/fail evidence for changed flows.
+5. Fall back to human validation for credentials, physical-device-only hardware, or profiler surfaces the agent cannot inspect.
+
+## Behavior Checks (Required)
 
 1. App launch and core journeys work on both iOS and Android.
 2. Navigation behavior is correct (forward/back stack, params, deep links, modal flows).

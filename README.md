@@ -256,9 +256,11 @@ When adding or editing skills, follow the [agentskills.io specification](https:/
 
 This is just the start! The following features are planned or in progress.
 
-### Visual Feedback Integration (Planned)
+### Device Verification and Visual Feedback
 
-Several skills involve interpreting visual profiler output (flame graphs, treemaps, memory snapshots). AI agents cannot yet process these autonomously.
+Several skills involve driving app flows or interpreting visual profiler output (flame graphs, treemaps, memory snapshots). Agents should use `agent-device` to open apps, navigate scenarios, capture snapshots/screenshots, and collect logs or other evidence.
+
+Profiler-specific GUI analysis may still require exported reports or human review when the device automation surface cannot inspect the profiler UI directly.
 
 **Affected skills:**
 
@@ -270,7 +272,7 @@ Several skills involve interpreting visual profiler output (flame graphs, treema
 - `bundle-analyze-js.md` - Bundle treemap visualization
 - `bundle-analyze-app.md` - App size breakdown (Emerge Tools, Ruler)
 
-**Planned solution:** MCP (Model Context Protocol) integration for screenshot capture and visual analysis. Contributions welcome!
+**Agent reference:** if the environment exposes an `agent-device` skill, read it first. If the CLI is available, follow `agent-device help workflow` before writing exact commands. If `agent-device` is missing and device verification is needed, install it through the environment's approved/trusted path or ask the user to install or enable it.
 
 ### Complementary Skills
 
@@ -280,7 +282,7 @@ For complete coverage, consider pairing with:
 
 ### Future Work
 
-- [ ] MCP integration for visual profiler feedback
+- [ ] Broader visual profiler feedback integration
 - [ ] Additional skills for debugging, testing, and CI/CD
 - [ ] More code examples and interactive tutorials
 

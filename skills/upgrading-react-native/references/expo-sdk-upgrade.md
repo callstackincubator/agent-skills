@@ -46,7 +46,7 @@ cd "$APP_DIR" && npx expo-doctor
    - `npx expo prebuild --clean` (when applicable).
 4. Handle React 19 pairing.
    - Run [react.md](react.md).
-5. Run [upgrade-verification.md](upgrade-verification.md) for manual regression checks and release gates.
+5. Run [upgrade-verification.md](upgrade-verification.md) for manual or agent-assisted regression checks and release gates.
 
 ## Notes
 
@@ -59,7 +59,7 @@ cd "$APP_DIR" && npx expo-doctor
 - [upgrading-react-native.md](upgrading-react-native.md) - Routing and mode selection
 - [upgrade-helper-core.md](upgrade-helper-core.md) - Base upgrade workflow
 - [react.md](react.md) - React and React 19 alignment
-- [upgrade-verification.md](upgrade-verification.md) - Manual post-upgrade validation
+- [upgrade-verification.md](upgrade-verification.md) - Post-upgrade validation, including agent-device-assisted checks
 - [monorepo-singlerepo-targeting.md](monorepo-singlerepo-targeting.md) - Repo/app selection and command scoping
 
 [expo-upgrading-expo-skill]: https://github.com/expo/skills/blob/main/plugins/upgrading-expo/skills/upgrading-expo/SKILL.md

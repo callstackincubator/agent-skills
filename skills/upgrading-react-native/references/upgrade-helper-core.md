@@ -118,5 +118,5 @@ grep -n "^diff --git" /tmp/rn-diff-<current_version>..<target_version>.diff
 - [upgrading-dependencies.md](upgrading-dependencies.md) - Dependency compatibility and migration plan
 - [expo-sdk-upgrade.md](expo-sdk-upgrade.md) - Expo-only layer on top of core workflow
 - [react.md](react.md) - React and React 19 alignment
-- [upgrade-verification.md](upgrade-verification.md) - Manual post-upgrade validation
+- [upgrade-verification.md](upgrade-verification.md) - Post-upgrade validation, including agent-device-assisted checks
 - [monorepo-singlerepo-targeting.md](monorepo-singlerepo-targeting.md) - Repo/app selection and command scoping

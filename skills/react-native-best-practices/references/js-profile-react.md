@@ -29,7 +29,7 @@ Identify unnecessary re-renders and performance bottlenecks in React Native apps
 - App running in development mode
 - React DevTools version 6.0.1+ for React Compiler support
 
-> **Note**: This skill involves interpreting visual profiler output (flame graphs, component highlighting). AI agents cannot yet process screenshots autonomously. Use this as a guide while reviewing the profiler UI manually, or await MCP-based visual feedback integration (see roadmap).
+> **Note**: This skill involves visual profiler output (flame graphs, component highlighting). Use `agent-device` for runnable scenario evidence; install it through the environment's approved/trusted path or ask the user if verification needs it and it is missing. Profiler analysis may still require the DevTools UI, exported data, or human review.
 
 ## Step-by-Step Instructions
 

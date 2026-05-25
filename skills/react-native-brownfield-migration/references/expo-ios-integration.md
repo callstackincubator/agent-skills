@@ -25,6 +25,10 @@ npx brownfield package:ios --scheme <framework_target_name> --configuration Rele
 - iOS host app builds successfully
 - Framework scheme name resolved (`BrownfieldLib` by default unless overridden in Expo plugin options)
 
+## Agent-Assisted Verification
+
+Use `agent-device` after the host build succeeds. Read the `agent-device` skill or CLI help when available before exact commands. If it is missing and verification needs it, install it through the environment's approved/trusted path or ask the user to install or enable it. Then open the host app, navigate to the Expo-backed RN surface, capture snapshots/screenshots, and collect logs for Debug and Release behavior.
+
 ## Step-by-Step Instructions
 
 ```text
@@ -63,6 +67,7 @@ Mark complete only if:
 - package command exits with code `0`
 - host app builds in Debug and Release
 - selected module renders successfully
+- device evidence is captured with `agent-device` when possible
 
 ## Canonical Docs
 

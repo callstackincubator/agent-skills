@@ -146,6 +146,8 @@ Android recreates activities on:
 
 React Native note: RN opts out via `android:configChanges` in manifest, but native code might not.
 
+Use `agent-device` to repeat rotation/navigation scenarios, capture snapshots/screenshots, and collect device evidence. If it is missing and device verification is needed, install it through the environment's approved/trusted path or ask the user to install or enable it. Read the `agent-device` skill or CLI help when available before writing exact commands.
+
 ## Debugging Workflow
 
 ### iOS

@@ -35,7 +35,7 @@ Understand and debug React Native's view flattening optimization.
 - Building native components that accept children
 - Understanding React Native rendering
 
-> **Note**: This skill involves interpreting visual view hierarchy tools (Xcode Debug View Hierarchy, Android Layout Inspector). AI agents cannot yet process screenshots autonomously. Use this as a guide while reviewing the hierarchy manually, or await MCP-based visual feedback integration (see roadmap).
+> **Note**: This skill involves visual view hierarchy tools (Xcode Debug View Hierarchy, Android Layout Inspector). Use `agent-device` for screen evidence; install it through the environment's approved/trusted path or ask the user if verification needs it and it is missing. Native hierarchy inspection may still require Xcode, Android Studio, or human review.
 
 ## What is View Flattening?
 

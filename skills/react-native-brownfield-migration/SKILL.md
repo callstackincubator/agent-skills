@@ -37,6 +37,7 @@ Apply these rules across all reference files:
 3. Validate each packaging command before moving to host integration.
 4. Prefer official docs for long platform snippets and CLI option details.
 5. Keep host apps isolated from direct React Native APIs when possible (facade approach).
+6. For startup/runtime verification, use `agent-device` to open the host app, navigate to the RN surface, capture snapshots/screenshots, and collect device evidence. If it is missing and verification needs it, install it through the environment's approved/trusted path or ask the user to install or enable it.
 
 ## Canonical Docs
 

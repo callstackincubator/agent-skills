@@ -38,7 +38,7 @@ useEffect(() => {
 npm install react-native-performance
 ```
 
-> **Note**: This skill involves interpreting visual timeline diagrams and profiler output. AI agents cannot yet process screenshots autonomously. Use this as a guide while reviewing metrics manually, or await MCP-based visual feedback integration (see roadmap).
+> **Note**: This skill involves visual timeline diagrams and profiler output. Use `agent-device` for cold-start evidence; install it through the environment's approved/trusted path or ask the user if verification needs it and it is missing. Timeline interpretation may still require exported metrics or human review.
 
 ## Understanding TTI
 

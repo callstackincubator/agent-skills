@@ -26,6 +26,10 @@ ReactNativeBrownfield.shared.startReactNative { print("React Native bundle loade
 - Artifacts available in package output (`ios/.brownfield/package` or `.brownfield/ios/package`)
 - Host app builds in Xcode
 
+## Agent-Assisted Verification
+
+Use `agent-device` after the host build succeeds. Read the `agent-device` skill or CLI help when available before exact commands. If it is missing and verification needs it, install it through the environment's approved/trusted path or ask the user to install or enable it. Then open the host app, navigate to the RN surface, capture snapshots/screenshots, and collect logs for Debug and Release behavior.
+
 ## Step-by-Step Instructions
 
 ```text
@@ -57,6 +61,7 @@ ReactNativeBrownfield.shared.startReactNative(onBundleLoaded: {
 4. Validate:
    - Debug with Metro (`npx react-native start`)
    - Release without Metro
+   - Agent-assisted device evidence, using `agent-device` when possible
 
 ## Stop Conditions
 

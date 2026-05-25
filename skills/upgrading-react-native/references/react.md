@@ -36,7 +36,7 @@ React-specific upgrade rules to run when `react` changes during a React Native o
 - [upgrade-helper-core.md](upgrade-helper-core.md) - Core RN upgrade workflow
 - [upgrading-dependencies.md](upgrading-dependencies.md) - Dependency compatibility triage
 - [expo-sdk-upgrade.md](expo-sdk-upgrade.md) - Expo-specific upgrade layer
-- [upgrade-verification.md](upgrade-verification.md) - Post-upgrade manual validation
+- [upgrade-verification.md](upgrade-verification.md) - Post-upgrade validation, including agent-device-assisted checks
 
 [expo-react-19-reference]: https://github.com/expo/skills/blob/main/plugins/upgrading-expo/skills/upgrading-expo/references/react-19.md
 [rntl-llm-docs]: https://oss.callstack.com/react-native-testing-library/llms.txt

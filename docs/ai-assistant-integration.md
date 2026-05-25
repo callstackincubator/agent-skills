@@ -166,6 +166,8 @@ Read references/js-profile-react.md for step-by-step React DevTools profiling
 
 The `references/images/` directory contains profiler screenshots and diagrams. Vision-capable models (GPT-4V, Claude 3, Gemini) can interpret these for better context.
 
+For runnable React Native app flows, pair these skills with `agent-device`. If the environment exposes an `agent-device` skill, read it first; if the CLI is available, follow `agent-device help workflow`; if it is missing and device verification is needed, install it through the environment's approved/trusted path or ask the user to install or enable it. Fall back to the project's normal manual validation path when automation is unavailable.
+
 ### 4. Combine with Project Context
 
 Best results come from combining skills with your actual code:

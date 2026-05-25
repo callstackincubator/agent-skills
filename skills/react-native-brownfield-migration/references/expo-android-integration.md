@@ -26,6 +26,10 @@ npx brownfield publish:android --module-name <android_module_name>
 - Android host app builds and syncs
 - Android module name resolved (`brownfieldlib` by default unless overridden in Expo plugin options)
 
+## Agent-Assisted Verification
+
+Use `agent-device` after the host build succeeds. Read the `agent-device` skill or CLI help when available before exact commands. If it is missing and verification needs it, install it through the environment's approved/trusted path or ask the user to install or enable it. Then open the host app, navigate to the Expo-backed RN surface, capture snapshots/screenshots, and collect logs for runtime behavior.
+
 ## Step-by-Step Instructions
 
 ```text
@@ -67,6 +71,7 @@ Mark complete only if:
 
 - package and publish commands both exit with code `0`
 - host app resolves published dependency and renders module
+- device evidence is captured with `agent-device` when possible
 
 ## Canonical Docs
 

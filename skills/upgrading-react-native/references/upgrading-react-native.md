@@ -44,7 +44,7 @@ Router for React Native upgrade workflows. Start with core Upgrade Helper instru
 - Need to ensure dependencies are compatible: [upgrading-dependencies.md](upgrading-dependencies.md)
 - Need React and React 19 alignment: [react.md](react.md)
 - Project contains Expo SDK deps: [expo-sdk-upgrade.md](expo-sdk-upgrade.md)
-- Need manual post-upgrade validation: [upgrade-verification.md](upgrade-verification.md)
+- Need manual or agent-assisted post-upgrade validation: [upgrade-verification.md](upgrade-verification.md)
 
 ## Related Skills
 

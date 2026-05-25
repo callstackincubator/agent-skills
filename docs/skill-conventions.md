@@ -65,11 +65,11 @@ Reference with relative paths:
 ![React DevTools Flamegraph](images/devtools-flamegraph.png)
 ```
 
-Add a note for AI limitations:
+Add a note for agent-runnable visual or device checks:
 
 ```markdown
 > **Note**: This skill involves interpreting visual profiler output. 
-> AI agents cannot yet process screenshots autonomously.
+> Use `agent-device` to drive the app, capture snapshots/screenshots, and collect evidence. If it is missing and device verification is needed, install it through the environment's approved/trusted path or ask the user to install or enable it. Profiler-specific GUI analysis may still require exported reports or human review.
 ```
 
 ## Linking

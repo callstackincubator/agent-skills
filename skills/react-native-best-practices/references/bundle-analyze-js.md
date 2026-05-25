@@ -31,7 +31,7 @@ EXPO_UNSTABLE_ATLAS=true npx expo export --platform ios && npx expo-atlas
 - Investigating startup time issues
 - Before/after optimization comparison
 
-> **Note**: This skill involves interpreting visual treemap output (source-map-explorer, Expo Atlas). AI agents cannot yet process screenshots autonomously. Use this as a guide while reviewing the visualization manually, or await MCP-based visual feedback integration (see roadmap).
+> **Note**: This skill involves visual treemap output (source-map-explorer, Expo Atlas). When regression checks include device flows, use `agent-device` for app evidence; install it through the environment's approved/trusted path or ask the user if verification needs it and it is missing. Treemap analysis itself may still require exported reports, browser screenshots, or human review.
 
 ## Understanding Hermes Bytecode
 

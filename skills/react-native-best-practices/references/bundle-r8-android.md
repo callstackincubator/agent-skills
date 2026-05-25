@@ -212,6 +212,10 @@ Decompile APK to check class names are obfuscated:
 jadx android/app/build/outputs/apk/release/app-release.apk
 ```
 
+### Verify Runtime Behavior
+
+Use `agent-device` to install or open the release build, navigate critical flows, capture snapshots/screenshots, and collect logs. If it is missing and release verification is needed, install it through the environment's approved/trusted path or ask the user to install or enable it. Read the `agent-device` skill or CLI help when available before writing exact commands.
+
 ## Common Pitfalls
 
 - **Not testing release build**: Always QA with R8 enabled

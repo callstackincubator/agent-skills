@@ -26,7 +26,7 @@ Use Xcode Instruments and Android Studio Profiler to identify native performance
 - Battery drain concerns
 - Need CPU/memory breakdown by thread
 
-> **Note**: This skill involves interpreting visual profiler output (Xcode Instruments, Android Studio Profiler). AI agents cannot yet process screenshots autonomously. Use this as a guide while reviewing the profiler UI manually, or await MCP-based visual feedback integration (see roadmap).
+> **Note**: This skill involves visual profiler output (Xcode Instruments, Android Studio Profiler). Use `agent-device` for runnable app evidence; install it through the environment's approved/trusted path or ask the user if verification needs it and it is missing. Profiler-specific GUI analysis may still require exported traces or human review.
 
 ## iOS Profiling with Xcode
 

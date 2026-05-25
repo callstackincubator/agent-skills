@@ -29,6 +29,10 @@ dependencies { implementation("<groupId>:<artifactId>:<version>") }
 - AAR published to local Maven
 - Host app Gradle sync is healthy
 
+## Agent-Assisted Verification
+
+Use `agent-device` after the host build succeeds. Read the `agent-device` skill or CLI help when available before exact commands. If it is missing and verification needs it, install it through the environment's approved/trusted path or ask the user to install or enable it. Then open the host app, navigate to the RN surface, capture snapshots/screenshots, and collect logs for runtime behavior.
+
 ## Step-by-Step Instructions
 
 ```text
@@ -53,6 +57,7 @@ ReactNativeHostManager.initialize(this.application) {
    - `ReactNativeFragment.createReactNativeFragment("<registered_module_name>")`
    - or `ReactNativeBrownfield.shared.createView(...)`
 5. Verify host app resolves dependency and RN module renders.
+   - Capture agent-assisted device evidence, using `agent-device` when possible.
 
 ## Stop Conditions
 

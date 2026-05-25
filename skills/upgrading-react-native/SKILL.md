@@ -58,7 +58,7 @@ Reference these guidelines when:
 | [upgrading-dependencies.md][upgrading-dependencies] | Dependency compatibility checks and migration planning |
 | [react.md][react] | React and React 19 upgrade alignment rules |
 | [expo-sdk-upgrade.md][expo-sdk-upgrade] | Expo SDK-specific upgrade layer (conditional) |
-| [upgrade-verification.md][upgrade-verification] | Manual post-upgrade verification checklist |
+| [upgrade-verification.md][upgrade-verification] | Post-upgrade verification checklist, including agent-device-assisted checks |
 | [monorepo-singlerepo-targeting.md][monorepo-singlerepo-targeting] | Monorepo and single-repo app targeting and command scoping |
 
 ## Problem → Skill Mapping
@@ -70,7 +70,7 @@ Reference these guidelines when:
 | Need React/React 19 package alignment | [react.md][react] |
 | Need workflow routing first | [upgrading-react-native.md][upgrading-react-native] |
 | Need Expo SDK-specific steps | [expo-sdk-upgrade.md][expo-sdk-upgrade] |
-| Need manual regression validation | [upgrade-verification.md][upgrade-verification] |
+| Need manual or agent-assisted regression validation | [upgrade-verification.md][upgrade-verification] |
 | Need repo/app command scoping | [monorepo-singlerepo-targeting.md][monorepo-singlerepo-targeting] |
 
 [upgrading-react-native]: references/upgrading-react-native.md
