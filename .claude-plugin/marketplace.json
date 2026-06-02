@@ -39,6 +39,12 @@
 			"description": "Incremental migration strategy for adopting React Native or Expo in native iOS/Android apps using @callstack/react-native-brownfield, including initial setup, packaging, and phased host integration.",
 			"source": "./",
 			"skills": ["./skills/react-native-brownfield-migration"]
+		},
+		{
+			"name": "deployment",
+			"description": "React Native deployment and release workflows for App Store and Play Store, including publish checklists, Fastlane automation, CI/CD patterns, and E2E pre-publish quality gates.",
+			"source": "./",
+			"skills": ["./skills/deployment"]
 		}
 	]
 }

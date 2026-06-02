@@ -1,0 +1,4 @@
+interface:
+  display_name: "React Native Deployment"
+  short_description: "Fastlane, store publish checklists, and release gating for RN"
+  default_prompt: "Use $deployment to set up React Native Fastlane release automation, pre-publish validation, and App Store or Play Store delivery workflows."

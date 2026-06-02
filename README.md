@@ -11,6 +11,7 @@ A collection of agent-optimized skills for AI coding assistants. The repo ships 
 | [github-actions](./skills/github-actions/)                           | GitHub Actions workflow patterns for React Native simulator/emulator build artifacts |
 | [upgrading-react-native](./skills/upgrading-react-native/)           | React Native upgrade workflow: templates, dependencies, and common pitfalls |
 | [react-native-brownfield-migration](./skills/react-native-brownfield-migration/) | Incremental migration strategy to adopt React Native or Expo in native apps using @callstack/react-native-brownfield, with setup, packaging, and phased integration steps |
+| [deployment](./skills/deployment/)                                   | React Native release engineering workflows: publish checklists, Fastlane automation, and E2E pre-publish quality gates |
 
 ## React Native Best Practices
 
@@ -47,6 +48,7 @@ Other available installs:
 /plugin install github-actions@callstack-agent-skills
 /plugin install upgrading-react-native@callstack-agent-skills
 /plugin install react-native-brownfield-migration@callstack-agent-skills
+/plugin install deployment@callstack-agent-skills
 ```
 
 Or use the interactive menu:
@@ -234,10 +236,15 @@ agent-skills/
     │   ├── SKILL.md              # Main skill file with RN upgrade workflow routing
     │   └── references/           # Detailed upgrade flow files
     │
-    └── react-native-brownfield-migration/
-        ├── SKILL.md              # Main skill file for Expo/bare path routing
+    ├── react-native-brownfield-migration/
+    │   ├── SKILL.md              # Main skill file for Expo/bare path routing
+    │   ├── agents/openai.yaml    # Codex Skills UI metadata
+    │   └── references/           # Brownfield packaging and integration flow files
+    │
+    └── deployment/
+        ├── SKILL.md              # Main skill file for RN deployment and release workflows
         ├── agents/openai.yaml    # Codex Skills UI metadata
-        └── references/           # Brownfield packaging and integration flow files
+        └── references/           # Publish checklist, Fastlane automation, E2E release gate flows
 ```
 
 Use `.claude-plugin/marketplace.json` for Claude Code plugin installs and `.agents/plugins/marketplace.json` for Codex plugin installs.
