@@ -67,13 +67,9 @@ Once installed, Claude will automatically load the relevant skill based on the t
 
 This repo supports Codex in two different ways.
 
-**Option 1: Install the bundled Codex plugins**
+**Option 1: Add the bundled Codex plugins**
 
-```bash
-npx codex-plugin add callstackincubator/agent-skills
-```
-
-This reads `.agents/plugins/marketplace.json`, installs the bundled plugins into `.codex/plugins/`, and makes them available after restarting Codex.
+Codex can add the bundled plugins from this repository automatically using `.agents/plugins/marketplace.json`, so a separate install script is not needed.
 
 **Option 2: Install standalone skills**
 
