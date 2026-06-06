@@ -1,485 +1,513 @@
-# Agent Skills
 
-A collection of agent-optimized skills for AI coding assistants. The repo ships raw Agent Skills for assistants that can read `skills/` directly, plus marketplace metadata for both Claude Code and Codex plugin workflows.
+# ☁️ Azure Agent Skills
 
-## Available Skills
-
-| Skill                                                                | Description                                             |
-| -------------------------------------------------------------------- | ------------------------------------------------------- |
-| [react-native-best-practices](./skills/react-native-best-practices/) | React Native optimization best practices from Callstack |
-| [github](./skills/github/)                                           | GitHub workflow patterns for PRs, code review, branching |
-| [github-actions](./skills/github-actions/)                           | GitHub Actions workflow patterns for React Native simulator/emulator build artifacts |
-| [upgrading-react-native](./skills/upgrading-react-native/)           | React Native upgrade workflow: templates, dependencies, and common pitfalls |
-| [react-native-brownfield-migration](./skills/react-native-brownfield-migration/) | Incremental migration strategy to adopt React Native or Expo in native apps using @callstack/react-native-brownfield, with setup, packaging, and phased integration steps |
-
-## React Native Best Practices
-
-Performance optimization skills based on [**The Ultimate Guide to React Native Optimization**](https://www.callstack.com/ebooks/the-ultimate-guide-to-react-native-optimization) by [Callstack](https://www.callstack.com/).
-
-Covers:
-
-- **JavaScript/React**: Profiling, FPS, re-renders, lists, state management, animations
-- **Native**: iOS/Android profiling, TTI, memory management, Turbo Modules
-- **Bundling**: Bundle analysis, tree shaking, R8, app size optimization
-
-### Quick Start
-
-#### Claude Code
-
-Use the Claude Code marketplace metadata in `.claude-plugin/marketplace.json`.
-
-**1. Add the marketplace:**
-
-```bash
-/plugin marketplace add callstackincubator/agent-skills
-```
-
-**2. Install the skill you want:**
-
-```bash
-/plugin install react-native-best-practices@callstack-agent-skills
-```
-
-Other available installs:
-
-```bash
-/plugin install github@callstack-agent-skills
-/plugin install github-actions@callstack-agent-skills
-/plugin install upgrading-react-native@callstack-agent-skills
-/plugin install react-native-brownfield-migration@callstack-agent-skills
-```
-
-Or use the interactive menu:
-
-```bash
-/plugin menu
-```
-
-**For local development:**
-
-```bash
-claude --plugin-dir ./path/to/agent-skills
-```
-
-Once installed, Claude will automatically load the relevant skill based on the task.
-
-#### OpenAI Codex
-
-This repo supports Codex in two different ways.
-
-**Option 1: Install the bundled Codex plugins**
-
-```bash
-npx codex-plugin add callstackincubator/agent-skills
-```
-
-This reads `.agents/plugins/marketplace.json`, installs the bundled plugins into `.codex/plugins/`, and makes them available after restarting Codex.
-
-**Option 2: Install standalone skills**
-
-All major AI coding assistants support the Agent Skills standard.
-
-**Install via skill-installer:**
-
-```
-$skill-installer install react-native-best-practices from callstackincubator/agent-skills
-```
-
-**Or clone manually:**
-
-```bash
-# Project-level
-git clone https://github.com/callstackincubator/agent-skills.git
-cp -r agent-skills/skills/* .codex/skills/
-
-# User-level
-cp -r agent-skills/skills/* ~/.codex/skills/
-```
-
-Restart Codex to recognize newly installed skills.
-
-**Usage:** Type `$` to mention a skill or use `/skills` command.
-
-These skills include `agents/openai.yaml` metadata for Codex Skills UI compatibility.
-
-#### Other AI Assistants
-
-##### Cursor
-
-**Option 1: Import rules from GitHub**
-
-Cursor’s GitHub / GitLab rule importer only discovers **`.mdc` files** (typically under `.cursor/rules/`). This repository includes those files so import succeeds.
-
-1. Open Cursor Settings (`Cmd+Shift+J` / `Ctrl+Shift+J`)
-2. Navigate to **Rules** and use **Import rules from GitHub** (wording may vary by version), or add a remote rule from a Git URL
-3. Enter: `https://github.com/callstackincubator/agent-skills.git`
-
-Imported rules are short Cursor **project rules**; they point at the full Agent Skills under `skills/`. Clone or copy the `skills/` tree into your workspace when you want the model to read the complete markdown skills locally (see Option 2).
-
-**Option 2: Local Installation**
-
-```bash
-# Project-level
-git clone https://github.com/callstackincubator/agent-skills.git .cursor/skills/agent-skills
-
-# User-level (available in all projects)
-git clone https://github.com/callstackincubator/agent-skills.git ~/.cursor/skills/agent-skills
-```
-
-**Usage:** Type `/` in Agent chat to search and select skills by name.
-
-##### Gemini CLI
-
-**Install from repository:**
-
-```bash
-gemini skills install https://github.com/callstackincubator/agent-skills.git
-```
-
-**Or install to workspace:**
-
-```bash
-gemini skills install https://github.com/callstackincubator/agent-skills.git --scope workspace
-```
-
-**Management commands:**
-- `/skills list` - view all discovered skills
-- `/skills enable <name>` / `/skills disable <name>` - toggle availability
-- `/skills reload` - refresh skill inventory
-
-##### OpenCode
-
-Clone to any supported skills directory:
-
-```bash
-# Project-level
-git clone https://github.com/callstackincubator/agent-skills.git
-cp -r agent-skills/skills/* .opencode/skill/
-
-# User-level
-cp -r agent-skills/skills/* ~/.config/opencode/skill/
-```
-
-OpenCode also discovers Claude-compatible paths (`.claude/skills/`, `~/.claude/skills/`).
-
-**Permission control** in `opencode.json`:
-
-```json
-{
-  "permission": {
-    "skill": {
-      "*": "allow"
-    }
-  }
-}
-```
-
-##### Other Assistants
-
-For assistants without native skills support, point them to the skill file:
-
-```
-Read skills/react-native-best-practices/SKILL.md for React Native performance guidelines
-```
-
-Or reference specific topics:
-
-```
-Look up js-profile-react.md for React DevTools profiling instructions
-```
-
-### Code Examples
-
-The [callstack/optimization-best-practices](https://github.com/callstack/optimization-best-practices) repository contains runnable code examples for:
-
-- React Compiler setup
-- Dedicated React Native SDKs vs web polyfills
-- R8 code shrinking on Android
-
-## Other AI Assistants
-
-See [AI Assistant Integration Guide](./docs/ai-assistant-integration.md) for detailed setup instructions with Cursor, GitHub Copilot, Claude API, ChatGPT, and other AI coding assistants.
-
-## Structure
-
-### Repo Structure
-
-```
-agent-skills/
-├── .cursor/
-│   └── rules/                 # Cursor importable project rules (.mdc) for “Import rules from GitHub”
-├── .claude-plugin/
-│   └── marketplace.json     # Claude Code marketplace definition
-├── .agents/
-│   └── plugins/
-│       └── marketplace.json # Codex marketplace definition for bundled plugins
-├── plugins/
-│   ├── building-react-native-apps/
-│   └── testing-react-native-apps/
-└── skills/
-    ├── react-native-best-practices/
-    │   ├── SKILL.md              # Main skill file with quick reference
-    │   └── references/           # Detailed skill files
-    │       ├── images/           # Visual references for profilers, diagrams
-    │       ├── js-*.md           # JavaScript/React skills
-    │       ├── native-*.md       # Native iOS/Android skills
-    │       └── bundle-*.md       # Bundling & app size skills
-    │
-    ├── github/
-    │   ├── SKILL.md              # Main skill file with PR workflow patterns
-    │   └── references/           # Detailed GitHub workflow files
-    │
-    ├── github-actions/
-    │   ├── SKILL.md              # Main skill file for GitHub Actions build artifacts
-    │   ├── agents/openai.yaml    # Codex Skills UI metadata
-    │   └── references/           # iOS/Android action templates and download flows
-    │
-    ├── upgrading-react-native/
-    │   ├── SKILL.md              # Main skill file with RN upgrade workflow routing
-    │   └── references/           # Detailed upgrade flow files
-    │
-    └── react-native-brownfield-migration/
-        ├── SKILL.md              # Main skill file for Expo/bare path routing
-        ├── agents/openai.yaml    # Codex Skills UI metadata
-        └── references/           # Brownfield packaging and integration flow files
-```
-
-Use `.claude-plugin/marketplace.json` for Claude Code plugin installs and `.agents/plugins/marketplace.json` for Codex plugin installs.
-
-The standalone `skills/` directory contains repo-local skills. The `plugins/` directory contains installable Codex plugin bundles.
-
-## Contributing
-
-Contributions welcome! Skills should be:
-
-- **Actionable**: Step-by-step instructions, not theory
-- **Searchable**: Clear headings and keywords
-- **Complete**: Include code examples and common pitfalls
-
-When adding or editing skills, follow the [agentskills.io specification](https://agentskills.io/specification) and [Claude Code best practices](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices). The maintainer checklist lives in [AGENTS.md](./AGENTS.md), with supporting details in [docs/skill-conventions.md](./docs/skill-conventions.md).
-
-## Roadmap / Work in Progress
-
-This is just the start! The following features are planned or in progress.
-
-### Visual Feedback Integration (Planned)
-
-Several skills involve interpreting visual profiler output (flame graphs, treemaps, memory snapshots). AI agents cannot yet process these autonomously.
-
-**Affected skills:**
-
-- `js-profile-react.md` - React DevTools flame graphs
-- `js-measure-fps.md` - FPS graphs and performance overlays
-- `native-profiling.md` - Xcode Instruments / Android Studio Profiler
-- `native-measure-tti.md` - TTI timeline visualization
-- `native-view-flattening.md` - View hierarchy inspection
-- `bundle-analyze-js.md` - Bundle treemap visualization
-- `bundle-analyze-app.md` - App size breakdown (Emerge Tools, Ruler)
-
-**Planned solution:** MCP (Model Context Protocol) integration for screenshot capture and visual analysis. Contributions welcome!
-
-### Complementary Skills
-
-For complete coverage, consider pairing with:
-
-- [Vercel React Best Practices](https://github.com/vercel-labs/agent-skills/tree/react-best-practices/skills/react-best-practices) - React/Next.js web optimization (40+ rules)
-
-### Future Work
-
-- [ ] MCP integration for visual profiler feedback
-- [ ] Additional skills for debugging, testing, and CI/CD
-- [ ] More code examples and interactive tutorials
+> 🚀 **Agentic Skills for Azure Development**
+>
+> Supercharge your AI coding assistant with curated, production-ready skills for Microsoft Azure. Works seamlessly with:
+>
+> 🟣 **Claude Code** | 🔵 **Gemini CLI** | 🟢 **Codex CLI** | 🔴 **Antigravity IDE** | 🩵 **GitHub Copilot** | 🟠 **Cursor** | ⚪ **OpenCode** | 🌸 **AdaL CLI**
 
 ---
 
-## Made with ❤️ at Callstack
 
-React Native performance skills based on The Ultimate Guide to React Native Optimization.
+[![License: CC BY 4.0](https://img.shields.io/badge/License-CC%20BY%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by/4.0/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-[Callstack](https://www.callstack.com/) is a group of React and React Native experts. Contact us at [hello@callstack.com](mailto:hello@callstack.com) if you need help with performance optimization or just want to say hi!
+[![Agent Skills](https://img.shields.io/badge/Agent%20Skills-Open%20Standard-green)](https://agentskills.io/)
+[![Copilot](https://img.shields.io/badge/GitHub%20Copilot-VSCode-lightblue)](https://github.com/features/copilot)
 
-Like what we do? ⚛️ [Join the Callstack team](https://www.callstack.com/careers) and work on amazing React Native projects!
-## ❓ Frequently Asked Questions (FAQ)
+[![Claude Code](https://img.shields.io/badge/Claude%20Code-Anthropic-purple)](https://claude.ai)
+[![Gemini CLI](https://img.shields.io/badge/Gemini%20CLI-Google-blue)](https://github.com/google-gemini/gemini-cli)
+[![Codex CLI](https://img.shields.io/badge/Codex%20CLI-OpenAI-green)](https://github.com/openai/codex)
+[![Cursor](https://img.shields.io/badge/Cursor-AI%20IDE-orange)](https://cursor.sh)
+[![OpenCode](https://img.shields.io/badge/OpenCode-CLI-gray)](https://github.com/opencode-ai/opencode)
+[![Antigravity](https://img.shields.io/badge/Antigravity-DeepMind-red)](https://github.com/sickn33/antigravity-awesome-skills)
+[![AdaL CLI](https://img.shields.io/badge/AdaL%20CLI-SylphAI-pink)](https://sylph.ai/)
 
-### General
+Azure Agent Skills is a curated collection of **high-quality agentic skills** specifically designed for Azure cloud development. These skills follow the [Agent Skills open standard](https://agentskills.io/) and work seamlessly with modern AI coding assistants to provide expert-level guidance on Azure services.
 
-**Q: What are Agent Skills?**
+---
 
-A: Agent Skills are a collection of agent-optimized skills for AI coding assistants. They provide step-by-step, actionable guidance for specific development tasks. The repo ships raw Agent Skills for assistants that can read `skills/` directly, plus marketplace metadata for Claude Code and Codex plugin workflows.
+## 📍 Table of Contents
 
-**Q: Which AI assistants support Agent Skills?**
+- [🚀 New Here? Start Here!](#-new-here-start-here)
+- [🔌 Compatibility & Invocation](#-compatibility--invocation)
+- [📦 Features & Categories](#-features--categories)
+- [🎁 Curated Collections (Bundles)](#-curated-collections-bundles)
+- [📚 Browse All Skills](#-browse-all-skills)
+- [🛠️ Installation](#️-installation)
+- [🧠 How to Use](#-how-to-use)
+- [📖 Agent Skills Documentation](#-agent-skills-documentation)
+- [🤝 How to Contribute](#-how-to-contribute)
+- [⚖️ License](#️-license)
 
-A: Supported assistants:
-- **Claude Code** — via `/plugin` marketplace
-- **OpenAI Codex** — via bundled plugins or standalone skills
-- **Cursor** — via GitHub rule import or local installation
-- **Gemini CLI** — via `gemini skills install`
-- **OpenCode** — via `.opencode/skill/` directory
-- **Other assistants** — reference SKILL.md files directly
+---
 
-### Installation
+## 🚀 New Here? Start Here!
 
-**Q: How do I install skills in Claude Code?**
+### 1. 🐣 What is this?
 
-A:
+AI Agents (like GitHub Copilot, Claude Code, or Cursor) are smart, but they lack specific, up-to-date knowledge about Azure services. **Skills** are folders containing markdown instructions, scripts, and resources that teach AI agents how to work with Azure services correctly, every time.
+
+> 💡 Skills are reusable, filesystem-based resources that provide AI agents with domain-specific expertise. They load on-demand and eliminate the need to repeatedly provide the same guidance across conversations.
+
+### 2. 📚 How These Skills Are Created
+
+Microsoft Learn documentation already encodes **decisions, procedures, best practices, and constraints** — exactly what agents need to act effectively. Rather than relying on RAG to retrieve and summarize raw text every time, we **pre-compile this knowledge into structured, executable skills**.
+
+**Documentation as Pre-Built Skills**: Many effective agent skills are not new inventions — they are structured patterns, workflows, and decision logic that already exist in documentation. Consider what Learn content contains:
+
+- API patterns and usage guidance
+- Service configuration procedures  
+- Platform best practices and constraints
+- Troubleshooting decision trees
+- Security and compliance requirements
+
+**Our approach:**
+
+1. **Extract** high-value, task-oriented capabilities from Learn content
+2. **Classify** by purpose (limits, troubleshooting, configuration, architecture, etc.)
+3. **Reveal** only when relevant to the user's intent
+
+The knowledge is **pre-compiled into actions, choices, and guardrails** the agent can use directly — not raw text that needs interpretation.
+
+Each skill provides:
+- 📚 Curated documentation links organized by topic
+- 🔗 Direct access to Microsoft Learn content
+- 🎯 Best practices and architecture patterns
+- ⚠️ Troubleshooting guides and common pitfalls
+
+### 3. ⚡️ Quick Start
+
+A short path to getting started — full installation details are in the [🛠️ Installation](#️-installation) section below.
+
+1. Clone the repo:
+   ```bash
+   git clone https://github.com/MicrosoftDocs/agent-skills.git
+   ```
+
+2. Copy the contents of the `skills/` folder to your AI assistant's skills path (see [🛠️ Installation](#️-installation) for the destination table and important notes).
+
+3. VS Code users: enable `chat.agent.skills` in Settings so the editor will load skills.
+
+4. Start coding — your AI assistant will automatically discover and use the installed skills.
+
+### 4. 🧠 How Skills Work
+
+Skills use **progressive disclosure** to efficiently load content only when needed:
+
+1. **Level 1 - Discovery**: Agent reads skill `name` and `description` from YAML frontmatter
+2. **Level 2 - Instructions**: When triggered, agent loads the full `SKILL.md` content
+3. **Level 3 - Resources**: Agent accesses additional files (scripts, examples) as needed
+
+Once installed, just ask your AI assistant naturally:
+
+> "Help me set up Azure Functions with Durable Functions"
+> 
+> "What are the best practices for Azure Container Apps?"
+> 
+> "How do I configure Azure API Management?"
+
+The skills will automatically provide context from official Microsoft documentation.
+
+---
+
+## 🔌 Compatibility & Invocation
+
+
+These skills follow the [Agent Skills open standard](https://agentskills.io/) (`SKILL.md` format) and work with any AI coding assistant that supports agentic skills.
+
+| AI Coding Assistant      | Type           | Skills Path / Location         | How to Invoke                      |
+|-------------------------|----------------|-------------------------------|-------------------------------------|
+| **Claude Code**         | Anthropic CLI  | `.claude/skills/`              | Natural language, `/skill-name`     |
+| **Gemini CLI**          | Google DeepMind| `.gemini/skills/`              | Natural language                    |
+| **Codex CLI**           | OpenAI         | `.codex/skills/`               | Natural language                    |
+| **Antigravity IDE**     | DeepMind IDE   | `.agent/skills/`               | Agent mode, natural language        |
+| **GitHub Copilot**      | VSCode Ext     | `.github/skills/`              | Natural language, `@workspace`      |
+| **Cursor**              | AI-native IDE  | `.cursor/skills/`              | `@skill-name` in Chat               |
+| **OpenCode**            | Open-source CLI| `.agent/skills/`               | `opencode run @skill-name`          |
+| **AdaL CLI**            | SylphAI Agent  | `.adal/skills/`                | Auto-load, natural language         |
+
+> 💡 **Path Note:** `~` refers to your home directory:
+> - **macOS/Linux:** `~` = `/Users/yourname` or `/home/yourname`
+> - **Windows:** `~` = `%USERPROFILE%` = `C:\Users\yourname` (use `$HOME` in PowerShell)
+
+> 💡 **Tip:** Most modern tools support `.agent/skills/` as a universal path. For GitHub Copilot, `.github/skills/` is recommended per the [Agent Skills specification](https://agentskills.io/specification).
+
+---
+
+## 📦 Features & Categories
+
+The repository is organized by Azure service domains:
+
+| Category | Skills | Examples |
+|----------|--------|----------|
+| ☁️ **Compute** | 13 | Azure App Service, Azure Batch, Azure Cloud Services, Azure Cyclecloud, Azure Functions |
+| 🔗 **Integration** | 16 | Azure API Center, Azure API Management, Azure Business Process Tracking, Azure Communication Services, Azure Data API Builder |
+| 📊 **Data & Analytics** | 19 | Azure Analysis Services, Azure Cache Redis, Azure Cosmos Db, Azure Data Explorer, Azure Data Factory |
+| 🤖 **AI & ML** | 23 | Azure AI Services, Azure AI Vision, Azure Anomaly Detector, Azure Bot Service, Azure Cognitive Search, Azure Foundry Classic, Azure Foundry Local, Microsoft Foundry |
+| 🔒 **Security & Identity** | 19 | Azure Active Directory B2C, Azure Attestation, Azure Cloud Hsm, Azure Confidential Computing, Azure Confidential Ledger |
+| 🌐 **Networking** | 23 | Azure Application Gateway, Azure Bastion, Azure DDoS Protection, Azure Dns, Azure Expressroute |
+| 🏗️ **Infrastructure** | 52 | Azure Advisor, Azure AKS Edge Essentials, Azure API Management, Azure Arc, Azure Architecture, Azure Container Storage, Azure Elastic SAN |
+| 💰 **Management** | 39 | Azure Advisor, Azure API Management, Azure Architecture, Azure Artifacts, Azure Automation |
+| 🎮 **Specialized** | 26 | Azure AKS Edge Essentials, Azure API Management, Azure App Configuration, Azure App Service, Azure Communication Services |
+
+**Total: 193 skills across 19 categories** ✓
+
+---
+
+## 🎁 Curated Collections (Bundles)
+
+Not sure where to start? We've created role-based skill bundles to help you get productive quickly.
+
+👉 **[View Curated Bundles (docs/BUNDLES.md)](docs/BUNDLES.md)**
+
+| Bundle | Description |
+|--------|-------------|
+| **🚀 Quick Start** | Absolute essentials for any Azure developer — master these 7 core services first |
+| **⭐ Popular** | Popular Azure services. The services that power most workloads |
+| **🎯 Core** | Core Azure essentials. The foundation every developer needs before specializing |
+| **🤖 AI/ML Developer** | For AI engineers and ML practitioners. Covers AI services, machine learning, and intelligent applications |
+| **📊 Data Engineer** | For data engineers and analytics professionals. Covers data integration, warehousing, and streaming analytics |
+| **🏗️ Infrastructure Pro** | For infrastructure engineers and cloud architects. Covers networking, backup, recovery, and resource management |
+| **🔒 Security & Compliance** | Secure Azure workloads with RBAC, policy, key management, and compliance |
+| **🌐 DevOps & Automation** | Automate deployments, monitoring, and infrastructure management |
+| **🔗 Integration** | Connect Azure services with API Management, Event Grid, Logic Apps, and Service Bus |
+| **☁️ Full-Stack Azure** | Complete coverage with architecture foundations |
+
+> 💡 **Recommended Path:**
+> 1. Start with **Quick Start Bundle**
+> 2. Add **Popular Bundle** for broader coverage
+> 3. Choose specialized bundles based on your role
+
+---
+
+## 📚 Browse All Skills
+
+We've moved the complete skill registry to a dedicated catalog to keep this README clean.
+
+👉 **[View the Complete Skill Catalog (docs/CATALOG.md)](docs/CATALOG.md)**
+
+| Skill | Description |
+|-------|-------------|
+| **All Azure Skills** | Full list of all available Azure skills |
+| **Skill Descriptions** | Skill descriptions and capabilities |
+| **Skill Files** | Links to individual skill files |
+
+### 📂 Repository Structure
+
+| Directory | Purpose |
+|-----------|---------|
+| `skills/` | Production-ready skills for AI agents to consume |
+| `products/` | Scan results, raw data, and reporting artifacts |
+
+#### About the `products/` Directory
+
+The `products/` folder stores **scan pipeline outputs** and is used for:
+
+- **Raw Data**: Results from the latest documentation scan, including extracted nodes and metadata
+- **Classification Reports**: Detailed records of why each node was classified as a skill (or excluded)
+- **Incremental Tracking**: Historical scan data to support delta processing and change detection
+
+> ⚠️ **Note:** The `products/` directory is for internal pipeline use and contributor reference. End users only need the `skills/` directory.
+
+---
+
+## 🛠️ Installation
+
+Choose the installation path based on your preferred AI coding assistant.
+
+> ⚠️ **Note:** This repository contains skills in the `skills/` subdirectory. Clone the repo first, then copy the skills to your target location.
+
+### Step 1: Clone the Repository
+
+First, clone this repository to a location on your machine (e.g., your home folder or a temp directory):
+
 ```bash
-# Add marketplace
-/plugin marketplace add callstackincubator/agent-skills
-
-# Install specific skill
-/plugin install react-native-best-practices@callstack-agent-skills
-
-# Or use interactive menu
-/plugin menu
+git clone https://github.com/MicrosoftDocs/agent-skills.git
 ```
 
-**Q: How do I install in OpenAI Codex?**
+### Step 2: Copy Skills to Your Destination
 
-A: Two options:
+Copy the **contents** inside the `skills/` folder to your target location based on your AI assistant:
 
-Option 1 (bundled plugins):
+| AI Assistant | Project-level (in your repo) | Personal/Global (all projects) |
+|--------------|------------------------------|--------------------------------|
+| **GitHub Copilot** | `{your-project}/.github/skills/` | `~/.copilot/skills/` |
+| **Claude Code** | `{your-project}/.claude/skills/` | `~/.claude/skills/` |
+| **OpenAI Codex** | `{your-project}/.codex/skills/` | `~/.codex/skills/` |
+| **Cursor** | `{your-project}/.cursor/skills/` | — |
+| **Gemini CLI** | `{your-project}/.gemini/skills/` | — |
+| **Antigravity IDE** | `{your-project}/.agent/skills/` | `~/.gemini/antigravity/skills/` |
+| **OpenCode** | `{your-project}/.agent/skills/` | `~/.agent/skills/` |
+| **AdaL CLI** | `{your-project}/.adal/skills/` | `~/.adal/skills/` |
+
+> ⚠️ **Important:** Copy the folders **inside** `skills/` (e.g., `azure-functions/`, `azure-container-apps/`), NOT the `skills` folder itself.
+>
+> ✅ Correct: `.copilot/skills/azure-functions/SKILL.md`  
+> ❌ Wrong: `.copilot/skills/skills/azure-functions/SKILL.md`
+
+> 💡 **Path Note:** `~` = Home directory
+> - **Windows:** `C:\Users\yourname` (use `$HOME` in PowerShell)
+> - **macOS/Linux:** `/Users/yourname` or `/home/yourname`
+
+**Enable Agent Skills in VS Code** (Required for VS Code users):
+
+Agent Skills is currently an **experimental feature**. You must enable it manually:
+
+1. Open VS Code Settings (`Ctrl`+`,` on Windows/Linux, `Cmd`+`,` on macOS)
+2. Search for `chat.agent.skills`
+3. Check the box for **"Chat: Use Agent Skills"**
+   ![vs-code-use-agent-skills](docs/vs-code-use-agent-skills.png)
+
+> ⚠️ **Important:** Without this setting enabled, VS Code will not load or use any skills!
+
+---
+
+### Step 3: Cleanup (Optional)
+
+After copying, you can delete the cloned `agent-skills` repository if you no longer need it.
+
+---
+
+## 🧠 How to Use
+
+### Prerequisites
+
+Most skills require **network access** to fetch the latest documentation from Microsoft Learn.
+
+**Option 1: Microsoft Learn MCP Server (Recommended)**
+- Uses `mcp_microsoftdocs:microsoft_docs_fetch` to fetch complete documentation
+
+**Option 2: Web Fetch Tool**
+- Uses `fetch_webpage` to retrieve content from documentation URLs
+
+### Example Workflow
+
+1. **Ask about an Azure service:**
+   ```
+   How do I implement blue-green deployments in Azure Container Apps?
+   ```
+
+2. **The skill provides:**
+   - Direct links to official Microsoft documentation
+   - Best practices from Microsoft Learn
+   - Architecture patterns and code examples
+
+3. **AI fetches documentation:**
+   - The AI assistant uses MCP tools to fetch the latest content
+   - You get accurate, up-to-date guidance
+
+---
+
+## 📖 Agent Skills Documentation
+
+Agent Skills is an **open standard** for giving AI agents new capabilities. Learn more about how each platform implements skills:
+
+### Official Documentation
+
+| Platform | Documentation | Description |
+|----------|---------------|-------------|
+| **Agent Skills Standard** | [agentskills.io](https://agentskills.io/) | The open specification for `SKILL.md` format |
+| **GitHub Copilot** | [About Agent Skills](https://docs.github.com/en/copilot/concepts/agents/about-agent-skills) | Skills for Copilot coding agent, CLI, and VS Code |
+| **VS Code Copilot** | [Agent Skills in VS Code](https://code.visualstudio.com/docs/copilot/customization/agent-skills) | Using skills in VS Code with agent mode |
+| **Claude Code** | [Agent Skills Overview](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview) | Skills in Claude Code and Claude API |
+| **OpenAI Codex** | [Agent Skills](https://developers.openai.com/codex/skills/) | Skills for Codex CLI and IDE extensions |
+
+### Example Skill Repositories
+
+| Repository | Description |
+|------------|-------------|
+| [anthropics/skills](https://github.com/anthropics/skills) | Official Anthropic skills (DOCX, PDF, PPTX, XLSX) |
+| [openai/skills](https://github.com/openai/skills) | OpenAI Codex skills catalog |
+| [github/awesome-copilot](https://github.com/github/awesome-copilot) | Community collection for GitHub Copilot |
+
+### Skill Structure
+
+Every skill requires a `SKILL.md` file with YAML frontmatter:
+
+```yaml
+---
+name: your-skill-name        # Lowercase, hyphens only, max 64 chars
+description: What it does    # When to use it, max 1024 chars
+---
+
+# Your Skill Name
+
+## Instructions
+[Clear, step-by-step guidance for the AI agent]
+
+## Examples
+[Concrete examples of using this skill]
+```
+
+---
+
+
+## 🙋 Frequently Asked Questions
+
+### What is Azure Agent Skills?
+
+Azure Agent Skills is a curated collection of **193 high-quality agentic skills** specifically designed for Azure cloud development. These skills follow the [Agent Skills open standard](https://agentskills.io/) and work seamlessly with modern AI coding assistants to provide expert-level guidance on Azure services.
+
+| Category | Skills Count | Examples |
+|----------|--------------|----------|
+| ☁️ **Compute** | 13 | Azure App Service, Azure Functions, Azure Batch |
+| 🔗 **Integration** | 16 | Azure API Management, Azure Logic Apps |
+| 📊 **Data & Analytics** | 19 | Azure Cosmos DB, Azure Data Factory |
+| 🤖 **AI & ML** | 23 | Azure AI Services, Azure Cognitive Search |
+| 🔒 **Security & Identity** | 19 | Azure AD B2C, Azure Key Vault |
+| 🌐 **Networking** | 23 | Azure Application Gateway, Azure ExpressRoute |
+| 🏗️ **Infrastructure** | 52 | Azure Arc, Azure Kubernetes Service |
+| 💰 **Management** | 39 | Azure Advisor, Azure Automation |
+| 🎮 **Specialized** | 26 | Azure AKS Edge, Azure Communication Services |
+
+**Total: 193 skills across 19 categories** for comprehensive Azure development coverage.
+
+### Which AI assistants are supported?
+
+These skills work with any AI coding assistant that supports the Agent Skills standard:
+
+| Assistant | Skills Path | How to Invoke |
+|-----------|-------------|---------------|
+| **Claude Code** | `.claude/skills/` | Natural language, `/skill-name` |
+| **Gemini CLI** | `.gemini/skills/` | Natural language |
+| **Codex CLI** | `.codex/skills/` | Natural language |
+| **GitHub Copilot** | `.github/skills/` | Natural language, `@workspace` |
+| **Cursor** | `.cursor/skills/` | `@skill-name` in Chat |
+| **OpenCode** | `.agent/skills/` | `opencode run @skill-name` |
+| **Antigravity IDE** | `.agent/skills/` | Agent mode, natural language |
+| **AdaL CLI** | `.adal/skills/` | Auto-load, natural language |
+
+Most tools support `.agent/skills/` as a universal path.
+
+### How do skills work?
+
+Skills use **progressive disclosure** to efficiently load content only when needed:
+
+1. **Level 1 - Discovery**: Agent reads skill `name` and `description` from YAML frontmatter
+2. **Level 2 - Instructions**: When triggered, agent loads the full `SKILL.md` content
+3. **Level 3 - Resources**: Agent accesses additional files (scripts, examples) as needed
+
+Once installed, just ask naturally: *"Help me set up Azure Functions"* or *"What are best practices for Azure Container Apps?"*
+
+### How do I install the skills?
+
+**Quick Start (3 steps):**
+
 ```bash
-npx codex-plugin add callstackincubator/agent-skills
+# 1. Clone the repo
+git clone https://github.com/MicrosoftDocs/Agent-Skills.git
+
+# 2. Copy skills to your assistant's path
+cp -r Agent-Skills/skills/ ~/.claude/skills/    # Claude Code
+# OR: cp -r Agent-Skills/skills/ ~/.cursor/skills/    # Cursor
+# OR: cp -r Agent-Skills/skills/ ~/.codex/skills/     # Codex CLI
+
+# 3. For VS Code Copilot: enable chat.agent.skills in Settings
 ```
 
-Option 2 (standalone skills):
-```bash
-git clone https://github.com/callstackincubator/agent-skills.git
-cp -r agent-skills/skills/* .codex/skills/
-```
+For full installation details, see [🛠️ Installation](#️-installation) section.
 
-**Q: How do I install in Cursor?**
+### What are curated bundles?
 
-A: Option 1 (GitHub import):
-1. Open Cursor Settings (`Cmd+Shift+J`)
-2. Navigate to Rules → Import rules from GitHub
-3. Enter: `https://github.com/callstackincubator/agent-skills.git`
+We've created **role-based skill bundles** to help you get productive quickly:
 
-Option 2 (local):
-```bash
-git clone https://github.com/callstackincubator/agent-skills.git .cursor/skills/agent-skills
-```
+| Bundle | Description |
+|--------|-------------|
+| **🚀 Quick Start** | 7 core services for beginners |
+| **⭐ Popular** | Most-used Azure services |
+| **🤖 AI/ML Developer** | AI services + machine learning |
+| **📊 Data Engineer** | Data integration + warehousing |
+| **🏗️ Infrastructure Pro** | Networking + cloud architecture |
+| **🔒 Security & Compliance** | RBAC + key management + policy |
 
-**Q: How do I install in Gemini CLI?**
+👉 **Recommended path:** Quick Start → Popular → Role-specific bundle
 
-A:
-```bash
-gemini skills install https://github.com/callstackincubator/agent-skills.git
+### How are skills created?
 
-# Workspace-level
-gemini skills install https://github.com/callstackincubator/agent-skills.git --scope workspace
-```
+Microsoft Learn documentation encodes **decisions, procedures, best practices, and constraints** — exactly what agents need. Our approach:
 
-**Q: How do I install in OpenCode?**
+1. **Extract** high-value capabilities from Learn content
+2. **Classify** by purpose (limits, troubleshooting, configuration)
+3. **Reveal** only when relevant to the user's intent
 
-A:
-```bash
-# Project-level
-git clone https://github.com/callstackincubator/agent-skills.git
-cp -r agent-skills/skills/* .opencode/skill/
+Knowledge is **pre-compiled into actions, choices, and guardrails** the agent can use directly — not raw text requiring interpretation.
 
-# User-level
-cp -r agent-skills/skills/* ~/.config/opencode/skill/
-```
+### Is this free to use?
 
-### Available Skills
+**Yes!** Azure Agent Skills is **completely free** and open-source:
 
-**Q: What skills are available?**
+- **Dual License:** CC BY 4.0 (content) + MIT (code)
+- **No API keys needed** — works with your existing AI assistant subscription
+- **No hidden costs** — skills are markdown files, no backend services
 
-A: Current skills:
-- **react-native-best-practices** — React Native optimization (profiling, FPS, re-renders, lists, memory, bundling)
-- **github** — GitHub workflow patterns (PRs, code review, branching)
-- **github-actions** — GitHub Actions for React Native build artifacts
-- **upgrading-react-native** — React Native upgrade workflow (templates, dependencies, pitfalls)
-- **react-native-brownfield-migration** — Incremental migration to React Native/Expo in native apps
+### How can I contribute?
 
-**Q: What does react-native-best-practices cover?**
+We welcome contributions! See [🤝 How to Contribute](#-how-to-contribute) section.
 
-A: Based on Callstack's "Ultimate Guide to React Native Optimization":
-- JavaScript/React: Profiling, FPS, re-renders, lists, state management, animations
-- Native: iOS/Android profiling, TTI, memory management, Turbo Modules
-- Bundling: Bundle analysis, tree shaking, R8, app size optimization
+| Resource | Link |
+|----------|------|
+| **Contribution Guide** | [CONTRIBUTING.md](CONTRIBUTING.md) |
+| **Skill Standards** | [agentskills.io](https://agentskills.io/) |
+| **Microsoft Learn** | [learn.microsoft.com](https://learn.microsoft.com/) |
+| **GitHub Issues** | [Report issues](https://github.com/MicrosoftDocs/Agent-Skills/issues) |
 
-### Usage
+### Where can I get help?
 
-**Q: How do I use skills in Claude Code?**
+| Channel | Link |
+|---------|------|
+| **Documentation** | [Agent Skills Docs](#-agent-skills-documentation) |
+| **GitHub Issues** | [Create issue](https://github.com/MicrosoftDocs/Agent-Skills/issues) |
+| **Skill Catalog** | [Browse all skills](docs/CATALOG.md) |
+| **Bundles Guide** | [View bundles](docs/BUNDLES.md) |
 
-A: After installation, Claude automatically loads relevant skills based on your task. You can also mention skills explicitly with `$skill-name`.
+---
 
-**Q: How do I use skills in Codex?**
+## 🤝 How to Contribute
 
-A: Type `$` to mention a skill or use `/skills` command to list available skills.
+Thanks for your interest in contributing. Due to limited maintainer capacity right now, we do **not** accept contributions that manually create or edit any skills. Please update the relevant Microsoft Learn documentation, then create an issue to request a re-crawl, or wait for our automatic weekly crawl. We appreciate your understanding, and things may change in the future.
 
-**Q: How do I use skills in Cursor?**
+---
 
-A: Type `/` in Agent chat to search and select skills by name.
+## ⚖️ License
 
-**Q: How do I use skills in Gemini CLI?**
+This project uses a dual license:
 
-A: Management commands:
-- `/skills list` — view all discovered skills
-- `/skills enable <name>` — enable a skill
-- `/skills disable <name>` — disable a skill
-- `/skills reload` — refresh skill inventory
+- **Documentation content**: [Creative Commons Attribution 4.0 International Public License](https://creativecommons.org/licenses/by/4.0/legalcode) - See [LICENSE](LICENSE)
+- **Code**: [MIT License](https://opensource.org/licenses/MIT) - See [LICENSE-CODE](LICENSE-CODE)
 
-**Q: Can I use skills with assistants without native support?**
+---
 
-A: Yes! Reference skill files directly:
-```
-Read skills/react-native-best-practices/SKILL.md for React Native performance guidelines
-```
+## 📚 Additional Resources
 
-Or for specific topics:
-```
-Look up js-profile-react.md for React DevTools profiling instructions
-```
+- [Agent Skills Specification](https://agentskills.io/specification) - The complete format specification
+- [Microsoft Learn Documentation](https://learn.microsoft.com/)
+- [Azure Architecture Center](https://learn.microsoft.com/azure/architecture/)
+- [Azure Well-Architected Framework](https://learn.microsoft.com/azure/well-architected/)
 
-### Contributing
+---
 
-**Q: How can I contribute new skills?**
+## 🏷️ Topics
 
-A: Contributions welcome! Skills should be:
-- **Actionable** — step-by-step instructions, not theory
-- **Searchable** — clear headings and keywords
-- **Complete** — include code examples and common pitfalls
+`azure` `azure-functions` `azure-container-apps` `agent-skills` `ai-coding` `github-copilot` `claude-code` `cursor` `openai-codex` `agentic-skills` `llm-tools` `microsoft-learn` `SKILL.md`
 
-Follow the [agentskills.io specification](https://agentskills.io/specification) and [Claude Code best practices](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices).
+---
+ 
 
-**Q: What is the skill structure?**
+# Legal Notices
 
-A: Each skill follows:
-```
-skill-name/
-├── SKILL.md              # Main skill file
-├── agents/openai.yaml    # Codex metadata (optional)
-└── references/           # Detailed skill files
-```
+Microsoft and any contributors grant you a license to the Microsoft documentation and other content
+in this repository under the [Creative Commons Attribution 4.0 International Public License](https://creativecommons.org/licenses/by/4.0/legalcode),
+see the [LICENSE](LICENSE) file, and grant you a license to any code in the repository under the [MIT License](https://opensource.org/licenses/MIT), see the
+[LICENSE-CODE](LICENSE-CODE) file.
 
-### Troubleshooting
+Microsoft, Windows, Microsoft Azure and/or other Microsoft products and services referenced in the documentation
+may be either trademarks or registered trademarks of Microsoft in the United States and/or other countries.
+The licenses for this project do not grant you rights to use any Microsoft names, logos, or trademarks.
+You can find Microsoft general trademark guidelines at [Microsoft Trademark and Brand Guidelines](https://www.microsoft.com/legal/intellectualproperty/trademarks).
 
-**Q: Skills not appearing after installation?**
+For privacy information, see [privacy at Microsoft](https://privacy.microsoft.com/).
 
-A: Try:
-- Restart your AI assistant
-- Check installation path matches expected directory
-- Use `/skills reload` (Gemini CLI) or `/skills list` (Codex)
-
-**Q: Cursor GitHub import not working?**
-
-A: Cursor's GitHub rule importer discovers `.mdc` files under `.cursor/rules/`. This repo includes those files. If import fails:
-- Try Option 2 (local installation)
-- Verify `.cursor/skills/agent-skills/skills/` exists
-
-**Q: Codex plugin not loading?**
-
-A: Check:
-- `.codex/plugins/` directory exists
-- Plugin was installed via `npx codex-plugin add`
-- Restart Codex after installation
-
-**Q: Where can I get help?**
-
-A: Resources:
-- [AI Assistant Integration Guide](./docs/ai-assistant-integration.md)
-- [Skill Conventions](./docs/skill-conventions.md)
-- [GitHub Issues](https://github.com/callstackincubator/agent-skills/issues)
+Microsoft and any contributors reserve all other rights, whether under their respective copyrights, patents,
+or trademarks, whether by implication, estoppel or otherwise.
