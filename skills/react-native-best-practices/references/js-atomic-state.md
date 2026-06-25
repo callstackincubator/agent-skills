@@ -10,11 +10,11 @@ Use atomic state libraries (Jotai, Zustand) to reduce unnecessary re-renders wit
 
 ## Quick Pattern
 
-**Before (Context - all consumers re-render):**
+**Before (broad Context value):**
 
 ```jsx
 const { filter, todos } = useContext(TodoContext);
-// Re-renders when ANY state changes
+// Re-renders when the provider value identity changes
 ```
 
 **After (Zustand - only subscribed state):**
@@ -44,24 +44,7 @@ npm install zustand
 
 ## Problem Description
 
-With traditional React state or Context:
-
-```jsx
-// When filter OR todos change, EVERYTHING re-renders
-const App = () => {
-  const [filter, setFilter] = useState('all');
-  const [todos, setTodos] = useState([]);
-  
-  return (
-    <>
-      <FilterMenu filter={filter} setFilter={setFilter} />
-      <TodoList todos={todos} filter={filter} setTodos={setTodos} />
-    </>
-  );
-};
-```
-
-Changing a todo re-renders FilterMenu even though it doesn't use todos.
+Context is not inherently slow, but a broad provider value makes every consumer of that context eligible to re-render when the value identity changes. Atomic stores help when profiling shows unrelated subscribers rendering after global state updates.
 
 ## Step-by-Step Instructions
 
@@ -176,55 +159,14 @@ const TodoList = () => {
 };
 ```
 
-## Code Examples
-
-### Before: Context-Based (Many Re-renders)
-
-```jsx
-const TodoContext = createContext();
-
-const TodoProvider = ({ children }) => {
-  const [state, setState] = useState({ filter: 'all', todos: [] });
-  return (
-    <TodoContext.Provider value={{ state, setState }}>
-      {children}
-    </TodoContext.Provider>
-  );
-};
-
-// Every component using this context re-renders on ANY state change
-const FilterMenu = () => {
-  const { state, setState } = useContext(TodoContext);
-  // Re-renders when todos change too!
-};
-```
-
-### After: Atomic (Targeted Re-renders)
-
-```jsx
-// Jotai version - only affected components re-render
-const filterAtom = atom('all');
-const todosAtom = atom([]);
-
-const FilterMenu = () => {
-  const [filter, setFilter] = useAtom(filterAtom);
-  // Only re-renders when filter changes
-};
-
-const TodoList = () => {
-  const todos = useAtomValue(todosAtom);
-  // Only re-renders when todos change
-};
-```
-
 ## Comparison
 
 | Feature | Context | Jotai | Zustand |
 |---------|---------|-------|---------|
-| Re-render scope | All consumers | Atom subscribers | Selector subscribers |
+| Re-render scope | Consumers of changed provider value | Atom subscribers | Selector subscribers |
 | Derived state | Manual | Built-in atoms | Selectors |
 | DevTools | React DevTools | Jotai DevTools | Zustand DevTools |
-| Bundle size | 0 KB | ~3 KB | ~2 KB |
+| Bundle size | 0 KB | Small dependency | Small dependency |
 | Learning curve | Low | Medium | Low |
 
 ## When to Use Which

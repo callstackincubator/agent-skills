@@ -34,9 +34,9 @@ const handler = () => doSomething();
 
 ## Prerequisites
 
-- React 17+ (React 19 recommended for best compatibility)
 - Babel-based build system
 - Code follows [Rules of React](https://react.dev/reference/rules)
+- Check current React Native, Expo, and React Compiler release notes before copying version-specific setup
 
 ## Step-by-Step Instructions
 
@@ -52,48 +52,15 @@ This checks if your app follows the Rules of React and identifies potential issu
 
 ### Step 2: Install React Compiler
 
-#### Expo Projects
-
-**SDK 54 and later** (Babel auto-configured):
-
-```bash
-npx expo install babel-plugin-react-compiler@beta
-```
-
-**SDK 52-53**:
-
-```bash
-npx expo install babel-plugin-react-compiler@beta react-compiler-runtime@beta
-```
-
-Then enable in your app config:
-
-```json
-// app.json
-{
-  "expo": {
-    "experiments": {
-      "reactCompiler": true
-    }
-  }
-}
-```
-
-#### React Native (without Expo)
-
 ```bash
 npm install -D babel-plugin-react-compiler@latest
 ```
 
-For React Native < 0.78 (React < 19), also install the runtime:
-
-```bash
-npm install react-compiler-runtime@beta
-```
+Use the runtime package only when your React version requires it. Prefer the setup path documented for the app's exact Expo SDK or React Native version.
 
 ### Step 3: Configure Babel (React Native without Expo)
 
-For non-Expo React Native projects, configure Babel manually:
+For non-Expo React Native projects, configure Babel manually and keep the compiler first in the plugin pipeline:
 
 ```javascript
 // babel.config.js
@@ -106,79 +73,20 @@ module.exports = function (api) {
   return {
     presets: ['module:@react-native/babel-preset'],
     plugins: [
-      ['babel-plugin-react-compiler', ReactCompilerConfig], // Must run first!
+      ['babel-plugin-react-compiler', ReactCompilerConfig],
       // ... other plugins
     ],
   };
 };
 ```
 
-> **Important**: React Compiler must run **first** in your Babel plugin pipeline. The compiler needs the original source information for proper analysis.
-
 ### Step 4: Set Up ESLint (Recommended)
 
-The ESLint plugin helps identify code that can't be optimized and enforces the Rules of React.
-
-#### Expo Projects
-
-```bash
-npx expo lint  # Ensures ESLint is set up
-```
-
-SDK 55 and later include React Compiler lint rules through `eslint-config-expo`. For SDK 54 and earlier, install the plugin:
-
-```bash
-npx expo install eslint-plugin-react-compiler -- -D
-```
-
-Configure ESLint:
-
-```javascript
-// .eslintrc.js
-const { defineConfig } = require('eslint/config');
-const expoConfig = require('eslint-config-expo/flat');
-const reactCompiler = require('eslint-plugin-react-compiler');
-
-module.exports = defineConfig([
-  expoConfig,
-  reactCompiler.configs.recommended,
-  {
-    ignores: ['dist/*'],
-  },
-]);
-```
-
-#### React Native (without Expo)
-
-```bash
-npm install -D eslint-plugin-react-hooks@latest
-```
-
-The compiler rules are available in the `recommended-latest` preset. Follow the [eslint-plugin-react-hooks installation instructions](https://github.com/facebook/react/tree/main/packages/eslint-plugin-react-hooks).
+Use the React Hooks/Compiler lint rules that match the app's React version. Fix rule violations before treating a component as compiler-optimized; skipped components are safe but do not get the intended memoization.
 
 ### Step 5: Verify Optimizations
 
-Open React DevTools. Optimized components show a `Memo ✨` badge.
-
-You can also verify by checking build output—compiled code includes automatic memoization:
-
-```javascript
-import { c as _c } from 'react/compiler-runtime';
-
-export default function MyApp() {
-  const $ = _c(1);
-  let t0;
-  if ($[0] === Symbol.for('react.memo_cache_sentinel')) {
-    t0 = <div>Hello World</div>;
-    $[0] = t0;
-  } else {
-    t0 = $[0];
-  }
-  return t0;
-}
-```
-
-**Note**: React Native 0.76+ includes DevTools with Memo badge support by default. For older versions or third-party debuggers with version mismatches, you may need to override `react-devtools-core` in `package.json`.
+Verify with React DevTools and before/after render measurements. Some DevTools versions show compiler memoization badges, but profiler evidence is the stable signal.
 
 ## Incremental Adoption
 
@@ -231,15 +139,7 @@ module.exports = function (api) {
 };
 ```
 
-After changing `babel.config.js`, restart Metro with cache cleared:
-
-```bash
-# Expo
-npx expo start --clear
-
-# React Native CLI
-npx react-native start --reset-cache
-```
+After changing Babel config, restart Metro with a cleared cache.
 
 ### Strategy 2: Opt Out Specific Components
 
@@ -254,44 +154,6 @@ function ProblematicComponent() {
 ```
 
 This is useful for temporarily opting out components that cause issues. Fix the underlying problem and remove the directive once resolved.
-
-## How It Works
-
-The compiler transforms your code to automatically cache values:
-
-**Before (your code):**
-
-```jsx
-export default function MyApp() {
-  const [value, setValue] = useState('');
-  return (
-    <TextInput onChangeText={() => setValue(value)}>Hello World</TextInput>
-  );
-}
-```
-
-**After (compiled output):**
-
-```jsx
-import { c as _c } from 'react/compiler-runtime';
-
-export default function MyApp() {
-  const $ = _c(2); // Cache with 2 slots
-  const [value, setValue] = useState('');
-
-  let t0;
-  if ($[0] !== value) {
-    t0 = (
-      <TextInput onChangeText={() => setValue(value)}>Hello World</TextInput>
-    );
-    $[0] = value;
-    $[1] = t0;
-  } else {
-    t0 = $[1]; // Return cached JSX
-  }
-  return t0;
-}
-```
 
 ## Code Examples
 
@@ -352,13 +214,7 @@ Expo's implementation only runs on application code (not node_modules), and only
 
 ## Expected Performance Improvements
 
-Testing on Expensify app showed:
-
-- **4.3% improvement** in Chat Finder TTI
-- Significant reduction in cascading re-renders
-- Most impact on apps without existing manual optimization
-
-Already heavily optimized apps may see marginal gains.
+Expect the largest wins in components that currently rely on manual memoization discipline or have cascading re-renders. Already well-memoized code may show little change; keep the compiler only when profiling or maintenance cost justifies it.
 
 ## Common Pitfalls
 

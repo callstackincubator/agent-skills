@@ -12,7 +12,8 @@ Understand memory management patterns in C++, Swift, and Kotlin for React Native
 
 | Pattern | Languages | Mechanism |
 |---------|-----------|-----------|
-| Reference Counting | Swift, Obj-C, C++ (smart ptrs) | Count refs, free at zero |
+| Reference Counting | Swift, Obj-C | Count refs, free at zero |
+| Smart pointers | C++ | Ownership encoded in pointer type |
 | Garbage Collection | Kotlin/Java, JavaScript | GC scans and frees unreachable |
 | Manual | C, C++ (raw pointers) | Explicit new/delete |
 
@@ -24,14 +25,6 @@ Understand memory management patterns in C++, Swift, and Kotlin for React Native
 - Debugging native memory leaks
 - Interfacing C++ with Swift/Kotlin
 - Understanding reference counting vs garbage collection
-
-## Memory Management Patterns
-
-| Pattern | Languages | Mechanism |
-|---------|-----------|-----------|
-| Reference Counting | Swift, Obj-C, C++ (smart pointers) | Count refs, free at zero |
-| Garbage Collection | Kotlin/Java, JavaScript | GC scans and frees unreachable |
-| Manual | C, C++ (raw pointers) | Explicit new/delete |
 
 ## C++ Smart Pointers
 
@@ -142,23 +135,9 @@ class B {
 
 ## Kotlin/Android GC
 
-### WeakHashMap for Caches
+### Weak References for Caches
 
-`WeakHashMap` weakens keys, not values. Store `WeakReference` values explicitly when the cached value itself should not be strongly retained.
-
-```kotlin
-val weakMap = WeakHashMap<String, String>()
-
-run {
-    weakMap[String("temp")] = "value"
-    println(weakMap.size)  // 1
-}
-
-System.gc()  // Force garbage collection
-Thread.sleep(100)
-
-println(weakMap.size)  // 0 (key was collected)
-```
+`WeakHashMap` weakens keys, not values. Store `WeakReference` values explicitly when the cached value itself should not be strongly retained. Do not rely on deterministic `System.gc()` behavior in tests.
 
 ### WeakReference for Callbacks
 
@@ -244,22 +223,7 @@ class MyClass : AutoCloseable {
 
 ## Swift `Unmanaged` (Advanced)
 
-For C interop, manually manage reference counts:
-
-```swift
-let obj = MyObject()                        // Ref count: 1
-
-// Increment manually
-let unmanaged = Unmanaged.passRetained(obj) // Ref count: 2
-
-// Decrement and get object
-let retrieved = unmanaged.takeRetainedValue() // Ref count: 1
-
-// Get raw pointer for C
-let pointer = unmanaged.toOpaque()
-```
-
-**Rule**: Match `passRetained` with `takeRetainedValue`, `passUnretained` with `takeUnretainedValue`.
+Use `Unmanaged` only for C interop that explicitly transfers ownership. Match `passRetained` with `takeRetainedValue`, and `passUnretained` with `takeUnretainedValue`.
 
 ## Best Practices Summary
 

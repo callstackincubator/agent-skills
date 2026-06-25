@@ -30,7 +30,7 @@ Replace ScrollView with FlatList, FlashList, or Legend List for performant large
 
 ## When to Use
 
-- Rendering more than 10-20 items in a list
+- Rendering enough items that eager mounting affects FPS, memory, or startup
 - List scrolling is choppy or laggy
 - App freezes when loading list data
 - Memory usage spikes with long lists
@@ -53,17 +53,12 @@ Replace ScrollView with FlatList, FlashList, or Legend List for performant large
 
 ![FPS Drop Graph](images/fps-drop-graph.png)
 
-The FPS graph shows a severe performance problem during list rendering:
-- FPS starts at ~60 (smooth)
-- Drops to ~3 FPS during heavy list operation
-- Recovers after rendering completes
-
 ```jsx
 // BAD: ScrollView renders ALL items at once
 const BadList = ({ items }) => (
   <ScrollView>
     {items.map((item, index) => (
-      <View key={index}>
+      <View key={item.id}>
         <Text>{item}</Text>
       </View>
     ))}
@@ -71,10 +66,7 @@ const BadList = ({ items }) => (
 );
 ```
 
-With 5000 items, this creates 5000 views immediately, causing:
-- Multi-second freeze
-- FPS drop to 0
-- High memory usage
+Large eager lists mount every row immediately, increasing JS work, native view count, and memory before the user can interact.
 
 ### 2. Replace with FlatList
 
@@ -124,7 +116,7 @@ const OptimizedList = ({ items }) => {
     <FlatList
       data={items}
       renderItem={renderItem}
-      keyExtractor={(item, index) => index.toString()}
+      keyExtractor={(item) => item.id}
       getItemLayout={getItemLayout}
     />
   );
@@ -172,20 +164,6 @@ Enable `recycleItems` for long lists after confirming item components do not kee
 
 ## Code Examples
 
-### Variable Height Items (FlashList v1)
-
-```jsx
-// Calculate average for estimatedItemSize
-// Items are 50px, 100px, 150px
-// Average: (50 + 100 + 150) / 3 = 100px
-
-<FlashList
-  data={items}
-  renderItem={renderItem}
-  estimatedItemSize={100}
-/>
-```
-
 ### Mixed Item Types
 
 ```jsx
@@ -220,21 +198,13 @@ If the project is still on FlashList v1, keep `estimatedItemSize` alongside `get
 />
 ```
 
-## Performance Comparison
-
-| Component | 5000 Items Load | Scroll FPS | Memory |
-|-----------|-----------------|------------|--------|
-| ScrollView | 1-3 seconds freeze | < 30 | High |
-| FlatList | ~100ms | ~45 | Medium |
-| FlashList | ~50ms | ~54 | Low |
-
 ## Decision Matrix
 
 | Scenario | Recommendation |
 |----------|---------------|
-| < 20 static items | ScrollView OK |
-| 20-100 items | FlatList minimum |
-| > 100 items | FlashList or Legend List |
+| Small static content | ScrollView OK |
+| Measured eager-mount or scroll cost | FlatList minimum |
+| Large or complex list | FlashList or Legend List |
 | Complex item layouts | FlashList with `getItemType`, or Legend List |
 | Fixed height items | FlatList: `getItemLayout`; FlashList v1: `estimatedItemSize`; FlashList v2+: stable item structure |
 

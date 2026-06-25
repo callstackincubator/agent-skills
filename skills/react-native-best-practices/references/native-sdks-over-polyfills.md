@@ -70,7 +70,7 @@ import '@formatjs/intl-displaynames/polyfill';
 | `Intl.ListFormat` | ❌ | Yes |
 | `Intl.Segmenter` | ❌ | Yes |
 
-Constructor support does not guarantee every option or method your app uses. In particular, the 2026 guide calls out gaps in DateTimeFormat options (`numberingSystem` and `formatMatcher` on iOS; `dayPeriod`, `fractionalSecondDigits`, and `formatMatcher` on Android) and NumberFormat compact/engineering/signDisplay-related options. Keep polyfills for any API, option, locale data, or method your app actually depends on.
+Constructor support does not guarantee every option or method your app uses. Keep polyfills for any API, option, locale data, or method the app depends on but Hermes does not fully support on the target platform.
 
 ```tsx
 // AFTER: Keep only the polyfills your app still needs

@@ -56,18 +56,7 @@ React Native's renderer automatically removes "layout-only" views that:
 </MyNativeComponent>
 ```
 
-If `Child1` is flattened, its internal views become direct children:
-
-```tsx
-// Native side receives 5 views instead of 3!
-<MyNativeComponent>
-  <View />   // Was inside Child1
-  <View />   // Was inside Child1  
-  <View />   // Was inside Child1
-  <Child2 />
-  <Child3 />
-</MyNativeComponent>
-```
+If a child wrapper is flattened, native code may receive a different child count or shape than the JS tree suggests.
 
 ## Preventing Flattening with `collapsable`
 
@@ -93,9 +82,7 @@ Use native debugging tools to see the actual view hierarchy:
 2. Click **"Debug View Hierarchy"** in debug toolbar (shown in image)
 3. Inspect 3D view of native hierarchy
 
-**React Native components map to:**
-- `<View />` → `RCTViewComponentView`
-- `<Text />` → `RCTTextView`
+Component class names vary by architecture and React Native version; verify the actual native hierarchy in the tool.
 
 ### Android Studio
 
@@ -103,9 +90,7 @@ Use native debugging tools to see the actual view hierarchy:
 2. **View → Tool Windows → Layout Inspector**
 3. Select running process
 
-**React Native components map to:**
-- `<View />` → `ReactViewGroup`
-- `<Text />` → `ReactTextView`
+Component class names vary by architecture and React Native version; verify the actual native hierarchy in the tool.
 
 ## Code Examples
 
@@ -160,13 +145,7 @@ const NativeChildWrapper = ({ children, ...props }) => (
 
 ## When Views Get Flattened
 
-Views are considered "layout-only" when they:
-- Have no `backgroundColor`
-- Have no `borderWidth`, `borderColor`
-- Have no `shadowColor`, `elevation`
-- Don't handle events (no `onPress`, etc.)
-- Don't use `opacity` < 1
-- Don't have `overflow: 'hidden'`
+React Native can flatten layout-only wrappers that do not need their own native view for drawing, events, accessibility, measurement, or native-component child semantics. The exact rules vary across renderer versions.
 
 ## Forcing a View to Stay
 

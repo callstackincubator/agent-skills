@@ -31,7 +31,7 @@ npx bundle-phobia-cli <package-name>
 |------|------|----------|
 | bundlephobia.com | Web | Quick size check |
 | pkg-size.dev | Web | Backup/alternative |
-| Import Cost (VS Code) | IDE extension | Real-time feedback |
+| Import Cost (VS Code) | IDE extension | Rough JS import feedback |
 
 ## bundlephobia.com
 
@@ -119,15 +119,6 @@ Bundlephobia, pkg-size.dev, and Import Cost measure JavaScript package cost. The
 2. Verify actual impact matches expected
 3. Check for duplicate dependencies
 
-## Size Guidelines
-
-| Size (gzipped) | Assessment | Action |
-|----------------|------------|--------|
-| < 5 KB | Small | Generally fine |
-| 5-20 KB | Medium | Evaluate necessity |
-| 20-50 KB | Large | Look for alternatives |
-| > 50 KB | Very large | Strong justification needed |
-
 ## Common Large Dependencies
 
 | Library | Size (gzipped) | Alternative |
@@ -154,15 +145,15 @@ Prefer the smallest option that satisfies correctness and platform requirements,
 ## Code Example: Optimizing Imports
 
 ```tsx
-// BAD: Full library (71.5 KB)
+// BAD: Full library
 import _ from 'lodash';
 _.get(obj, 'path.to.value');
 
-// BETTER: Specific import (8 KB)
+// BETTER: Specific import
 import get from 'lodash/get';
 get(obj, 'path.to.value');
 
-// BEST: Native JS (0 KB)
+// BEST: Native JS
 obj?.path?.to?.value;
 ```
 

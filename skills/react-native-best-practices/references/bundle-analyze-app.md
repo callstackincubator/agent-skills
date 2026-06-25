@@ -105,10 +105,7 @@ After uploading to TestFlight:
 
 ### Via Xcode Export
 
-1. Archive app: **Product → Archive**
-2. In Organizer, click **Distribute App**
-3. Select **Custom**
-4. Choose **App Thinning: All compatible device variants**
+Export an archive with app thinning enabled for all compatible device variants.
 
 Or in `ExportOptions.plist`:
 

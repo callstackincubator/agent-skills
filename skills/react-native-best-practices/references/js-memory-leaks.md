@@ -74,7 +74,7 @@ The Memory tab shows:
 
 **Key columns:**
 - **Constructor**: Object type (e.g., `JSObject`, `Function`, `(string)`)
-- **Count**: Number of instances (×85000 = 85,000 objects)
+- **Count**: Number of instances
 - **Shallow Size**: Memory of the object itself
 - **Retained Size**: Memory freed if object is deleted (including references)
 
@@ -89,7 +89,7 @@ The Memory tab shows:
 
 ### 5. Verify the Fix
 
-After fixing, re-profile. All bars should turn gray (except the most recent).
+After fixing, re-profile the same flow. Memory should return to a stable baseline after GC and repeated interactions; some recent allocations can remain live legitimately.
 
 ## Code Examples
 
@@ -143,48 +143,7 @@ const GoodTimerComponent = () => {
 };
 ```
 
-**3. Closures Capturing Large Objects:**
-
-```jsx
-// BAD: Closure captures entire array
-class BadClosureExample {
-  private largeData = new Array(1000000).fill('data');
-  
-  createLeakyFunction() {
-    return () => this.largeData.length; // Captures this.largeData
-  }
-}
-
-// GOOD: Only capture what's needed
-class GoodClosureExample {
-  private largeData = new Array(1000000).fill('data');
-  
-  createEfficientFunction() {
-    const length = this.largeData.length; // Extract value
-    return () => length; // Only captures primitive
-  }
-}
-```
-
-**4. Global Arrays Growing:**
-
-```jsx
-// BAD: Global array never cleared
-let leakyClosures = [];
-
-const createLeak = () => {
-  const data = generateLargeData();
-  leakyClosures.push(() => data); // Keeps growing!
-};
-
-// GOOD: Clear when done or use WeakRef
-const createNoLeak = () => {
-  const data = generateLargeData();
-  const closure = () => data;
-  // Use it and let it be garbage collected
-  return closure;
-};
-```
+Other common sources are closures that retain large objects and module-level arrays/maps that only grow. Confirm these through retained-size paths before refactoring them.
 
 ## Memory Profiler Metrics
 
@@ -198,7 +157,7 @@ const createNoLeak = () => {
 ## Common Pitfalls
 
 - **Not forcing GC**: GC runs periodically. Allocate something else to trigger collection before concluding there's a leak.
-- **Ignoring gray bars**: Gray = properly collected. Only blue bars that persist are leaks.
+- **Over-reading allocation colors**: Persisting allocations are suspects, not proof. Confirm with retained objects and repeated flows.
 - **Missing useEffect cleanup**: Most common React Native leak source.
 
 ## Related Skills

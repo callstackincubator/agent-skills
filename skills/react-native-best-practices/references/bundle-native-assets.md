@@ -85,11 +85,7 @@ React Native's bundler writes image sets into `RNAssets.xcassets` under the dest
 
 ### Step 2: Configure Build Phase
 
-In Xcode:
-1. Open project settings
-2. Go to **Build Phases**
-3. Find **"Bundle React Native code and images"**
-4. Add before line 8:
+In Xcode, add this before the React Native bundle command in the **Bundle React Native code and images** build phase:
 
 ```bash
 export EXTRA_PACKAGER_ARGS="--asset-catalog-dest ios"

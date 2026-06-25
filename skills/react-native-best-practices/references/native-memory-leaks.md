@@ -45,12 +45,6 @@ Find native memory leaks using Xcode Leaks and Android Studio Memory Profiler.
 5. Use the app, perform suspect actions
 6. Stop recording
 
-The template picker shows all available Instruments:
-- **Leaks**: Memory leak detection (what we need)
-- **Allocations**: All memory allocations over time
-- **Time Profiler**: CPU usage profiling
-- **Zombies**: Detect messages to deallocated objects
-
 ### Analyzing Results
 
 **Red markers** = Leaked memory detected
@@ -61,38 +55,23 @@ Click on leak to see:
 - **Responsible Frame**: Exact function
 - **Stack Trace**: Full call path (right panel)
 
-**Double-click function** to see source code.
+Open the responsible frame to jump to source when symbols are available.
 
-### Common iOS Leak: Missing delete
+### Common Native Leak: Missing Ownership
 
 ```cpp
-// BAD: Memory leak
-void createNewStrings() {
-    std::string* str = new std::string("Hello");
-    // Forgot delete str;
-}
-
-// GOOD: Fixed
-void createNewStrings() {
-    std::string* str = new std::string("Hello");
-    // ... use str ...
-    delete str;
-}
-
-// BETTER: Use smart pointers
 void createNewStrings() {
     auto str = std::make_unique<std::string>("Hello");
-    // Automatically deleted
 }
 ```
+
+Prefer RAII/smart pointers over raw `new`/`delete` in native module code.
 
 ## Android: Memory Profiler
 
 ### Launch Profiler
 
-1. **Run → Profile** (or click Profile in toolbar)
-2. Or: **View → Tool Windows → Profiler**
-3. Select **"Track Memory Consumption"**
+Use Android Studio Memory Profiler and select a memory-consumption recording for the target process.
 
 ### Recording
 
@@ -141,12 +120,7 @@ class MainActivity : AppCompatActivity(), Callback {
 
 ### Activity Recreation Test
 
-Android recreates activities on:
-- Screen rotation
-- Dark mode change
-- Locale change
-
-**Test**: Rotate device multiple times, check if old activities are freed.
+Repeat navigation and configuration-change flows, then check whether old activities or module instances are retained after GC.
 
 React Native note: RN opts out via `android:configChanges` in manifest, but native code might not.
 
@@ -206,20 +180,6 @@ void process() {
 void process() {
     auto data = std::make_unique<LargeData>();
     if (error) return;  // Automatically cleaned up
-}
-```
-
-### Global Singleton Holding References (Kotlin)
-
-```kotlin
-// BAD: Holds strong references
-object Cache {
-    private val items = mutableMapOf<String, Callback>()
-}
-
-// GOOD: Use weak references
-object Cache {
-    private val items = mutableMapOf<String, WeakReference<Callback>>()
 }
 ```
 

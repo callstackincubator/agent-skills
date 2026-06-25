@@ -29,7 +29,7 @@ For targeted audits, profile the exact flow under review. Baseline output should
 
 - React Native DevTools accessible (press `j` in Metro or use Dev Menu)
 - App running in development mode
-- React DevTools version 6.0.1+ for React Compiler support
+- React DevTools version compatible with the app's React and React Native versions
 
 > **Note**: This skill involves visual profiler output (flame graphs, component highlighting). Use `agent-device` for runnable scenario evidence; install it through the environment's approved/trusted path or ask the user if verification needs it and it is missing. Profiler analysis may still require the DevTools UI, exported data, or human review. Record concrete commit times, render counts, and component names in text when asking an agent to reason about them.
 
@@ -101,52 +101,6 @@ For non-React performance issues:
 3. Perform actions
 4. Click "Stop"
 5. Use **Heavy (Bottom Up)** view to find slowest functions
-
-## Code Examples
-
-### Before: Unnecessary Re-renders
-
-```jsx
-const App = () => {
-  const [count, setCount] = useState(0);
-  
-  return (
-    <View>
-      <Text>{count}</Text>
-      {/* Button re-renders on every count change */}
-      <Button onPress={() => setCount(count + 1)} title="Press" />
-    </View>
-  );
-};
-
-const Button = ({onPress, title}) => (
-  <Pressable onPress={onPress}>
-    <Text>{title}</Text>
-  </Pressable>
-);
-```
-
-### After: Memoized
-
-```jsx
-const App = () => {
-  const [count, setCount] = useState(0);
-  const onPressHandler = useCallback(() => setCount(c => c + 1), []);
-  
-  return (
-    <View>
-      <Text>{count}</Text>
-      <Button onPress={onPressHandler} title="Press" />
-    </View>
-  );
-};
-
-const Button = memo(({onPress, title}) => (
-  <Pressable onPress={onPress}>
-    <Text>{title}</Text>
-  </Pressable>
-));
-```
 
 ## Interpreting Results
 

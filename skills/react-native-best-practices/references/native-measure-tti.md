@@ -34,10 +34,6 @@ useEffect(() => {
 
 - `react-native-performance` library (recommended)
 
-```bash
-npm install react-native-performance
-```
-
 > **Note**: This skill involves visual timeline diagrams and profiler output. Use `agent-device` for cold-start evidence; install it through the environment's approved/trusted path or ask the user if verification needs it and it is missing. Timeline interpretation may still require exported metrics or human review. Record concrete marker names, durations, device tier, and startup type in text when asking an agent to reason about them.
 
 ## Understanding TTI
@@ -56,18 +52,6 @@ npm install react-native-performance
 **Only measure cold starts** for consistent metrics.
 
 ## React Native Startup Pipeline
-
-![TTI Warm Start Diagram](images/tti-warm-start-diagram.png)
-
-The diagram shows a warm start (app was in memory):
-
-**UI Thread:**
-1. `init native process` → `init native app`
-2. Gap while user is away (e.g., "5h break from using the app")
-3. `JS bundle load` → `RootView render`
-
-**JS Thread (runs in parallel):**
-- `init entrypoint` → `registerComponent`
 
 **Pipeline markers:**
 ```
@@ -217,28 +201,7 @@ const collectTTIMetrics = () => {
 
 ## Listening to Native Events
 
-**iOS (JS Bundle Load):**
-
-```swift
-NotificationCenter.default.addObserver(
-    self,
-    selector: #selector(onJSLoad),
-    name: NSNotification.Name("RCTJavaScriptDidLoadNotification"),
-    object: nil
-)
-```
-
-**Android (JS Bundle Load):**
-
-```kotlin
-ReactMarker.addListener { name ->
-    when (name) {
-        RUN_JS_BUNDLE_START -> { /* mark start */ }
-        RUN_JS_BUNDLE_END -> { /* mark end */ }
-        CONTENT_APPEARED -> { /* mark content */ }
-    }
-}
-```
+Use the native marker APIs exposed by the app's React Native version to record JS bundle load and content-appeared milestones. Keep marker names consistent across iOS, Android, analytics, and test scripts.
 
 ## Target Metrics
 

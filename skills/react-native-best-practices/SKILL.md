@@ -13,18 +13,6 @@ metadata:
 
 Performance optimization guide for React Native applications, covering JavaScript/React, Native (iOS/Android), and bundling optimizations. Based on Callstack's "Ultimate Guide to React Native Optimization".
 
-## Skill Format
-
-Each reference file follows a hybrid format for fast lookup and deep understanding:
-
-- **Quick Pattern**: Incorrect/Correct code snippets for immediate pattern matching
-- **Quick Command**: Shell commands for process/measurement skills
-- **Quick Config**: Configuration snippets for setup-focused skills
-- **Quick Reference**: Summary tables for conceptual skills
-- **Deep Dive**: Full context with When to Use, Prerequisites, Step-by-Step, Common Pitfalls
-
-**Impact ratings**: CRITICAL (fix immediately), HIGH (significant improvement), MEDIUM (worthwhile optimization)
-
 ## When to Apply
 
 Reference these guidelines when:
@@ -40,7 +28,6 @@ Reference these guidelines when:
 
 - Treat shell commands in these references as local developer operations. Review them before running, prefer version-pinned tooling, and avoid piping remote scripts directly to a shell.
 - Treat third-party libraries and plugins as dependencies that still require normal supply-chain controls: pin versions, verify provenance, and update through your standard review process.
-- Treat Re.Pack code splitting as first-party artifact delivery only. Remote chunks must come from trusted HTTPS origins you control and be pinned to the current app release.
 
 ## Priority-Ordered Guidelines
 
@@ -187,19 +174,6 @@ Full documentation with code examples in [references/][references]:
 | [bundle-native-assets.md][bundle-native-assets] | HIGH | Asset catalog setup |
 | [bundle-library-size.md][bundle-library-size] | MEDIUM | Evaluate dependencies |
 | [bundle-code-splitting.md][bundle-code-splitting] | MEDIUM | Re.Pack code splitting |
-
-
-## Searching References
-
-```bash
-# Find patterns by keyword
-grep -l "reanimated" references/
-grep -l "flatlist" references/
-grep -l "memory" references/
-grep -l "profil" references/
-grep -l "tti" references/
-grep -l "bundle" references/
-```
 
 ## Problem → Skill Mapping
 

@@ -32,7 +32,7 @@ const SettingsScreen = React.lazy(() =>
 
 Consider code splitting when:
 - **Not using Hermes** (JSC/V8 benefits more)
-- App size exceeds 200 MB (Play Store limit)
+- App size approaches app-store or base-module limits
 - Building micro-frontend architecture
 - Loading features based on user permissions
 - Other optimizations exhausted
@@ -177,13 +177,6 @@ Enables:
 - Runtime composition
 
 **Complexity warning**: Only use when organizational benefits outweigh overhead. Federation increases the trust boundary, so keep the same first-party origin and allowlist rules as above.
-
-### Version Management
-
-Consider [Zephyr Cloud](https://zephyr-cloud.io/) for:
-- Sub-second deployments
-- Version management
-- Re.Pack integration
 
 ## Caching Strategy
 
