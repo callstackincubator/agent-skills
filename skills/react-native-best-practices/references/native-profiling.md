@@ -26,7 +26,7 @@ Use Xcode Instruments and Android Studio Profiler to identify native performance
 - Battery drain concerns
 - Need CPU/memory breakdown by thread
 
-> **Note**: This skill involves visual profiler output (Xcode Instruments, Android Studio Profiler). Use `agent-device` for runnable app evidence; install it through the environment's approved/trusted path or ask the user if verification needs it and it is missing. Profiler-specific GUI analysis may still require exported traces or human review.
+> **Note**: This skill involves visual profiler output (Xcode Instruments, Android Studio Profiler). Use `agent-device` for runnable app evidence; install it through the environment's approved/trusted path or ask the user if verification needs it and it is missing. Profiler-specific GUI analysis may still require exported traces or human review. Record concrete thread names, stack frames, and durations in text when asking an agent to reason about them.
 
 ## iOS Profiling with Xcode
 

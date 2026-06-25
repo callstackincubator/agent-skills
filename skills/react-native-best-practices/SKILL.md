@@ -59,7 +59,7 @@ Reference these guidelines when:
 
 Follow this cycle for any performance issue: **Measure → Optimize → Re-measure → Validate**
 
-1. **Measure**: Capture baseline metrics before changes. For runtime issues, prefer commit timeline, re-render counts, slow components, heaviest-commit breakdown, and startup/TTI when available. Component tree depth or count are optional context, not substitutes.
+1. **Measure**: Capture baseline metrics before changes. For runtime issues, prefer commit timeline, re-render counts, slow components, heaviest-commit breakdown, and startup/TTI when available. Component tree depth or count are optional context, not substitutes. Do not recommend memoization, atomic state, or compiler changes without a measured render or FPS problem.
 2. **Optimize**: Apply the targeted fix from the relevant reference
 3. **Re-measure**: Run the same measurement to get updated metrics
 4. **Validate**: Confirm improvement (e.g., FPS 45→60, TTI 3.2s→1.8s, bundle 2.1MB→1.6MB)
@@ -82,7 +82,7 @@ If metrics did not improve, revert and try the next suggested fix.
 ```
 
 **Common fixes:**
-- Replace ScrollView with FlatList/FlashList for lists
+- Replace ScrollView with FlatList/FlashList/Legend List for long lists
 - Use React Compiler for automatic memoization
 - Use atomic state (Jotai/Zustand) to reduce re-renders
 - Use `useDeferredValue` for expensive computations
@@ -115,7 +115,7 @@ ls -lh output.js  # e.g., After: 1.6 MB  (24% reduction)
 **Common fixes:**
 - Avoid barrel imports (import directly from source)
 - Remove unnecessary Intl polyfills only after checking Hermes API and method coverage
-- Enable tree shaking (Expo SDK 52+ or Re.Pack)
+- Evaluate tree shaking (Expo SDK 52+ experimental unused import/export removal, or Re.Pack)
 - Enable R8 for Android native code shrinking
 
 ### High: TTI Optimization
@@ -125,7 +125,7 @@ ls -lh output.js  # e.g., After: 1.6 MB  (24% reduction)
 - Only measure cold starts (exclude warm/hot/prewarm)
 
 **Common fixes:**
-- Disable JS bundle compression on Android (enables Hermes mmap)
+- For React Native 0.78 and earlier, disable Android JS bundle compression to enable Hermes mmap
 - Use native navigation (react-native-screens)
 - Preload commonly-used expensive screens before navigating to them
 

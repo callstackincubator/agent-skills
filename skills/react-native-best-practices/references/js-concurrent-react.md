@@ -131,6 +131,8 @@ const TransitionExample = () => {
 
 ### Pattern 4: Suspense for Data Fetching
 
+Use this only with a Suspense-enabled data source or framework integration. Wrapping arbitrary `fetch()` code in `Suspense` does not make it suspend automatically.
+
 ```jsx
 import { Suspense, useDeferredValue } from 'react';
 
@@ -225,7 +227,7 @@ setTimeout(() => {
 
 ## Common Pitfalls
 
-- **Forgetting memo()**: `useDeferredValue` is useless if child re-renders from parent
+- **Forgetting subtree isolation**: `useDeferredValue` helps most when the expensive subtree is memoized or otherwise isolated from immediate parent re-renders
 - **Using for simple state**: Overhead isn't worth it for cheap updates
 - **Expecting faster computation**: These hooks don't make code faster, they prioritize what runs when
 

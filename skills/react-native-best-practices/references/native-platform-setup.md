@@ -33,6 +33,8 @@ xed ios/                            # Open Xcode
 
 ## Dependency Management
 
+React Native autolinking only handles libraries structured as React Native modules. React Native packages often ship native iOS/Android code through npm, then CocoaPods/Gradle reference local files from `node_modules`. Pure native dependencies still need Podfile or Gradle changes.
+
 ### JavaScript (npm/yarn/pnpm/bun)
 
 Infer package manager from lockfile: `package-lock.json`, `yarn.lock`, `pnpm-lock.yaml`, `bun.lockb`.
@@ -64,6 +66,8 @@ android/app/build.gradle       # App dependencies
 android/gradle.properties      # Build flags
 android/gradlew                # Gradle wrapper
 ```
+
+Use exact Gradle dependency versions in production. Avoid dynamic `+` versions because they can change builds unpredictably.
 
 ## Common Commands
 

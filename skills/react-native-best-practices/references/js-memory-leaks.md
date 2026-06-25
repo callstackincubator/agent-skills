@@ -42,6 +42,8 @@ useEffect(() => {
 
 ## Step-by-Step Instructions
 
+React Native DevTools supports heap snapshots, allocation instrumentation on timeline, and allocation sampling. Use allocation timeline to isolate leaks; use allocation sampling for lower-overhead long-running allocation profiling.
+
 ### 1. Open Memory Profiler
 
 1. Launch React Native DevTools (press `j` in Metro)

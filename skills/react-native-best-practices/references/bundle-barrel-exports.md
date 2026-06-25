@@ -48,7 +48,7 @@ import { Button } from './components';
 
 ### 1. Bundle Size Overhead
 
-Metro includes **all exports** even if you use one:
+Without effective tree shaking or a library-specific Babel plugin, barrel imports can make all re-exported modules reachable and evaluated even when only one export is used:
 
 ```tsx
 // Only need Button, but entire barrel is bundled
@@ -161,6 +161,8 @@ import format from 'date-fns/format';
 import addDays from 'date-fns/addDays';
 import isToday from 'date-fns/isToday';
 ```
+
+If the project uses a bundler/configuration with working tree shaking, top-level ESM imports from libraries such as `date-fns` may be optimized automatically. Without that, submodule imports are still the safer pattern. Measure with bundle analysis.
 
 ## Library-Specific Solutions
 

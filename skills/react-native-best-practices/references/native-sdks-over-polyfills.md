@@ -54,12 +54,12 @@ import '@formatjs/intl-relativetimeformat/locale-data/en';
 import '@formatjs/intl-displaynames/polyfill';
 ```
 
-**Hermes Support (as of March 2026):**
+**Hermes Intl support must be checked against the Hermes version in the app:**
 
 | API | Hermes | Keep Polyfill? |
 |-----|--------|----------------|
 | `Intl.Collator` | ✅ | No |
-| `Intl.DateTimeFormat` | ✅ | No |
+| `Intl.DateTimeFormat` | ⚠️ Partial | Maybe |
 | `Intl.NumberFormat` | ⚠️ Partial | Maybe |
 | `Intl.getCanonicalLocales()` | ✅ | No |
 | `Intl.supportedValuesOf()` | ✅ | No |
@@ -70,7 +70,7 @@ import '@formatjs/intl-displaynames/polyfill';
 | `Intl.ListFormat` | ❌ | Yes |
 | `Intl.Segmenter` | ❌ | Yes |
 
-`Intl.NumberFormat` is not fully covered on Hermes across platforms. In particular, `Intl.NumberFormat.prototype.formatToParts()` still has an iOS gap, so keep `@formatjs/intl-numberformat` if your app relies on that method.
+Constructor support does not guarantee every option or method your app uses. In particular, the 2026 guide calls out gaps in DateTimeFormat options (`numberingSystem` and `formatMatcher` on iOS; `dayPeriod`, `fractionalSecondDigits`, and `formatMatcher` on Android) and NumberFormat compact/engineering/signDisplay-related options. Keep polyfills for any API, option, locale data, or method your app actually depends on.
 
 ```tsx
 // AFTER: Keep only the polyfills your app still needs
@@ -169,7 +169,6 @@ const Tabs = createNativeBottomTabNavigator();
 | Menus | `zeego` | Native menus (Radix-like API) |
 | Slider | `@react-native-community/slider` | Native slider |
 | Date Picker | `react-native-date-picker` | Native date/time picker |
-| Image | `react-native-fast-image` | Native image caching |
 
 ## Decision Matrix
 

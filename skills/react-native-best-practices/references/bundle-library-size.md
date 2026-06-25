@@ -94,6 +94,8 @@ import get from 'lodash/get';        // 8K (gzipped: 2.9K)
 - May fail on React Native-specific packages
 - Doesn't account for tree shaking
 
+Bundlephobia, pkg-size.dev, and Import Cost measure JavaScript package cost. They do not capture native code added by React Native libraries such as maps, Reanimated, Firebase, camera, video, or analytics SDKs. For native dependencies, always verify the actual IPA/AAB/APK size after installation.
+
 ## Comparison Workflow
 
 ### Before Adding Dependency
@@ -146,14 +148,9 @@ npx bundle-phobia-cli <package-name>
 npm pack <package-name> --dry-run 2>&1 | grep "total files"
 ```
 
-## Decision Matrix
+## Decision Rule
 
-| Factor | Keep JS Library | Use Native Alternative |
-|--------|-----------------|------------------------|
-| Size | > 50 KB | < 50 KB |
-| Platform coverage | Both platforms | Single platform OK |
-| Performance | Not critical | Critical path |
-| Functionality | Simple | Complex computation |
+Prefer the smallest option that satisfies correctness and platform requirements, then verify the real app artifact. JS package size alone is not enough for React Native dependencies with native code.
 
 ## Code Example: Optimizing Imports
 

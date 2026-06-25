@@ -173,13 +173,9 @@ npx sharp-cli input.jpg -o output.jpg --quality 80
 | WebP | Both (smaller) |
 | SVG | Vector icons |
 
-### 3. Consider react-native-fast-image
+### 3. Separate Bundled Assets from Remote Images
 
-Caching and better image handling:
-
-```bash
-npm install react-native-fast-image
-```
+Remote image caching libraries can help runtime image performance, but they do not reduce the size of images already bundled into the app.
 
 ## Verification
 
@@ -206,7 +202,7 @@ Upload IPA to see asset breakdown.
 
 ## Future Note
 
-As of January 2025, Asset Catalog is not default. May become default in future React Native versions.
+As of the March 2026 book export, iOS asset catalog generation is not described as default. Verify current React Native release notes before applying this manually.
 
 ## Related Skills
 

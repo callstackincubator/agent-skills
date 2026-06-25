@@ -35,7 +35,7 @@ Understand and debug React Native's view flattening optimization.
 - Building native components that accept children
 - Understanding React Native rendering
 
-> **Note**: This skill involves visual view hierarchy tools (Xcode Debug View Hierarchy, Android Layout Inspector). Use `agent-device` for screen evidence; install it through the environment's approved/trusted path or ask the user if verification needs it and it is missing. Native hierarchy inspection may still require Xcode, Android Studio, or human review.
+> **Note**: This skill involves visual view hierarchy tools (Xcode Debug View Hierarchy, Android Layout Inspector). Use `agent-device` for screen evidence; install it through the environment's approved/trusted path or ask the user if verification needs it and it is missing. Native hierarchy inspection may still require Xcode, Android Studio, or human review. Record native child counts and component names in text when asking an agent to reason about them.
 
 ## What is View Flattening?
 
@@ -79,7 +79,7 @@ If `Child1` is flattened, its internal views become direct children:
 </MyNativeComponent>
 ```
 
-Now native side always receives exactly 3 children.
+The direct views marked `collapsable={false}` are preserved as native children.
 
 ## Debugging View Hierarchy
 
@@ -170,17 +170,17 @@ Views are considered "layout-only" when they:
 
 ## Forcing a View to Stay
 
-Besides `collapsable={false}`, these also prevent flattening:
+Use `collapsable={false}` as the stable fix. Style or handler changes can be useful as debugging probes, but do not keep them as the production solution:
 
 ```tsx
-// Any of these prevent flattening
+// Diagnostic probes only
 <View style={{ backgroundColor: 'transparent' }} />
 <View style={{ borderWidth: 0.01 }} />
 <View style={{ opacity: 0.99 }} />
 <View onLayout={() => {}} />
 ```
 
-But `collapsable={false}` is the cleanest solution.
+Remove these probes after confirming flattening is the issue.
 
 ## Debugging Checklist
 

@@ -27,7 +27,7 @@ android {
 ## When to Use
 
 - Android app size too large
-- Want to obfuscate code for security
+- Want basic obfuscation to raise reverse-engineering effort, not as a security boundary
 - Building release APK/AAB
 
 ## What is R8?
@@ -67,6 +67,8 @@ android {
     }
 }
 ```
+
+For Expo projects, wire release minification through `android.enableMinifyInReleaseBuilds` and resource shrinking through `android.enableShrinkResourcesInReleaseBuilds`. In managed/prebuild projects, set these through `expo-build-properties` so they survive `expo prebuild`.
 
 ### 3. Configure ProGuard Rules (If Needed)
 

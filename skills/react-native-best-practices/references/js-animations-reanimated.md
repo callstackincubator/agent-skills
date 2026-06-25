@@ -106,6 +106,12 @@ const triggerAnimation = () => {
 
 ```jsx
 import { scheduleOnRN } from 'react-native-worklets';
+import { Pressable } from 'react-native';
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from 'react-native-reanimated';
 
 // Regular JS function
 const trackAnalytics = (value) => {
@@ -115,17 +121,27 @@ const trackAnalytics = (value) => {
 const AnimatedComponent = () => {
   const progress = useSharedValue(0);
 
+  const handlePress = () => {
+    progress.value = withTiming(1, { duration: 200 }, (finished) => {
+      if (finished) {
+        scheduleOnRN(trackAnalytics, 1);
+      }
+    });
+  };
+
   const animatedStyle = useAnimatedStyle(() => {
-    // When animation completes, call JS function
-    if (progress.value === 1) {
-      scheduleOnRN(trackAnalytics, progress.value);
-    }
     return { opacity: progress.value };
   });
 
-  return <Animated.View style={animatedStyle} />;
+  return (
+    <Pressable onPress={handlePress}>
+      <Animated.View style={animatedStyle} />
+    </Pressable>
+  );
 };
 ```
+
+Avoid calling `scheduleOnRN` from `useAnimatedStyle`; style worklets can evaluate more often than an analytics or state callback should run. Prefer animation completion callbacks or `useAnimatedReaction`.
 
 ### 4. Animation with Callback
 
@@ -178,6 +194,8 @@ const AnimatedButton = () => {
 | `scheduleOnUI` | Manual UI thread execution (from `react-native-worklets`) |
 | `scheduleOnRN` | Call JS functions from worklets (from `react-native-worklets`) |
 | `useTransition` | Alternative for React state-driven delays |
+
+For Reanimated 4 state-driven style changes, prefer CSS transitions where supported. Keep shared values/worklets for gesture-driven, scroll-driven, layout-sensitive, or orchestrated animations.
 
 ## Common Pitfalls
 

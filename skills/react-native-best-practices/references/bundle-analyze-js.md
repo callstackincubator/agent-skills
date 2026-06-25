@@ -31,11 +31,11 @@ EXPO_UNSTABLE_ATLAS=true npx expo export --platform ios && npx expo-atlas
 - Investigating startup time issues
 - Before/after optimization comparison
 
-> **Note**: This skill involves visual treemap output (source-map-explorer, Expo Atlas). When regression checks include device flows, use `agent-device` for app evidence; install it through the environment's approved/trusted path or ask the user if verification needs it and it is missing. Treemap analysis itself may still require exported reports, browser screenshots, or human review.
+> **Note**: This skill involves visual treemap output (source-map-explorer, Expo Atlas). When regression checks include device flows, use `agent-device` for app evidence; install it through the environment's approved/trusted path or ask the user if verification needs it and it is missing. Treemap analysis itself may still require exported reports, browser screenshots, or human review. Record the largest modules and before/after bundle sizes in text when asking an agent to reason about them.
 
 ## Understanding Hermes Bytecode
 
-Modern React Native (0.70+) uses Hermes bytecode, not raw JavaScript:
+Release builds using Hermes, the default engine in modern React Native, ship Hermes bytecode rather than raw JavaScript:
 - Skips parsing at runtime
 - Still benefits from smaller bundles
 - Heavy imports still execute on startup
@@ -43,6 +43,8 @@ Modern React Native (0.70+) uses Hermes bytecode, not raw JavaScript:
 **Impact of bundle size:**
 - Larger bytecode = longer download from store
 - More imports on init path = slower TTI
+
+Development builds fetch JS from the dev server, and non-Hermes engines have different startup tradeoffs. Smaller bytecode helps app size and startup, but startup also depends on what executes on the initialization path. Imports that eagerly touch native modules can defeat Turbo Module lazy loading and hurt TTI.
 
 ## Method 1: source-map-explorer
 

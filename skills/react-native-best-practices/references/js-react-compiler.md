@@ -54,10 +54,10 @@ This checks if your app follows the Rules of React and identifies potential issu
 
 #### Expo Projects
 
-**SDK 54 and later** (simplified setup):
+**SDK 54 and later** (Babel auto-configured):
 
 ```bash
-npx expo install babel-plugin-react-compiler
+npx expo install babel-plugin-react-compiler@beta
 ```
 
 **SDK 52-53**:
@@ -123,6 +123,11 @@ The ESLint plugin helps identify code that can't be optimized and enforces the R
 
 ```bash
 npx expo lint  # Ensures ESLint is set up
+```
+
+SDK 55 and later include React Compiler lint rules through `eslint-config-expo`. For SDK 54 and earlier, install the plugin:
+
+```bash
 npx expo install eslint-plugin-react-compiler -- -D
 ```
 

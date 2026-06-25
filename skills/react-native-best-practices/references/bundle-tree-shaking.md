@@ -44,11 +44,12 @@ module.exports = {
 
 ## Platform Support
 
-| Bundler        | Tree Shaking    | Notes                        |
-| -------------- | --------------- | ---------------------------- |
-| Metro          | ❌ No           | Use metro-serializer-esbuild |
-| Expo (SDK 52+) | ✅ Experimental | Requires config              |
-| Re.Pack        | ✅ Yes          | Built-in via Webpack/Rspack  |
+| Bundler | Tree Shaking | Notes |
+|---------|--------------|-------|
+| Metro | No general tree shaking | Platform/dev-only shaking exists; use specialized tooling for unused exports |
+| Expo SDK 52+ | Experimental unused import/export removal | Production only; requires ESM and side-effect-safe modules |
+| Expo SDK 54+ | Verify defaults | Import support is documented as default; tree-shaking env toggles may still be required |
+| Re.Pack | Yes | Via Webpack/Rspack optimizations and minification |
 
 ## Setup: Expo SDK 52+
 

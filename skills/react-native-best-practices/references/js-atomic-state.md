@@ -229,6 +229,8 @@ const TodoList = () => {
 
 ## When to Use Which
 
+Do not migrate global state solely for fewer re-renders if React Compiler or narrower subscriptions solve the measured issue. Atomic state helps when broad Context/store updates cause unrelated subscribers to render.
+
 - **Jotai**: Fine-grained state, many small atoms, derived/async atoms
 - **Zustand**: Simpler mental model, single store, familiar Redux-like pattern
 - **React Compiler**: If available, may eliminate need for these libraries

@@ -31,7 +31,7 @@ flashlight measure
 - React Native app running on device/simulator
 - For Flashlight: Android device (iOS not supported)
 
-> **Note**: This skill involves visual output (FPS graphs, performance overlays). Use `agent-device` for runnable scenario evidence; install it through the environment's approved/trusted path or ask the user if verification needs it and it is missing. FPS graph interpretation may still require exported reports or human review.
+> **Note**: This skill involves visual output (FPS graphs, performance overlays). Use `agent-device` for runnable scenario evidence; install it through the environment's approved/trusted path or ask the user if verification needs it and it is missing. FPS graph interpretation may still require exported reports or human review. Record concrete FPS ranges, dropped-frame counts, device tier, and build type in text when asking an agent to reason about them.
 
 ## Step-by-Step Instructions
 

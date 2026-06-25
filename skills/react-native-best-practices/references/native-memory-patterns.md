@@ -16,7 +16,7 @@ Understand memory management patterns in C++, Swift, and Kotlin for React Native
 | Garbage Collection | Kotlin/Java, JavaScript | GC scans and frees unreachable |
 | Manual | C, C++ (raw pointers) | Explicit new/delete |
 
-**Key rule**: Use `std::unique_ptr`/`std::shared_ptr` in C++, `weak` for delegates in Swift.
+**Key rule**: Prefer stack allocation or `std::unique_ptr` for single ownership; use `std::shared_ptr` only for real shared ownership and `std::weak_ptr` to break cycles. In Swift, use `weak` when the referenced object can disappear first; use `unowned` only when its lifetime is guaranteed to be at least as long.
 
 ## When to Use
 
@@ -144,6 +144,8 @@ class B {
 
 ### WeakHashMap for Caches
 
+`WeakHashMap` weakens keys, not values. Store `WeakReference` values explicitly when the cached value itself should not be strongly retained.
+
 ```kotlin
 val weakMap = WeakHashMap<String, String>()
 
@@ -263,8 +265,8 @@ let pointer = unmanaged.toOpaque()
 
 | Language | Best Practice |
 |----------|---------------|
-| C++ | Use smart pointers (`shared_ptr`, `unique_ptr`) |
-| Swift | Use `weak` for delegates, breaking cycles |
+| C++ | Prefer stack or `unique_ptr`; use `shared_ptr` only for shared ownership |
+| Swift | Use `weak` for delegates and disappearing references; use `unowned` only with guaranteed lifetime |
 | Kotlin | Implement `AutoCloseable`, use `WeakReference` |
 | All | Prefer stack over heap when possible |
 

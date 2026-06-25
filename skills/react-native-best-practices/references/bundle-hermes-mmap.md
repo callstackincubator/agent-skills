@@ -6,12 +6,12 @@ tags: android, hermes, mmap, tti, startup
 
 # Skill: Disable JS Bundle Compression
 
-Disable Android JS bundle compression to enable Hermes memory mapping for faster startup.
+Disable Android JS bundle compression to enable Hermes memory mapping for faster startup on React Native 0.78 and earlier.
 
 ## Quick Config
 
 ```groovy
-// android/app/build.gradle
+// android/app/build.gradle, React Native 0.78 and earlier fallback
 android {
     androidResources {
         noCompress += ["bundle"]
@@ -19,7 +19,7 @@ android {
 }
 ```
 
-**Note**: Default in React Native 0.79+. Only needed for 0.78 and earlier.
+**Note**: React Native 0.79+ defaults to uncompressed Android JS bundles. Prefer checking/toggling `react { enableBundleCompression = false }` there instead of adding `androidResources.noCompress` manually.
 
 ## When to Use
 
@@ -54,7 +54,7 @@ With compression:
 
 ### Edit build.gradle
 
-In `android/app/build.gradle`:
+For React Native 0.78 and earlier, edit `android/app/build.gradle`:
 
 ```groovy
 android {
@@ -111,7 +111,7 @@ cd android
 
 **React Native 0.78 and earlier**: Apply this optimization manually.
 
-**React Native 0.79+**: Skip this—bundle compression is disabled by default.
+**React Native 0.79+**: Skip this unless the project explicitly enabled bundle compression.
 
 ## Verification
 
@@ -155,10 +155,10 @@ For Expo projects, run `npx expo prebuild` first to generate `android/` folder, 
 
 | Scenario | Recommendation |
 |----------|---------------|
-| Startup-critical app | ✅ Enable |
+| RN 0.78 or earlier startup-critical app | ✅ Enable |
 | Storage-sensitive users | ⚠️ Test impact |
 | Already fast TTI | Maybe not worth it |
-| Large JS bundle | ✅ Bigger benefit |
+| RN 0.79+ default config | Skip |
 
 ## Related Skills
 

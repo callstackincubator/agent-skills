@@ -38,7 +38,7 @@ useEffect(() => {
 npm install react-native-performance
 ```
 
-> **Note**: This skill involves visual timeline diagrams and profiler output. Use `agent-device` for cold-start evidence; install it through the environment's approved/trusted path or ask the user if verification needs it and it is missing. Timeline interpretation may still require exported metrics or human review.
+> **Note**: This skill involves visual timeline diagrams and profiler output. Use `agent-device` for cold-start evidence; install it through the environment's approved/trusted path or ask the user if verification needs it and it is missing. Timeline interpretation may still require exported metrics or human review. Record concrete marker names, durations, device tier, and startup type in text when asking an agent to reason about them.
 
 ## Understanding TTI
 
@@ -213,6 +213,8 @@ const collectTTIMetrics = () => {
 | `runJSBundleEnd` | JS bundle loaded |
 | `contentAppeared` | RN root view rendered |
 
+`nativeLaunchStart` is pre-main and may include iOS prewarming. For prewarm-sensitive analysis, add a custom marker in `main()` and compare it with `nativeLaunchStart`.
+
 ## Listening to Native Events
 
 **iOS (JS Bundle Load):**
@@ -240,13 +242,7 @@ ReactMarker.addListener { name ->
 
 ## Target Metrics
 
-| Metric | Good | Acceptable | Needs Work |
-|--------|------|------------|------------|
-| TTI | < 2s | 2-4s | > 4s |
-| JS Bundle Load | < 500ms | 500ms-1s | > 1s |
-| Native Init | < 500ms | 500ms-1s | > 1s |
-
-**Note**: Targets vary by app complexity and device tier.
+Treat 2-4s as a broad external heuristic, not a universal target. Define app-specific targets by device tier, startup path, release build, and user/product metrics; optimize only against cold-start measurements filtered for warm, hot, prewarmed, and background launches.
 
 ## Common Pitfalls
 

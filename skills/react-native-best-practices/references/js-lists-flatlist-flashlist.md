@@ -1,12 +1,12 @@
 ---
 title: Higher-Order Lists
 impact: CRITICAL
-tags: lists, flatlist, flashlist, scrollview, virtualization
+tags: lists, flatlist, flashlist, legend-list, scrollview, virtualization
 ---
 
 # Skill: Higher-Order Lists
 
-Replace ScrollView with FlatList or FlashList for performant large list rendering.
+Replace ScrollView with FlatList, FlashList, or Legend List for performant large list rendering.
 
 ## Quick Pattern
 
@@ -37,7 +37,8 @@ Replace ScrollView with FlatList or FlashList for performant large list renderin
 
 ## Prerequisites
 
-- `@shopify/flash-list` for FlashList (recommended)
+- `@shopify/flash-list` for FlashList on React Native New Architecture
+- `@legendapp/list` for a JS/TypeScript list option without native dependencies
 - Understanding of list virtualization
 
 ## Version Guardrail
@@ -91,7 +92,7 @@ const BetterList = ({ items }) => {
     <FlatList
       data={items}
       renderItem={renderItem}
-      keyExtractor={(item, index) => index.toString()}
+      keyExtractor={(item) => item.id}
     />
   );
 };
@@ -130,7 +131,7 @@ const OptimizedList = ({ items }) => {
 };
 ```
 
-### 4. Upgrade to FlashList (Best Performance)
+### 4. Upgrade to FlashList
 
 ```bash
 npm install @shopify/flash-list
@@ -156,12 +157,18 @@ const BestList = ({ items }) => {
 };
 ```
 
-For FlashList v1, add `estimatedItemSize` with a realistic average item height. For FlashList v2+, skip that prop and focus on stable keys, lightweight item components, and `getItemType` when item shapes differ.
+For FlashList v1, add `estimatedItemSize` with a realistic average item height. FlashList v2 requires React Native New Architecture and no longer needs size estimates; it computes sizing automatically. For old architecture apps, use FlashList v1 docs or evaluate Legend List.
 
 **FlashList advantages:**
 - Recycles views instead of creating new ones
-- 78/100 vs 25/100 performance score in benchmarks
-- Smoother scrolling at ~54 FPS vs lower for FlatList
+- Often improves memory and scroll smoothness for large, complex lists
+- Supports item-type-aware recycling with `getItemType`
+
+### 5. Evaluate Legend List
+
+Legend List is a JS/TypeScript list alternative with no native dependency. It supports dynamic item sizes, bidirectional infinite scrolling, chat-friendly bottom alignment, and optional recycling.
+
+Enable `recycleItems` for long lists after confirming item components do not keep item-specific local state or side effects.
 
 ## Code Examples
 
@@ -227,8 +234,8 @@ If the project is still on FlashList v1, keep `estimatedItemSize` alongside `get
 |----------|---------------|
 | < 20 static items | ScrollView OK |
 | 20-100 items | FlatList minimum |
-| > 100 items | FlashList |
-| Complex item layouts | FlashList with `getItemType` |
+| > 100 items | FlashList or Legend List |
+| Complex item layouts | FlashList with `getItemType`, or Legend List |
 | Fixed height items | FlatList: `getItemLayout`; FlashList v1: `estimatedItemSize`; FlashList v2+: stable item structure |
 
 ## Common Pitfalls

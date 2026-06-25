@@ -174,6 +174,8 @@ class AwesomeLibraryModule(reactContext: ReactApplicationContext) :
 }
 ```
 
+Use structured concurrency: keep a module-owned `CoroutineScope`, cancel it in `invalidate()`, avoid `GlobalScope.launch`, use `SupervisorJob` so one failed operation does not cancel unrelated in-flight work, and choose `Dispatchers.Default` for CPU work or `Dispatchers.IO` for disk/network/database work.
+
 ### 5. Use C++ for Cross-Platform Code
 
 Create C++ Turbo Module for shared logic:
@@ -196,7 +198,7 @@ public:
 } // namespace facebook::react
 ```
 
-Register for iOS auto-linking:
+Register C++ Turbo Modules on iOS with `+load` as a workaround when automatic iOS registration is unavailable; verify current React Native support before relying on this:
 
 ```objc
 // MyCppModuleRegistration.mm
@@ -281,7 +283,7 @@ override fun heavyOperation(input: Double, promise: Promise?) {
 
 ## Common Pitfalls
 
-- **Sync methods that block**: Keep under 16ms or make async
+- **Sync methods that block**: Keep sync methods trivial and deterministic; make anything that can block, allocate heavily, perform I/O, or wait on locks async/background work
 - **Forgetting to cancel coroutine scope**: Causes memory leaks
 - **Not handling errors in async**: Always try/catch with reject
 - **Accessing UI from background**: Dispatch to main thread

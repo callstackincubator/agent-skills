@@ -6,7 +6,7 @@ tags: textinput, forms, controlled, uncontrolled
 
 # Skill: Uncontrolled Components
 
-Fix TextInput synchronization and flickering issues by using uncontrolled component pattern.
+Fix TextInput synchronization and flickering issues by using the uncontrolled component pattern where React does not need to own every keystroke.
 
 ## Quick Pattern
 
@@ -28,6 +28,7 @@ Fix TextInput synchronization and flickering issues by using uncontrolled compon
 - Text input lags behind user input on low-end devices
 - Using legacy (non-New Architecture) React Native
 - Need maximum input responsiveness
+- React does not need to transform, mask, validate, or own the value on every keystroke
 
 ## Prerequisites
 
@@ -49,6 +50,8 @@ The diagram shows what happens when typing "TEST" with a controlled `TextInput`:
 **The problem**: Each character requires a round-trip between native and JavaScript. On legacy architecture, if React state update is slow, native may show intermediate states (flicker).
 
 **New Architecture note:** This issue is largely resolved in New Architecture, but uncontrolled pattern still provides best performance.
+
+Use uncontrolled TextInput primarily as a responsiveness or legacy-architecture escape hatch. Keep controlled inputs when React must transform, mask, validate, or own the value on every keystroke.
 
 ## Step-by-Step Instructions
 

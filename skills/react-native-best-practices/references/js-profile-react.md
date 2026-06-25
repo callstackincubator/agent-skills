@@ -31,7 +31,7 @@ For targeted audits, profile the exact flow under review. Baseline output should
 - App running in development mode
 - React DevTools version 6.0.1+ for React Compiler support
 
-> **Note**: This skill involves visual profiler output (flame graphs, component highlighting). Use `agent-device` for runnable scenario evidence; install it through the environment's approved/trusted path or ask the user if verification needs it and it is missing. Profiler analysis may still require the DevTools UI, exported data, or human review.
+> **Note**: This skill involves visual profiler output (flame graphs, component highlighting). Use `agent-device` for runnable scenario evidence; install it through the environment's approved/trusted path or ask the user if verification needs it and it is missing. Profiler analysis may still require the DevTools UI, exported data, or human review. Record concrete commit times, render counts, and component names in text when asking an agent to reason about them.
 
 ## Step-by-Step Instructions
 
@@ -161,7 +161,7 @@ Only propose callback or dependency-array changes when the profiler or a reprodu
 
 ## Common Pitfalls
 
-- **Profiling in dev mode**: Always disable JS Dev Mode for accurate measurements (Settings > JS Dev Mode on Android)
+- **Using one build type for every question**: Use React Native DevTools in development to identify render causes, commit patterns, and expensive components. Validate timing-sensitive FPS/CPU improvements in production or release-like builds.
 - **Not using production builds**: Some issues only appear with minified code
 - **Ignoring "Why did this render?"**: This tells you exactly what to fix
 - **Using component tree depth or count as the main baseline**: These are secondary context, not the core performance signal

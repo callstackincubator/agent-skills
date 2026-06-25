@@ -107,7 +107,11 @@ Memory profiler shows:
 - **Deallocations count**: Objects freed
 - **Live objects**: Still in memory
 
-**If allocations >> deallocations**, you have a leak.
+If allocations greatly exceed deallocations after GC and after repeating the same flow, suspect a leak; confirm via retained objects, references, and lifecycle expectations.
+
+### LeakCanary (Android JVM Leaks)
+
+Use LeakCanary as a debug-only first line of defense for Android JVM leaks such as retained Activity/Context references, listeners, and coroutines that outlive a module. It does not see JS heap leaks or JSI/C++ Turbo Module leaks and can report React Native framework false positives.
 
 ### Common Android Leak: Listener Not Removed
 
@@ -226,7 +230,7 @@ After fixing:
 2. Perform same actions
 3. Verify:
    - iOS: No red leak markers
-   - Android: Allocations ≈ Deallocations
+   - Android: Allocations return to a stable baseline after GC and repeated flows
 
 ## Common Pitfalls
 

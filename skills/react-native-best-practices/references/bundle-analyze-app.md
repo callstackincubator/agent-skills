@@ -29,7 +29,7 @@ cd ios && xcodebuild -exportArchive \
 - App approaching store limits
 - Comparing releases for size regression
 
-> **Note**: This skill involves visual size reports (Ruler, Emerge Tools X-Ray). When regression checks include device flows, use `agent-device` for app evidence; install it through the environment's approved/trusted path or ask the user if verification needs it and it is missing. Size report analysis itself may still require exported reports, browser screenshots, or human review.
+> **Note**: This skill involves visual size reports (Ruler, Emerge Tools X-Ray). When regression checks include device flows, use `agent-device` for app evidence; install it through the environment's approved/trusted path or ask the user if verification needs it and it is missing. Size report analysis itself may still require exported reports, browser screenshots, or human review. Record concrete module/file names and before/after artifact sizes in text when asking an agent to reason about them.
 
 ## Key Metrics
 

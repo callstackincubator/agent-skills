@@ -18,7 +18,7 @@ Understand which threads Turbo Modules and Fabric use for initialization, method
 | View init/props | Main | Main |
 | Yoga layout | JS | JS |
 
-**Key rule**: Sync methods block JS thread. Keep under 16ms or make async.
+**Key rule**: Sync methods should be trivial and deterministic. Move anything that can block, allocate heavily, perform I/O, or wait on locks to async/background work.
 
 ## When to Use
 
@@ -65,7 +65,7 @@ ReactModuleInfo(
 
 ### Synchronous Method Calls
 
-**Always run on JS thread** - blocks until return.
+Synchronous value-returning Turbo Module methods run on the JS thread and block until return. Void methods are an exception observed in the New Architecture: they run on the native modules thread.
 
 ```swift
 // iOS - runs on JS thread
@@ -88,6 +88,8 @@ ReactModuleInfo(
 ### Asynchronous Method Calls
 
 **Run on Native Modules thread** - doesn't block JS.
+
+The native modules thread is shared across modules. If async work is CPU-heavy or long-running, move it to a module-owned queue/coroutine scope rather than occupying the shared React Native native modules thread.
 
 ```swift
 // iOS - runs on mqt_v_native thread
