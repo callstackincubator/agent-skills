@@ -131,7 +131,7 @@ npx source-map-explorer output.js --no-border-checks
 **Common fixes:**
 - Avoid barrel imports (import directly from source)
 - Remove unnecessary Intl polyfills only after checking Hermes API and method coverage
-- Enable tree shaking (Expo SDK 52+ or Re.Pack)
+- Evaluate tree shaking (Expo SDK 52+ experimental unused import/export removal, or Re.Pack only if already configured)
 - Enable R8 for Android native code shrinking
 
 ### Measure TTI
@@ -139,7 +139,7 @@ npx source-map-explorer output.js --no-border-checks
 - Only measure cold starts (exclude warm/hot/prewarm)
 
 **Common fixes:**
-- Disable JS bundle compression on Android (enables Hermes mmap)
+- For React Native 0.78 and earlier, disable Android JS bundle compression to enable Hermes mmap
 - Use native navigation (react-native-screens)
 - Preload commonly-used expensive screens before navigating to them
 

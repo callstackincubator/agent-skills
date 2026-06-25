@@ -64,7 +64,7 @@ npx expo install babel-plugin-react-compiler@beta
 npx expo install babel-plugin-react-compiler@beta react-compiler-runtime@beta
 ```
 
-For SDK 52 and earlier, follow the current Expo docs for the runtime package and enable the experiment in app config:
+Then enable the experiment in app config:
 
 ```json
 {
@@ -82,7 +82,13 @@ For SDK 52 and earlier, follow the current Expo docs for the runtime package and
 npm install -D babel-plugin-react-compiler@latest
 ```
 
-Use the runtime package only when your React version requires it. Prefer the setup path documented for the app's exact Expo SDK or React Native version.
+For React 17 or 18 targets, also install the compiler runtime:
+
+```bash
+npm install react-compiler-runtime@latest
+```
+
+Prefer the setup path documented for the app's exact Expo SDK, React Native, and React versions.
 
 ### Step 3: Configure Babel (React Native without Expo)
 
