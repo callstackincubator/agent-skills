@@ -78,12 +78,14 @@ agent-device react-devtools profile timeline --limit 20
 
 Drive the target interaction with normal `agent-device` commands between `profile start` and `profile stop`.
 
+Manual fallback when `agent-device` is unavailable: open React Native DevTools from Metro (`j`) or the Dev Menu, use the Profiler tab, and record the same interaction.
+
 For release-build React component profiling, connect [`@callstack/inspector`](https://github.com/callstackincubator/inspector#inspector) first so React DevTools can attach to the release app, then run the `agent-device react-devtools` flow above.
 
 **Common fixes:**
 - Replace ScrollView with FlatList/FlashList/Legend List for long lists
-- Use React Compiler for automatic memoization
-- Use atomic state (Jotai/Zustand) to reduce re-renders
+- After profiling shows cascading re-renders, use React Compiler for automatic memoization
+- After profiling shows broad store/context updates, use atomic state (Jotai/Zustand) to reduce re-renders
 - Use `useDeferredValue` for expensive computations
 
 ### Critical: Bundle Size

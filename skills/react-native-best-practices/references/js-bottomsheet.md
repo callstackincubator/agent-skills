@@ -28,7 +28,12 @@ const handleAnimate = useCallback((fromIndex, toIndex) => {
 const animatedIndex = useSharedValue(0);
 
 const overlayStyle = useAnimatedStyle(() => ({
-  opacity: withTiming(animatedIndex.value > 0 ? 0.5 : 0),
+  opacity: interpolate(
+    animatedIndex.value,
+    [0, 1],
+    [0, 0.5],
+    Extrapolation.CLAMP
+  ),
 }));
 
 <BottomSheet animatedIndex={animatedIndex}>
@@ -94,7 +99,12 @@ const handleAnimate = useCallback((fromIndex, toIndex) => {
 const animatedIndex = useSharedValue(0);
 
 const shadowStyle = useAnimatedStyle(() => ({
-  shadowOpacity: withTiming(animatedIndex.value > 0 ? 0.3 : 0),
+  shadowOpacity: interpolate(
+    animatedIndex.value,
+    [0, 1],
+    [0, 0.3],
+    Extrapolation.CLAMP
+  ),
 }));
 
 <BottomSheet animatedIndex={animatedIndex}>
@@ -123,10 +133,19 @@ const [showFooter, setShowFooter] = useState(false);
 const SheetVisibilityWrapper = ({ animatedIndex, threshold = 1, children }) => {
   const [isInteractive, setIsInteractive] = useState(false);
 
-  const style = useAnimatedStyle(() => ({
-    opacity: withTiming(animatedIndex.value >= threshold ? 1 : 0),
-    transform: [{ translateY: withTiming(animatedIndex.value >= threshold ? 0 : 50) }],
-  }));
+  const style = useAnimatedStyle(() => {
+    const progress = interpolate(
+      animatedIndex.value,
+      [threshold - 0.01, threshold],
+      [0, 1],
+      Extrapolation.CLAMP
+    );
+
+    return {
+      opacity: progress,
+      transform: [{ translateY: interpolate(progress, [0, 1], [50, 0]) }],
+    };
+  });
 
   useAnimatedReaction(
     () => animatedIndex.value >= threshold,
@@ -302,6 +321,7 @@ npm install @lodev09/react-native-true-sheet
 ## Common Pitfalls
 
 - **Using `onChange` for continuous position tracking** — it fires on snap completion only (discrete). Use `animatedPosition` or `animatedIndex` shared values instead.
+- **Starting timing animations inside sheet-index style worklets** — derive gesture-linked visuals with `interpolate`; reserve `withTiming` for explicit state transitions.
 - **Forgetting `pointerEvents='none'` on always-mounted hidden elements** — invisible elements still capture touches.
 - **Missing accessibility attributes on hidden elements** — add `accessibilityElementsHidden` and `importantForAccessibility='no-hide-descendants'`.
 - **Bundling independent state values in one context** — see [js-atomic-state.md](./js-atomic-state.md) for splitting patterns.

@@ -52,6 +52,32 @@ This checks if your app follows the Rules of React and identifies potential issu
 
 ### Step 2: Install React Compiler
 
+#### Expo
+
+Use Expo's SDK-specific path:
+
+```bash
+# SDK 54 and later: Babel is auto-configured
+npx expo install babel-plugin-react-compiler@beta
+
+# SDK 53: install runtime too
+npx expo install babel-plugin-react-compiler@beta react-compiler-runtime@beta
+```
+
+For SDK 52 and earlier, follow the current Expo docs for the runtime package and enable the experiment in app config:
+
+```json
+{
+  "expo": {
+    "experiments": {
+      "reactCompiler": true
+    }
+  }
+}
+```
+
+#### React Native without Expo
+
 ```bash
 npm install -D babel-plugin-react-compiler@latest
 ```
@@ -82,7 +108,7 @@ module.exports = function (api) {
 
 ### Step 4: Set Up ESLint (Recommended)
 
-Use the React Hooks/Compiler lint rules that match the app's React version. Fix rule violations before treating a component as compiler-optimized; skipped components are safe but do not get the intended memoization.
+Use the React Hooks/Compiler lint rules that match the app's React version. For Expo, SDK 55+ includes React Compiler lint rules through `eslint-config-expo`; SDK 54 and earlier need `eslint-plugin-react-compiler`. Fix rule violations before treating a component as compiler-optimized; skipped components are safe but do not get the intended memoization.
 
 ### Step 5: Verify Optimizations
 

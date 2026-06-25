@@ -45,11 +45,12 @@ useEffect(() => {
 
 React Native DevTools supports heap snapshots, allocation instrumentation on timeline, and allocation sampling. Use allocation timeline to isolate leaks; use allocation sampling for lower-overhead long-running allocation profiling. Use `agent-device react-devtools` when you need token-efficient component tree, props, state, hooks, ownership, or render-cause context while investigating the leak.
 
+`agent-device react-devtools` does not replace the Memory tab. Use it only for related component context; heap snapshots and allocation timelines require the React Native DevTools Memory UI or an exported memory profile.
+
 ### 1. Open Memory Profiler
 
 1. Open the React Native DevTools Memory tab or load an exported memory profile
-2. Go to **Memory** tab
-3. Select **"Allocation instrumentation on timeline"**
+2. Select **"Allocation instrumentation on timeline"**
 
 ### 2. Record Memory Allocations
 

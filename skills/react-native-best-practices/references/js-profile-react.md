@@ -38,6 +38,8 @@ Drive the target interaction with normal `agent-device` commands between `profil
 
 > **Note**: Prefer `agent-device react-devtools` over the visual DevTools UI for token-efficient React profiling and debugging. Use the visual UI or exported profiler JSON only when the CLI output is insufficient. Record concrete commit times, render counts, and component names.
 
+Manual fallback when `agent-device` is unavailable: open React Native DevTools from Metro (`j`) or the Dev Menu, use the Profiler tab, and record the same interaction. Keep this as fallback only; agent runs should prefer the CLI summaries above.
+
 ## Step-by-Step Instructions
 
 ### 1. Connect React Native DevTools
@@ -101,6 +103,8 @@ Then drill into a specific component:
 agent-device react-devtools profile report @c5
 agent-device react-devtools get component @c5
 ```
+
+Use the component ref printed by `profile slow`, `profile rerenders`, or `get tree`; `@c5` is only an example.
 
 Use the visual flame graph or exported profiler JSON only when the bounded CLI summaries do not answer the question.
 

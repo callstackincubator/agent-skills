@@ -63,7 +63,7 @@ import '@formatjs/intl-displaynames/polyfill';
 | `Intl.DateTimeFormat` | ⚠️ Partial | Maybe |
 | `Intl.NumberFormat` | ⚠️ Partial | Maybe |
 | `Intl.getCanonicalLocales()` | ✅ | No |
-| `Intl.supportedValuesOf()` | ❌ | Yes |
+| `Intl.supportedValuesOf()` | ✅ | No |
 | `Intl.Locale` | ❌ | Yes |
 | `Intl.PluralRules` | ❌ | Yes |
 | `Intl.RelativeTimeFormat` | ❌ | Yes |

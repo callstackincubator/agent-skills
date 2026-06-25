@@ -25,6 +25,8 @@ Replace ScrollView with FlatList, FlashList, or Legend List for performant large
   data={items}
   keyExtractor={(item) => item.id}
   renderItem={({ item }) => <Item {...item} />}
+  // FlashList v1 only: add estimatedItemSize.
+  // FlashList v2+: do not add estimated sizing props.
 />
 ```
 
