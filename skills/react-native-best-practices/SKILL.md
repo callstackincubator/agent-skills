@@ -75,6 +75,8 @@ agent-device react-devtools profile timeline --limit 20
 
 Drive the target interaction with normal `agent-device` commands between `profile start` and `profile stop`.
 
+For release-build React component profiling, connect [`@callstack/inspector`](https://github.com/callstackincubator/inspector#inspector) first so React DevTools can attach to the release app, then run the `agent-device react-devtools` flow above.
+
 **Common fixes:**
 - Replace ScrollView with FlatList/FlashList/Legend List for long lists
 - Use React Compiler for automatic memoization

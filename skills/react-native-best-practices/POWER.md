@@ -97,6 +97,8 @@ agent-device react-devtools profile timeline --limit 20
 
 Drive the target interaction with normal `agent-device` commands between `profile start` and `profile stop`.
 
+For release-build React component profiling, connect [`@callstack/inspector`](https://github.com/callstackincubator/inspector#inspector) first so React DevTools can attach to the release app, then run the `agent-device react-devtools` flow above.
+
 Baseline runtime metrics should come from the target interaction itself:
 - Capture commit timeline, re-render counts, slow components, and heaviest-commit breakdown.
 - Treat component tree depth and count as supporting context only.

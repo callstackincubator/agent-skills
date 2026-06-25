@@ -86,7 +86,7 @@ Use the React Hooks/Compiler lint rules that match the app's React version. Fix 
 
 ### Step 5: Verify Optimizations
 
-Verify with `agent-device react-devtools` before/after render measurements. Some visual DevTools versions show compiler memoization badges, but profiler evidence is the stable signal.
+Verify with `agent-device react-devtools` before/after render measurements. For release-build verification, connect [`@callstack/inspector`](https://github.com/callstackincubator/inspector#inspector) first so React DevTools can attach. Some visual DevTools versions show compiler memoization badges, but profiler evidence is the stable signal.
 
 ## Incremental Adoption
 

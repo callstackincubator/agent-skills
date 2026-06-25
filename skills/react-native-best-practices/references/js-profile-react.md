@@ -34,6 +34,7 @@ Drive the target interaction with normal `agent-device` commands between `profil
 - React Native DevTools connection available through `agent-device react-devtools`
 - App running in development mode
 - React DevTools version compatible with the app's React and React Native versions
+- For release-build profiling, [`@callstack/inspector`](https://github.com/callstackincubator/inspector#inspector) installed and connected first
 
 > **Note**: Prefer `agent-device react-devtools` over the visual DevTools UI for token-efficient React profiling and debugging. Use the visual UI or exported profiler JSON only when the CLI output is insufficient. Record concrete commit times, render counts, and component names.
 
@@ -52,6 +53,17 @@ If `status` reports the helper is not running, start it first:
 agent-device react-devtools start
 agent-device react-devtools wait --connected
 ```
+
+#### Release Builds
+
+React Native release builds do not expose the same profiling path by default. Before using `agent-device react-devtools` against a release app, wire in `@callstack/inspector`:
+
+```bash
+npm install @callstack/inspector
+npx inspector start
+```
+
+Import `@callstack/inspector` as the first module in the app entrypoint, wrap Metro config with `withInspector(config, true)`, then build and run the app in release mode. For Expo, use a release build from prebuild/dev-client flow; Expo Go is not a release-build profiling target.
 
 ### 2. Record a Profiling Session
 
