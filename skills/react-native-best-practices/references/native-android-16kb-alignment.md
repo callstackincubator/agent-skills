@@ -12,8 +12,8 @@ tags: android, native, 16kb, alignment, page-size, google-play, third-party
 
 | Item                   | Details                                              |
 | ---------------------- | ---------------------------------------------------- |
-| Google Play deadline   | November 1, 2025 for apps targeting Android 15+      |
-| React Native support   | Built-in since React Native 0.79                     |
+| Google Play requirement | Apps and updates targeting Android 15+ must support 16 KB page sizes on 64-bit devices |
+| React Native support   | RN 0.79+ includes aligned RN-provided native binaries; still verify third-party `.so` files |
 | What to check          | Third-party native libraries (`.so` files)           |
 | Official documentation | [developer.android.com/guide/practices/page-sizes][] |
 
@@ -23,7 +23,7 @@ tags: android, native, 16kb, alignment, page-size, google-play, third-party
 
 ## Quick Command
 
-Verify APK alignment using Android's official `zipalign` tool:
+Verify generated APK alignment using Android's official `zipalign` tool:
 
 ```bash
 zipalign -c -P 16 -v 4 app-release.apk
@@ -50,7 +50,7 @@ native libraries** may still be misaligned. Check alignment when:
 
 ## CI Integration
 
-Add alignment check to your release pipeline to catch issues before submission, example:
+Add alignment checks to your release pipeline after producing release APKs. If you ship AABs, generate device APKs with your normal release tooling or `bundletool`, then run `zipalign` on those APKs:
 
 ```bash
 zipalign -c -P 16 -v 4 app-release.apk 2>&1 | tee alignment.log
@@ -59,10 +59,11 @@ if grep -q "Verification FAILED" alignment.log; then exit 1; fi
 
 ## Step-by-Step
 
-1. Build your release APK or AAB
-2. Run `zipalign` verification (see Quick Command)
-3. If misaligned libraries are found, trace them to source packages (see below)
-4. Update, replace, or remove the affected dependencies
+1. Build your release artifact
+2. Generate or locate the release APK(s)
+3. Run `zipalign` verification (see Quick Command)
+4. If misaligned libraries are found, trace them to source packages (see below)
+5. Update, replace, or remove the affected dependencies
 
 For runtime testing, use the [16KB Android Emulator image][] or enable
 "Boot with 16KB page size" on Pixel 8/8a/9 devices.

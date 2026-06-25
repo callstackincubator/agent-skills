@@ -83,7 +83,6 @@ Shows inline size next to imports:
 
 ```tsx
 import React from 'react';           // 6.5K (gzipped)
-import { View, Text } from 'react-native';  // 0B (native)
 import lodash from 'lodash';         // 71.5K (gzipped: 24.7K)
 import get from 'lodash/get';        // 8K (gzipped: 2.9K)
 ```
@@ -134,7 +133,7 @@ Bundlephobia, pkg-size.dev, and Import Cost measure JavaScript package cost. The
 | Library | Size (gzipped) | Alternative |
 |---------|----------------|-------------|
 | moment | ~70 KB | dayjs (~3 KB) |
-| lodash (full) | ~25 KB | lodash-es + direct imports |
+| lodash (full) | ~25 KB | Built-ins or direct imports |
 | aws-sdk (full) | 200+ KB | @aws-sdk/client-* |
 | crypto-js | ~15 KB | react-native-quick-crypto |
 

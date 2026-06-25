@@ -182,7 +182,7 @@ RSDOCTOR=true npx react-native start
 
 ### Common Offenders
 
-- **Lodash full import**: Use `lodash-es` or specific imports
+- **Lodash full import**: Prefer built-ins or specific imports
 - **Moment.js**: Replace with `date-fns` or `dayjs`
 - **Intl polyfills**: Check Hermes API and method coverage before removing them
 - **AWS SDK**: Import specific services only

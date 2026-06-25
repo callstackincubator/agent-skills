@@ -22,7 +22,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 ```tsx
 // Hermes has native Intl.DateTimeFormat support, so this polyfill is often unnecessary
-import { createHash } from 'react-native-quick-crypto';  // 58x faster
+import { createHash } from 'react-native-quick-crypto';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 ```
 
@@ -97,8 +97,6 @@ Replace JS crypto with native C++ implementation:
 npm install react-native-quick-crypto
 ```
 
-**Performance**: Up to 58x faster than `crypto-js`.
-
 ```tsx
 // BEFORE: Slow JS implementation
 import CryptoJS from 'crypto-js';
@@ -111,6 +109,8 @@ Essential for:
 - Web3 wallet seed generation
 - CSPRNG (Cryptographically Secure Random Numbers)
 - Any heavy cryptographic operations
+
+Benchmark crypto changes on the target device class. Native implementations usually reduce JS-thread work, but the exact win depends on algorithm, payload size, and bridge/JSI overhead.
 
 ### 3. Use Native Stack Navigator
 

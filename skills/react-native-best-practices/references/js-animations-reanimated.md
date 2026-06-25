@@ -195,7 +195,7 @@ const AnimatedButton = () => {
 | `scheduleOnRN` | Call JS functions from worklets (from `react-native-worklets`) |
 | `useTransition` | Alternative for React state-driven delays |
 
-For Reanimated 4 state-driven style changes, prefer CSS transitions where supported. Keep shared values/worklets for gesture-driven, scroll-driven, layout-sensitive, or orchestrated animations.
+For React Native Web targets, CSS transitions can be appropriate for simple state-driven style changes. In native apps, keep shared values/worklets for gesture-driven, scroll-driven, layout-sensitive, or orchestrated animations.
 
 ## Common Pitfalls
 

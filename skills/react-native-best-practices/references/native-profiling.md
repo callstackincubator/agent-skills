@@ -107,7 +107,7 @@ JS Thread activity after button press:
 - Event handler on main thread
 - Triggers JS work via sync JSI calls
 - Hermes processes React reconciliation
-- ~30% time in "commit" phase (Yoga layout)
+- Significant time in commit/layout-related work
 ```
 
 ## Code Example: What to Look For

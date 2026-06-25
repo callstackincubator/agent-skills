@@ -14,7 +14,7 @@ Configure platform-specific asset delivery to reduce app download size.
 
 ```bash
 # Add to "Bundle React Native code and images" build phase
-export EXTRA_PACKAGER_ARGS="--asset-catalog-dest ./"
+export EXTRA_PACKAGER_ARGS="--asset-catalog-dest ios"
 ```
 
 **Android**: Automatic via AAB — Play Store delivers correct density per device.
@@ -75,13 +75,13 @@ iOS requires explicit configuration.
 
 ### Step 1: Create Asset Catalog
 
-Create folder in `ios/`:
+Create an asset catalog in the same directory you pass to `--asset-catalog-dest`:
 
 ```
 ios/RNAssets.xcassets/
 ```
 
-**Important**: Must be named exactly `RNAssets.xcassets` (hardcoded in React Native).
+React Native's bundler writes image sets into `RNAssets.xcassets` under the destination directory. Keep the manual command and Xcode build phase destination consistent.
 
 ### Step 2: Configure Build Phase
 
@@ -92,7 +92,7 @@ In Xcode:
 4. Add before line 8:
 
 ```bash
-export EXTRA_PACKAGER_ARGS="--asset-catalog-dest ./"
+export EXTRA_PACKAGER_ARGS="--asset-catalog-dest ios"
 ```
 
 ### Step 3: Build
@@ -195,7 +195,7 @@ Upload IPA to see asset breakdown.
 
 ## Common Pitfalls
 
-- **Wrong folder name**: Must be `RNAssets.xcassets` exactly
+- **Inconsistent destination paths**: The build phase and manual bundle command should point at the same asset catalog parent directory
 - **Missing build phase config**: Assets not processed
 - **Not using size suffixes**: All variants included anyway
 - **Forgetting to rebuild**: Changes need fresh build

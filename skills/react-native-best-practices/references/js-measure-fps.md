@@ -97,9 +97,9 @@ flashlight measure
 
 **iOS (React Native CLI):**
 ```bash
-# Run Metro in production mode
+# Clear Metro cache if needed; this is not a production/release switch
 npx react-native start --reset-cache
-# Then build release variant
+# Then run a Release scheme/build from Xcode or your CI
 ```
 
 **Expo:**
