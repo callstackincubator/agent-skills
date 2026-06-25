@@ -57,9 +57,9 @@ Replace ScrollView with FlatList, FlashList, or Legend List for performant large
 // BAD: ScrollView renders ALL items at once
 const BadList = ({ items }) => (
   <ScrollView>
-    {items.map((item, index) => (
+    {items.map((item) => (
       <View key={item.id}>
-        <Text>{item}</Text>
+        <Text>{item.title}</Text>
       </View>
     ))}
   </ScrollView>
@@ -76,7 +76,7 @@ import { FlatList } from 'react-native';
 const BetterList = ({ items }) => {
   const renderItem = ({ item }) => (
     <View>
-      <Text>{item}</Text>
+      <Text>{item.title}</Text>
     </View>
   );
   
@@ -102,7 +102,7 @@ const ITEM_HEIGHT = 50;
 const OptimizedList = ({ items }) => {
   const renderItem = ({ item }) => (
     <View style={{ height: ITEM_HEIGHT }}>
-      <Text>{item}</Text>
+      <Text>{item.title}</Text>
     </View>
   );
   
@@ -135,7 +135,7 @@ import { FlashList } from '@shopify/flash-list';
 const BestList = ({ items }) => {
   const renderItem = ({ item }) => (
     <View style={{ height: 50 }}>
-      <Text>{item}</Text>
+      <Text>{item.title}</Text>
     </View>
   );
   

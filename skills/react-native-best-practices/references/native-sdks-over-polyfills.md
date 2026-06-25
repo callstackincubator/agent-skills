@@ -21,7 +21,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 **After (native implementations):**
 
 ```tsx
-// Hermes has native Intl.DateTimeFormat support, so this polyfill is often unnecessary
+// Keep this polyfill only if the app uses DateTimeFormat options/locales
+// unsupported by the target Hermes/platform combination.
 import { createHash } from 'react-native-quick-crypto';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 ```

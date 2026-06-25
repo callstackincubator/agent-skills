@@ -13,7 +13,7 @@ Configure platform-specific asset delivery to reduce app download size.
 **iOS Asset Catalog (Build Phase):**
 
 ```bash
-# Add to "Bundle React Native code and images" build phase
+# Default RN template: the Xcode bundle script cd's to PROJECT_ROOT first.
 export EXTRA_PACKAGER_ARGS="--asset-catalog-dest ios"
 ```
 
@@ -90,6 +90,8 @@ In Xcode, add this before the React Native bundle command in the **Bundle React 
 ```bash
 export EXTRA_PACKAGER_ARGS="--asset-catalog-dest ios"
 ```
+
+This assumes the default React Native build script, which changes directory to `PROJECT_ROOT` before invoking Metro. If a custom build phase runs from a different working directory, set `--asset-catalog-dest` relative to that working directory and verify the generated `RNAssets.xcassets` path.
 
 ### Step 3: Build
 

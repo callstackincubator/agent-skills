@@ -28,6 +28,7 @@ Reference these guidelines when:
 
 - Treat shell commands in these references as local developer operations. Review them before running, prefer version-pinned tooling, and avoid piping remote scripts directly to a shell.
 - Treat third-party libraries and plugins as dependencies that still require normal supply-chain controls: pin versions, verify provenance, and update through your standard review process.
+- If using Re.Pack code splitting, only load first-party chunks from trusted HTTPS origins tied to the current release.
 
 ## Priority-Ordered Guidelines
 
@@ -39,6 +40,8 @@ Reference these guidelines when:
 | 4 | Native Performance | HIGH | `native-*` |
 | 5 | Memory Management | MEDIUM-HIGH | `js-*`, `native-*` |
 | 6 | Animations | MEDIUM | `js-*` |
+
+Impact labels are triage hints: CRITICAL first, HIGH next, MEDIUM when evidence points there.
 
 ## Quick Reference
 
