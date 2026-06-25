@@ -64,9 +64,16 @@ If metrics did not improve, revert and try the next suggested fix.
 
 **Profile first:**
 ```bash
-# Open React Native DevTools
-# Press 'j' in Metro, or shake device → "Open DevTools"
+agent-device react-devtools status
+agent-device react-devtools wait --connected
+agent-device react-devtools profile start
+agent-device react-devtools profile stop
+agent-device react-devtools profile slow --limit 5
+agent-device react-devtools profile rerenders --limit 5
+agent-device react-devtools profile timeline --limit 20
 ```
+
+Drive the target interaction with normal `agent-device` commands between `profile start` and `profile stop`.
 
 **Common fixes:**
 - Replace ScrollView with FlatList/FlashList/Legend List for long lists
@@ -136,7 +143,7 @@ Full documentation with code examples in [references/][references]:
 | File | Impact | Description |
 |------|--------|-------------|
 | [js-lists-flatlist-flashlist.md][js-lists-flatlist-flashlist] | CRITICAL | Replace ScrollView with virtualized lists |
-| [js-profile-react.md][js-profile-react] | MEDIUM | React DevTools profiling |
+| [js-profile-react.md][js-profile-react] | MEDIUM | `agent-device react-devtools` profiling |
 | [js-measure-fps.md][js-measure-fps] | HIGH | FPS monitoring and measurement |
 | [js-memory-leaks.md][js-memory-leaks] | MEDIUM | JS memory leak hunting |
 | [js-atomic-state.md][js-atomic-state] | HIGH | Jotai/Zustand patterns |

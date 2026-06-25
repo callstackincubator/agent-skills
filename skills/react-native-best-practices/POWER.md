@@ -14,8 +14,8 @@ Before applying performance optimizations, ensure:
 - **Expo CLI** or **React Native CLI** is installed
   - Verify with: `npx expo --version` and `npx react-native --version`
 - Metro bundler is running (**apply only for** bundle analysis)
-- React Native DevTools is available (**apply only for** profiling)
-  - Press 'j' in Metro terminal or shake device → "Open DevTools"
+- React Native DevTools profiling is available through `agent-device react-devtools` (**apply only for** React render profiling/debugging)
+  - Run `agent-device react-devtools status`, then `agent-device react-devtools wait --connected`
 
 ## Security Guardrails
 
@@ -86,9 +86,16 @@ Use this quick lookup when debugging specific issues:
 
 ### FPS & Re-renders
 ```bash
-# Open React Native DevTools
-# Press 'j' in Metro, or shake device → "Open DevTools"
+agent-device react-devtools status
+agent-device react-devtools wait --connected
+agent-device react-devtools profile start
+agent-device react-devtools profile stop
+agent-device react-devtools profile slow --limit 5
+agent-device react-devtools profile rerenders --limit 5
+agent-device react-devtools profile timeline --limit 20
 ```
+
+Drive the target interaction with normal `agent-device` commands between `profile start` and `profile stop`.
 
 Baseline runtime metrics should come from the target interaction itself:
 - Capture commit timeline, re-render counts, slow components, and heaviest-commit breakdown.

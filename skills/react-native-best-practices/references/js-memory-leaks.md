@@ -6,7 +6,7 @@ tags: memory, leaks, profiling, cleanup
 
 # Skill: Hunt JS Memory Leaks
 
-Find and fix JavaScript memory leaks using React Native DevTools memory profiling.
+Find and fix JavaScript memory leaks using the React Native DevTools Memory tab, with `agent-device react-devtools` for related component context.
 
 ## Quick Pattern
 
@@ -37,16 +37,17 @@ useEffect(() => {
 
 ## Prerequisites
 
-- React Native DevTools accessible
+- React Native DevTools Memory tab or exported memory profile available
+- `agent-device react-devtools` for related component ownership/render debugging
 - App running in development mode
 
 ## Step-by-Step Instructions
 
-React Native DevTools supports heap snapshots, allocation instrumentation on timeline, and allocation sampling. Use allocation timeline to isolate leaks; use allocation sampling for lower-overhead long-running allocation profiling.
+React Native DevTools supports heap snapshots, allocation instrumentation on timeline, and allocation sampling. Use allocation timeline to isolate leaks; use allocation sampling for lower-overhead long-running allocation profiling. Use `agent-device react-devtools` when you need token-efficient component tree, props, state, hooks, ownership, or render-cause context while investigating the leak.
 
 ### 1. Open Memory Profiler
 
-1. Launch React Native DevTools (press `j` in Metro)
+1. Open the React Native DevTools Memory tab or load an exported memory profile
 2. Go to **Memory** tab
 3. Select **"Allocation instrumentation on timeline"**
 
