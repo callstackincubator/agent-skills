@@ -13,6 +13,18 @@ metadata:
 
 Performance optimization guide for React Native applications, covering JavaScript/React, Native (iOS/Android), and bundling optimizations. Based on Callstack's "Ultimate Guide to React Native Optimization".
 
+## Skill Format
+
+Each reference file follows a hybrid format for fast lookup and deep understanding:
+
+- **Quick Pattern**: Incorrect/Correct code snippets for immediate pattern matching
+- **Quick Command**: Shell commands for process/measurement skills
+- **Quick Config**: Configuration snippets for setup-focused skills
+- **Quick Reference**: Summary tables for conceptual skills
+- **Deep Dive**: Full context with When to Use, Prerequisites, Step-by-Step, Common Pitfalls
+
+**Impact ratings**: CRITICAL (fix immediately), HIGH (significant improvement), MEDIUM (worthwhile optimization)
+
 ## When to Apply
 
 Reference these guidelines when:
