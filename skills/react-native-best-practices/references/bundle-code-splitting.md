@@ -139,6 +139,7 @@ For app-bundled chunks in a Re.Pack project, configure `extraChunks` with `type:
 if (LOCAL_CHUNKS.has(scriptId)) {
   return {
     url: Script.getFileSystemURL(scriptId),
+    absolute: true,
   };
 }
 ```
