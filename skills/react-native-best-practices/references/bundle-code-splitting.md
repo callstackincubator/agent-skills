@@ -46,6 +46,7 @@ Chunks are executable application code. Prefer chunks packaged with the app or r
 Keep these guardrails in place:
 - Serve chunks only from a first-party, HTTPS-only origin you control
 - Resolve `scriptId` through a fixed allowlist or signed release manifest
+- Enable Re.Pack code signing for remotely hosted chunks and use strict signature verification in production
 - Fail closed if a chunk is missing or unexpected
 - Do not load chunks from user-controlled input, query params, or third-party domains
 
@@ -101,36 +102,50 @@ import { ScriptManager, Script } from '@callstack/repack/client';
 
 const RELEASE_CHUNKS = Object.freeze({
   settings: {
-    fileName: 'settings.chunk.bundle',
     release: '42',
   },
 });
 
-ScriptManager.shared.addResolver((scriptId) => {
+ScriptManager.shared.addResolver(async (scriptId) => {
   if (__DEV__) {
-    return { url: Script.getDevServerURL(scriptId) };
+    return {
+      url: Script.getDevServerURL(scriptId),
+      cache: false,
+    };
   }
 
-  return { url: getReleaseChunkUrl(scriptId) };
-});
-
-function getReleaseChunkUrl(scriptId) {
   const chunk = RELEASE_CHUNKS[scriptId];
 
   if (!chunk) {
     throw new Error(`Unknown chunk: ${scriptId}`);
   }
 
-  return resolveReleaseAsset(chunk);
-}
+  return {
+    url: Script.getRemoteURL(
+      getFirstPartyChunkBaseURL(scriptId, chunk.release)
+    ),
+    verifyScriptSignature: 'strict',
+  };
+});
 
-function resolveReleaseAsset(chunk) {
-  // App-owned helper: resolve from an app-bundled asset or signed CI manifest.
+function getFirstPartyChunkBaseURL(scriptId, release) {
+  // App-owned helper: read a signed CI manifest and return the first-party
+  // base URL without ".chunk.bundle"; Script.getRemoteURL appends it.
   // Do not accept hostnames, paths, or script IDs from runtime input.
-  return ReleaseAssets.resolveChunk(chunk);
+  return ReleaseManifest.getChunkBaseURL({ scriptId, release });
 }
 
 AppRegistry.registerComponent(appName, () => App);
+```
+
+For app-bundled chunks, configure Re.Pack `extraChunks` with `type: 'local'` and resolve those script IDs from the filesystem:
+
+```jsx
+if (LOCAL_CHUNKS.has(scriptId)) {
+  return {
+    url: Script.getFileSystemURL(scriptId),
+  };
+}
 ```
 
 ### 5. Build and Deploy Chunks
@@ -139,7 +154,7 @@ Build generates:
 - `index.bundle` - Main bundle
 - `settings.chunk.bundle` - Lazy-loaded chunk
 
-Deploy chunks as first-party release artifacts. Prefer app-bundled assets; if hosted, publish them through CI to an app-owned HTTPS origin and keep the allowlist or signed manifest in sync with the app release.
+Remote chunks are written to `build/output/<platform>/remotes` by default. Deploy chunks as first-party release artifacts. Prefer app-bundled assets; if hosted, publish them through CI to an app-owned HTTPS origin and keep the allowlist or signed manifest in sync with the app release.
 
 ## Complete Example
 
@@ -194,16 +209,12 @@ Enables:
 ## Caching Strategy
 
 ```tsx
-ScriptManager.shared.addResolver((scriptId) => ({
-  url: getReleaseChunkUrl(scriptId),
-  cache: {
-    // Enable caching
-    enabled: true,
-    // Cache location
-    path: `${FileSystem.cacheDirectory}/chunks/`,
-  },
-}));
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+ScriptManager.shared.setStorage(AsyncStorage);
 ```
+
+Set storage before adding resolvers so Re.Pack can cache resolved script locator data. Return `cache: false` for dev server chunks or any script that should bypass caching.
 
 ## When NOT to Use
 
@@ -225,16 +236,16 @@ Hermes reads bytecode lazily via mmap:
 
 ```tsx
 // Check if chunk loaded correctly
-ScriptManager.shared.on('loading', (scriptId) => {
-  console.log(`Loading: ${scriptId}`);
+ScriptManager.shared.on('loading', (script) => {
+  console.log(`Loading: ${script.scriptId}`);
 });
 
-ScriptManager.shared.on('loaded', (scriptId) => {
-  console.log(`Loaded: ${scriptId}`);
+ScriptManager.shared.on('loaded', (script) => {
+  console.log(`Loaded: ${script.scriptId}`);
 });
 
-ScriptManager.shared.on('error', (scriptId, error) => {
-  console.error(`Failed: ${scriptId}`, error);
+ScriptManager.shared.on('error', (error) => {
+  console.error('Script loading failed:', error);
 });
 ```
 
