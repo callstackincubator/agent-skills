@@ -1,12 +1,12 @@
 ---
-title: Re.Pack Code Splitting
+title: Remote Chunk Loading
 impact: MEDIUM
-tags: code-splitting, repack, lazy-loading, chunks, release-artifacts
+tags: code-splitting, lazy-loading, chunks, release-artifacts, remote-code
 ---
 
-# Skill: Re.Pack Code Splitting
+# Skill: Remote Chunk Loading
 
-Set up code splitting with Re.Pack for on-demand loading of release-pinned, app-owned chunks.
+Harden remote JavaScript chunk loading when a React Native app already uses Re.Pack or has an explicit remote-code-loading requirement.
 
 ## Quick Pattern
 
@@ -33,9 +33,12 @@ const SettingsScreen = React.lazy(() =>
 Consider code splitting when:
 - **Not using Hermes** (JSC/V8 benefits more)
 - App size approaches app-store or base-module limits
-- Building micro-frontend architecture
+- The app already has a micro-frontend architecture
 - Loading features based on user permissions
-- Other optimizations exhausted
+- Other bundle-size optimizations are exhausted
+- Remote delivery is an explicit product or release requirement
+
+Do not recommend adopting Re.Pack for ordinary bundle-size work. Keep the default path on Metro/Expo unless remote chunk loading is already present or specifically required.
 
 **Note**: Hermes already uses memory mapping for efficient bundle reading. Benefits of code splitting are minimal with Hermes or even counterproductive in some cases.
 
@@ -46,29 +49,21 @@ Chunks are executable application code. Prefer chunks packaged with the app or r
 Keep these guardrails in place:
 - Serve chunks only from a first-party, HTTPS-only origin you control
 - Resolve `scriptId` through a fixed allowlist or signed release manifest
-- Enable Re.Pack code signing for remotely hosted chunks and use strict signature verification in production
+- If using Re.Pack, enable code signing for remotely hosted chunks and use strict signature verification in production
 - Fail closed if a chunk is missing or unexpected
 - Do not load chunks from user-controlled input, query params, or third-party domains
 
 ## Prerequisites
 
-- Re.Pack installed (replaces Metro)
+- Project already uses Re.Pack, or remote chunk loading is an explicit requirement approved after measuring simpler alternatives
+- Remote chunks are produced by the same release pipeline as the app
+- Chunk locations come from a fixed allowlist or signed release manifest
 
-```bash
-npx @callstack/repack-init
-```
+If the project does not already use Re.Pack, do not start here. First confirm Metro/Expo bundle analysis, import cleanup, asset cleanup, native app-size work, and store delivery constraints.
 
 ## Step-by-Step Instructions
 
-### 1. Initialize Re.Pack
-
-```bash
-npx @callstack/repack-init
-```
-
-Follow prompts to migrate from Metro. Check [migration guide](https://re-pack.dev/docs/getting-started/quick-start).
-
-### 2. Create Split Point with React.lazy
+### 1. Create Split Point with React.lazy
 
 ```tsx
 // BEFORE: Static import
@@ -80,7 +75,7 @@ const SettingsScreen = React.lazy(() =>
 );
 ```
 
-### 3. Wrap with Suspense
+### 2. Wrap with Suspense
 
 ```tsx
 import React, { Suspense } from 'react';
@@ -94,7 +89,7 @@ const App = () => {
 };
 ```
 
-### 4. Configure Chunk Loading
+### 3. Configure Chunk Loading
 
 ```jsx
 // index.js (before AppRegistry)
@@ -138,7 +133,7 @@ function getFirstPartyChunkBaseURL(scriptId, release) {
 AppRegistry.registerComponent(appName, () => App);
 ```
 
-For app-bundled chunks, configure Re.Pack `extraChunks` with `type: 'local'` and resolve those script IDs from the filesystem:
+For app-bundled chunks in a Re.Pack project, configure `extraChunks` with `type: 'local'` and resolve those script IDs from the filesystem:
 
 ```jsx
 if (LOCAL_CHUNKS.has(scriptId)) {
@@ -148,7 +143,7 @@ if (LOCAL_CHUNKS.has(scriptId)) {
 }
 ```
 
-### 5. Build and Deploy Chunks
+### 4. Build and Deploy Chunks
 
 Build generates:
 - `index.bundle` - Main bundle
@@ -188,9 +183,9 @@ const App = () => {
 };
 ```
 
-## Module Federation (Advanced)
+## Module Federation
 
-For micro-frontend architecture:
+Only use Module Federation when the app already has a micro-frontend architecture and the organizational boundary is worth the runtime trust boundary:
 
 ```tsx
 // Host app loads remote module
@@ -199,12 +194,7 @@ const RemoteModule = React.lazy(() =>
 );
 ```
 
-Enables:
-- Independent team deployments
-- Shared dependencies
-- Runtime composition
-
-**Complexity warning**: Only use when organizational benefits outweigh overhead. Federation increases the trust boundary, so keep the same first-party origin and allowlist rules as above.
+Federation increases the trust boundary. Keep the same first-party origin, release-manifest, code-signing, and allowlist rules as above.
 
 ## Caching Strategy
 
@@ -259,6 +249,6 @@ ScriptManager.shared.on('error', (error) => {
 
 ## Related Skills
 
-- [bundle-tree-shaking.md](./bundle-tree-shaking.md) - Re.Pack tree shaking
+- [bundle-tree-shaking.md](./bundle-tree-shaking.md) - Tree-shaking caveats
 - [bundle-analyze-js.md](./bundle-analyze-js.md) - Measure chunk sizes
 - [native-measure-tti.md](./native-measure-tti.md) - Verify TTI impact

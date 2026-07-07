@@ -212,4 +212,4 @@ After building, search bundle for `unusedFunction`. Should not exist.
 
 - [bundle-analyze-js.md](./bundle-analyze-js.md) - Verify tree shaking effect
 - [bundle-barrel-exports.md](./bundle-barrel-exports.md) - Manual alternative
-- [bundle-code-splitting.md](./bundle-code-splitting.md) - Re.Pack code splitting
+- [bundle-code-splitting.md](./bundle-code-splitting.md) - Remote chunk loading safeguards

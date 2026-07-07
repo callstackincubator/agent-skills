@@ -28,7 +28,7 @@ Reference these guidelines when:
 
 - Treat shell commands in these references as local developer operations. Review them before running, prefer version-pinned tooling, and avoid piping remote scripts directly to a shell.
 - Treat third-party libraries and plugins as dependencies that still require normal supply-chain controls: pin versions, verify provenance, and update through your standard review process.
-- Treat Re.Pack code splitting as first-party artifact delivery only. Prefer app-bundled chunks or signed CI release manifests; hosted chunks must come from trusted HTTPS origins you control and be pinned to the current app release.
+- Treat remote chunk loading as first-party artifact delivery only. Prefer app-bundled chunks or signed CI release manifests; hosted chunks must come from trusted HTTPS origins you control and be pinned to the current app release.
 
 ## Priority-Ordered Guidelines
 
@@ -187,7 +187,7 @@ Full documentation with code examples in [references/][references]:
 | [bundle-hermes-mmap.md][bundle-hermes-mmap] | HIGH | Disable bundle compression |
 | [bundle-native-assets.md][bundle-native-assets] | HIGH | Asset catalog setup |
 | [bundle-library-size.md][bundle-library-size] | MEDIUM | Evaluate dependencies |
-| [bundle-code-splitting.md][bundle-code-splitting] | MEDIUM | Re.Pack code splitting |
+| [bundle-code-splitting.md][bundle-code-splitting] | MEDIUM | Remote chunk loading safeguards |
 
 ## Problem → Skill Mapping
 
