@@ -1,12 +1,12 @@
 ---
-title: Remote Code Loading
+title: Re.Pack Code Splitting
 impact: MEDIUM
-tags: code-splitting, repack, lazy-loading, chunks
+tags: code-splitting, repack, lazy-loading, chunks, release-artifacts
 ---
 
-# Skill: Remote Code Loading
+# Skill: Re.Pack Code Splitting
 
-Set up code splitting with Re.Pack for on-demand bundle loading from trusted, first-party assets.
+Set up code splitting with Re.Pack for on-demand loading of release-pinned, app-owned chunks.
 
 ## Quick Pattern
 
@@ -41,11 +41,11 @@ Consider code splitting when:
 
 ## Security Model
 
-Remote chunks are executable application code. Only load chunks that you build and publish yourself.
+Chunks are executable application code. Prefer chunks packaged with the app or resolved from a release manifest produced by your CI. Hosted chunks are acceptable only when they are first-party release artifacts, not arbitrary runtime URLs.
 
 Keep these guardrails in place:
 - Serve chunks only from a first-party, HTTPS-only origin you control
-- Resolve `scriptId` through a fixed allowlist or release manifest
+- Resolve `scriptId` through a fixed allowlist or signed release manifest
 - Fail closed if a chunk is missing or unexpected
 - Do not load chunks from user-controlled input, query params, or third-party domains
 
@@ -99,22 +99,35 @@ const App = () => {
 // index.js (before AppRegistry)
 import { ScriptManager, Script } from '@callstack/repack/client';
 
-const CHUNK_URLS = {
-  settings: 'https://assets.example.com/app/v42/settings.chunk.bundle',
-};
+const RELEASE_CHUNKS = Object.freeze({
+  settings: {
+    fileName: 'settings.chunk.bundle',
+    release: '42',
+  },
+});
 
-ScriptManager.shared.addResolver((scriptId) => ({
-  url: __DEV__ ? Script.getDevServerURL(scriptId) : getChunkUrl(scriptId),
-}));
+ScriptManager.shared.addResolver((scriptId) => {
+  if (__DEV__) {
+    return { url: Script.getDevServerURL(scriptId) };
+  }
 
-function getChunkUrl(scriptId) {
-  const url = CHUNK_URLS[scriptId];
+  return { url: getReleaseChunkUrl(scriptId) };
+});
 
-  if (!url) {
+function getReleaseChunkUrl(scriptId) {
+  const chunk = RELEASE_CHUNKS[scriptId];
+
+  if (!chunk) {
     throw new Error(`Unknown chunk: ${scriptId}`);
   }
 
-  return url;
+  return resolveReleaseAsset(chunk);
+}
+
+function resolveReleaseAsset(chunk) {
+  // App-owned helper: resolve from an app-bundled asset or signed CI manifest.
+  // Do not accept hostnames, paths, or script IDs from runtime input.
+  return ReleaseAssets.resolveChunk(chunk);
 }
 
 AppRegistry.registerComponent(appName, () => App);
@@ -126,7 +139,7 @@ Build generates:
 - `index.bundle` - Main bundle
 - `settings.chunk.bundle` - Lazy-loaded chunk
 
-Deploy chunks to a first-party CDN with versioned paths, and keep the allowlist or manifest in sync with the app release.
+Deploy chunks as first-party release artifacts. Prefer app-bundled assets; if hosted, publish them through CI to an app-owned HTTPS origin and keep the allowlist or signed manifest in sync with the app release.
 
 ## Complete Example
 
@@ -182,7 +195,7 @@ Enables:
 
 ```tsx
 ScriptManager.shared.addResolver((scriptId) => ({
-  url: getChunkUrl(scriptId),
+  url: getReleaseChunkUrl(scriptId),
   cache: {
     // Enable caching
     enabled: true,
@@ -231,7 +244,7 @@ ScriptManager.shared.on('error', (scriptId, error) => {
 - **Wrong CDN path**: Chunks 404 in production
 - **No caching**: Re-downloads on every load
 - **Too many chunks**: Network overhead exceeds savings
-- **Untrusted chunk source**: Remote JS from third-party or user-controlled origins is equivalent to remote code execution
+- **Untrusted chunk source**: JS chunks from third-party or user-controlled origins are equivalent to remote code execution
 
 ## Related Skills
 

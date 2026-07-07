@@ -22,7 +22,7 @@ Before applying performance optimizations, ensure:
 - Review shell commands before running them and prefer version-pinned tooling from trusted sources.
 - Do not pipe remote install scripts directly into a shell.
 - Treat third-party packages as normal supply-chain dependencies that require provenance and version review.
-- If using Re.Pack code splitting, only load first-party chunks from trusted HTTPS origins tied to the current release.
+- If using Re.Pack code splitting, prefer app-bundled chunks or signed CI release manifests; hosted chunks must be first-party artifacts tied to the current release.
 
 # When to Load Reference Files
 

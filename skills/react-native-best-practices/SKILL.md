@@ -28,7 +28,7 @@ Reference these guidelines when:
 
 - Treat shell commands in these references as local developer operations. Review them before running, prefer version-pinned tooling, and avoid piping remote scripts directly to a shell.
 - Treat third-party libraries and plugins as dependencies that still require normal supply-chain controls: pin versions, verify provenance, and update through your standard review process.
-- If using Re.Pack code splitting, only load first-party chunks from trusted HTTPS origins tied to the current release.
+- Treat Re.Pack code splitting as first-party artifact delivery only. Prefer app-bundled chunks or signed CI release manifests; hosted chunks must come from trusted HTTPS origins you control and be pinned to the current app release.
 
 ## Priority-Ordered Guidelines
 
