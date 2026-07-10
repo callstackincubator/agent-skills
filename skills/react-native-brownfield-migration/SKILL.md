@@ -93,7 +93,8 @@ Reference this package when:
 
 | Problem | Start With |
 |---------|------------|
-| Need path decision first | [quick-start.md][quick-start] |
+| Need migration path decision first | [assess-react-native-migration](../assess-react-native-migration/SKILL.md) |
+| Need Expo vs bare path decision | [quick-start.md][quick-start] |
 | Need to create a new Expo app for brownfield | [expo-create-app.md][expo-create-app] |
 | Need Expo brownfield setup and plugin wiring | [expo-quick-start.md][expo-quick-start] |
 | Need Expo iOS brownfield integration | [expo-ios-integration.md][expo-ios-integration] |
