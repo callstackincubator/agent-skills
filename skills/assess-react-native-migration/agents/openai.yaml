@@ -1,0 +1,4 @@
+interface:
+  display_name: "Assess React Native Migration"
+  short_description: "Assess migration readiness and choose a path"
+  default_prompt: "Use $assess-react-native-migration to assess this native mobile product. Inspect the repository first, grill me one question at a time for facts the code cannot answer, then recommend a migration path and checkpoint."

@@ -11,6 +11,7 @@ A collection of agent-optimized skills for AI coding assistants. The repo ships 
 | [github-actions](./skills/github-actions/)                           | GitHub Actions workflow patterns for React Native simulator/emulator build artifacts |
 | [upgrading-react-native](./skills/upgrading-react-native/)           | React Native upgrade workflow: templates, dependencies, and common pitfalls |
 | [react-native-brownfield-migration](./skills/react-native-brownfield-migration/) | Incremental migration strategy to adopt React Native or Expo in native apps using @callstack/react-native-brownfield, with setup, packaging, and phased integration steps |
+| [assess-react-native-migration](./skills/assess-react-native-migration/) | Evidence-led assessment for choosing a React Native migration path and defining a representative checkpoint |
 | [create-react-native-library](./skills/create-react-native-library/) | Scaffold React Native libraries with `create-react-native-library` |
 
 ## React Native Best Practices
@@ -48,6 +49,7 @@ Other available installs:
 /plugin install github-actions@callstack-agent-skills
 /plugin install upgrading-react-native@callstack-agent-skills
 /plugin install react-native-brownfield-migration@callstack-agent-skills
+/plugin install assess-react-native-migration@callstack-agent-skills
 /plugin install create-react-native-library@callstack-agent-skills
 ```
 
@@ -81,6 +83,7 @@ All major AI coding assistants support the Agent Skills standard.
 
 ```
 $skill-installer install react-native-best-practices from callstackincubator/agent-skills
+$skill-installer install assess-react-native-migration from callstackincubator/agent-skills
 $skill-installer install create-react-native-library from callstackincubator/agent-skills
 ```
 
@@ -242,10 +245,13 @@ agent-skills/
     │   ├── agents/openai.yaml    # Codex Skills UI metadata
     │   └── references/           # Scaffold, configuration, and release guides
     │
-    └── react-native-brownfield-migration/
-        ├── SKILL.md              # Main skill file for Expo/bare path routing
-        ├── agents/openai.yaml    # Codex Skills UI metadata
-        └── references/           # Brownfield packaging and integration flow files
+    ├── react-native-brownfield-migration/
+    │   ├── SKILL.md              # Main skill file for Expo/bare path routing
+    │   ├── agents/openai.yaml    # Codex Skills UI metadata
+    │   └── references/           # Brownfield packaging and integration flow files
+    └── assess-react-native-migration/
+        ├── SKILL.md              # Evidence-led migration assessment workflow
+        └── agents/openai.yaml    # Codex Skills UI metadata
 ```
 
 Use `.claude-plugin/marketplace.json` for Claude Code plugin installs and `.agents/plugins/marketplace.json` for Codex plugin installs.
