@@ -1,15 +1,38 @@
 ---
 name: assess-react-native-migration
-description: Assesses whether and how an existing native iOS and Android product should migrate to React Native. Use when auditing a mobile repository for migration readiness, choosing brownfield, greenfield, or a checkpoint-based path, defining a representative trial, or preparing a baseline and ROI decision before implementation. When repository evidence is unavailable, grills the stakeholder with exactly one question per turn instead of sending a questionnaire.
+description: Assesses whether and how an existing mobile product should migrate to React Native. Use when auditing one or more product repositories for migration readiness, including products whose iOS, Android, and other clients live in separate directories or repositories; choosing brownfield, greenfield, or a checkpoint-based path; defining a representative trial; or preparing a baseline and ROI decision before implementation. When product scope or material evidence is unavailable, grills the stakeholder with exactly one question per turn instead of sending a questionnaire.
 ---
 
 # Assess React Native Migration
 
 Produce a read-only migration decision. Diagnose the product and delivery system; do not execute the migration.
 
+## Establish Product Scope
+
+Run the assessment from a workspace that exposes as many production client codebases as possible. The current checkout is not evidence that it contains the whole product.
+
+Before assessing readiness:
+
+1. Inspect the current repository and every workspace root available to the agent.
+2. Infer supported client platforms from product documentation, CI, release configuration, workspace manifests, submodules, and references to sibling repositories.
+3. Locate each production client codebase, including separate native iOS and Android repositories, app variants, and any web client relevant to staffing or proposed code sharing.
+4. Record a platform inventory with the client, repository or path, evidence of product membership, and access status.
+
+When iOS and Android are both supported, inspect both native codebases before recommending a path. If a codebase remains unavailable, mark its evidence `unknown`, state that the assessment covers only the accessible platforms, and lower confidence accordingly. Do not infer that a platform is unsupported merely because its project is absent from the current repository.
+
+**Scope gate:** every supported production client is listed, and each codebase is accessible, explicitly unavailable, or confirmed not to exist.
+
 ## First Response Gate
 
-When repository evidence is unavailable, grill rather than survey.
+When the scope gate has not passed, the first response must be exactly:
+
+```markdown
+**Question:** Where can I access the production codebase for each client platform this product supports, including iOS and Android if both exist?
+
+**Why it matters:** A migration path based on only one platform can miss native dependencies, product behavior, and delivery constraints that change the decision.
+```
+
+After the scope gate passes, grill rather than survey when repository evidence is unavailable.
 
 If the measurable migration driver is unknown, the first response must be exactly:
 
@@ -23,9 +46,10 @@ If the driver is already known, ask only the next highest-impact unknown using t
 
 ## Rules
 
-- Treat the existing apps as the source of truth, including undocumented behavior.
+- Treat every production app as a source of truth, including undocumented behavior.
 - Inspect available code, CI, tests, release configuration, product documents, and runtime evidence before asking questions.
-- Assess iOS and Android separately where they differ.
+- Compare iOS and Android explicitly where their implementation, behavior, dependencies, delivery, or roadmap differ.
+- Base product-wide claims only on evidence from every supported platform, or qualify their platform coverage.
 - Label material claims `observed`, `measured`, `reported`, `assumed`, or `unknown`.
 - Recommend from evidence, not an aggregate readiness score.
 - Default to gathering evidence, not to brownfield, greenfield, or migration itself.
@@ -38,10 +62,11 @@ If the driver is already known, ask only the next highest-impact unknown using t
 
 Use repository-backed assessment when source code or delivery artifacts are available:
 
-1. Locate the iOS and Android projects, app variants, CI, tests, release configuration, architecture records, and product documentation.
-2. Search for native SDKs, permissions, app extensions, storage, authentication, push, deep links, analytics, experiments, and platform-specific behavior.
-3. Cite file paths and line numbers for repository evidence.
-4. Ask stakeholders only for product, organizational, or operational facts the repository cannot establish.
+1. Complete the platform inventory and establish which repositories the assessment can inspect.
+2. For each accessible mobile codebase, locate app variants, CI, tests, release configuration, architecture records, and product documentation.
+3. Search each native codebase for SDKs, permissions, app extensions, storage, authentication, push, deep links, analytics, experiments, and platform-specific behavior.
+4. Cite repository names plus file paths and line numbers so evidence remains attributable when codebases are separate.
+5. Ask stakeholders only for missing codebase locations or for product, organizational, and operational facts the repositories cannot establish.
 
 Use interview assessment when the repository is unavailable or material evidence remains missing:
 
@@ -157,7 +182,7 @@ Use this contract only after the evidence gate passes or when the user ends the 
 Return a concise report in this order:
 
 1. **Recommendation:** outcome, confidence, decisive reason, and decision boundary.
-2. **Evidence:** material findings and source status, including platform differences.
+2. **Evidence:** platform inventory, coverage limits, and material findings with source status and platform differences.
 3. **Assumptions and blockers:** unknowns ordered by decision impact.
 4. **Checkpoint:** budget, flows, criteria, owners, evidence, and terminal decisions.
 5. **Baseline and ROI:** measured inputs, missing inputs, counted return, full investment, and exclusions.
