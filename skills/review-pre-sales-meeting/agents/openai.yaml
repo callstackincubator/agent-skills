@@ -1,0 +1,4 @@
+interface:
+  display_name: "Review Pre-Sales Meetings"
+  short_description: "Assess discovery quality and proposal readiness"
+  default_prompt: "Use $review-pre-sales-meeting to review this meeting transcript, identify gaps, and recommend the next sales milestone."

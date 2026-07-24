@@ -1,0 +1,37 @@
+{
+  "name": "sales-enablement",
+  "version": "0.1.0",
+  "description": "Callstack workflows for qualified inbound lead responses and pre-sales meeting reviews.",
+  "author": {
+    "name": "Callstack",
+    "email": "hello@callstack.com",
+    "url": "https://www.callstack.com/"
+  },
+  "homepage": "https://github.com/callstackincubator/agent-skills/tree/main/plugins/sales-enablement",
+  "repository": "https://github.com/callstackincubator/agent-skills",
+  "license": "MIT",
+  "keywords": [
+    "sales",
+    "pre-sales",
+    "lead-response",
+    "meeting-review",
+    "qualification"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Sales Enablement",
+    "shortDescription": "Qualified lead responses and meeting reviews.",
+    "longDescription": "Includes Callstack workflows for classifying and drafting responses to qualified inbound leads, calibrating human approvals, reviewing completed pre-sales meetings, and deciding proposal readiness and next steps.",
+    "developerName": "Callstack",
+    "category": "Productivity",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "websiteURL": "https://github.com/callstackincubator/agent-skills/tree/main/plugins/sales-enablement",
+    "defaultPrompt": [
+      "Classify this qualified inbound lead and draft a response.",
+      "Review this pre-sales meeting and recommend the next milestone."
+    ]
+  }
+}

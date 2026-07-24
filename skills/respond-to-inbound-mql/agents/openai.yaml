@@ -1,0 +1,4 @@
+interface:
+  display_name: "Respond to Inbound MQLs"
+  short_description: "Classify qualified leads and draft responses"
+  default_prompt: "Use $respond-to-inbound-mql to classify this qualified inbound lead and draft a safe, human-sounding response."

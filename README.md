@@ -13,6 +13,8 @@ A collection of agent-optimized skills for AI coding assistants. The repo ships 
 | [react-native-brownfield-migration](./skills/react-native-brownfield-migration/) | Incremental migration strategy to adopt React Native or Expo in native apps using @callstack/react-native-brownfield, with setup, packaging, and phased integration steps |
 | [assess-react-native-migration](./skills/assess-react-native-migration/) | Evidence-led assessment for choosing a React Native migration path and defining a representative checkpoint |
 | [create-react-native-library](./skills/create-react-native-library/) | Scaffold React Native libraries with `create-react-native-library` |
+| [respond-to-inbound-mql](./skills/respond-to-inbound-mql/) | Classify qualified inbound leads and draft calibrated, human-reviewed responses |
+| [review-pre-sales-meeting](./skills/review-pre-sales-meeting/) | Review pre-sales meetings for discovery coverage, next steps, and proposal readiness |
 
 ## React Native Best Practices
 
@@ -51,6 +53,8 @@ Other available installs:
 /plugin install react-native-brownfield-migration@callstack-agent-skills
 /plugin install assess-react-native-migration@callstack-agent-skills
 /plugin install create-react-native-library@callstack-agent-skills
+/plugin install respond-to-inbound-mql@callstack-agent-skills
+/plugin install review-pre-sales-meeting@callstack-agent-skills
 ```
 
 Or use the interactive menu:
@@ -85,6 +89,8 @@ All major AI coding assistants support the Agent Skills standard.
 $skill-installer install react-native-best-practices from callstackincubator/agent-skills
 $skill-installer install assess-react-native-migration from callstackincubator/agent-skills
 $skill-installer install create-react-native-library from callstackincubator/agent-skills
+$skill-installer install respond-to-inbound-mql from callstackincubator/agent-skills
+$skill-installer install review-pre-sales-meeting from callstackincubator/agent-skills
 ```
 
 **Or clone manually:**
@@ -217,7 +223,8 @@ agent-skills/
 │       └── marketplace.json # Codex marketplace definition for bundled plugins
 ├── plugins/
 │   ├── building-react-native-apps/
-│   └── testing-react-native-apps/
+│   ├── testing-react-native-apps/
+│   └── sales-enablement/
 └── skills/
     ├── react-native-best-practices/
     │   ├── SKILL.md              # Main skill file with quick reference
@@ -249,9 +256,17 @@ agent-skills/
     │   ├── SKILL.md              # Main skill file for Expo/bare path routing
     │   ├── agents/openai.yaml    # Codex Skills UI metadata
     │   └── references/           # Brownfield packaging and integration flow files
-    └── assess-react-native-migration/
-        ├── SKILL.md              # Evidence-led migration assessment workflow
-        └── agents/openai.yaml    # Codex Skills UI metadata
+    ├── assess-react-native-migration/
+    │   ├── SKILL.md              # Evidence-led migration assessment workflow
+    │   └── agents/openai.yaml    # Codex Skills UI metadata
+    ├── respond-to-inbound-mql/
+    │   ├── SKILL.md              # Qualified inbound lead response workflow
+    │   ├── agents/openai.yaml    # Codex Skills UI metadata
+    │   └── references/           # Classification, calibration, and output policy
+    └── review-pre-sales-meeting/
+        ├── SKILL.md              # Pre-sales meeting quality review workflow
+        ├── agents/openai.yaml    # Codex Skills UI metadata
+        └── references/           # Coverage rubric and report contract
 ```
 
 Use `.claude-plugin/marketplace.json` for Claude Code plugin installs and `.agents/plugins/marketplace.json` for Codex plugin installs.

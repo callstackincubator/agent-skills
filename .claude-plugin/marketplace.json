@@ -45,6 +45,18 @@
 			"description": "Evidence-led assessment for auditing a native mobile product, choosing a React Native migration path, and defining a representative checkpoint before implementation.",
 			"source": "./",
 			"skills": ["./skills/assess-react-native-migration"]
+		},
+		{
+			"name": "respond-to-inbound-mql",
+			"description": "Classifies confirmed Callstack marketing-qualified inbound leads and drafts concise responses with first-15-message calibration and human-review safeguards.",
+			"source": "./",
+			"skills": ["./skills/respond-to-inbound-mql"]
+		},
+		{
+			"name": "review-pre-sales-meeting",
+			"description": "Reviews completed Callstack pre-sales meetings for evidence quality, discovery gaps, unanswered questions, sales-process progression, and proposal readiness.",
+			"source": "./",
+			"skills": ["./skills/review-pre-sales-meeting"]
 		}
 	]
 }
