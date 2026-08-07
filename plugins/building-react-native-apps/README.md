@@ -1,33 +1,22 @@
 # Building React Native Apps
 
-Build and maintain React Native apps with practical guidance for architecture, performance, navigation, TV platforms, reusable libraries, and upgrades.
+Diagnose performance, build navigation and TV interfaces, create React Native libraries, and upgrade existing apps.
 
 ## Example commands
 
-- Review this React Native screen for architecture and performance issues.
-- Implement navigation, TV, or library changes using current React Native patterns.
+- Review this React Native screen for performance issues.
+- Build a React Navigation flow, TV interaction, or React Native library.
 - Plan the upgrade path for this app to a newer React Native version.
 
 ## Skills included
 
-### Best Practices
-
 - [React Native Best Practices](https://skills.sh/callstackincubator/agent-skills/react-native-best-practices)
-  Focuses on production-quality React Native performance work such as profiling, startup time, rendering behavior, memory issues, bundle size, and native integration tradeoffs.
-
-### Navigation and platforms
-
+  Profiles and diagnoses FPS, startup, rendering, memory, bundle size, and native integration performance.
 - [React Navigation](https://skills.sh/callstackincubator/agent-skills/react-navigation)
-  Builds React Navigation 7 interfaces with the appropriate stack, tab, drawer, header, sheet, and safe-area patterns.
+  Applies React Navigation 7 patterns for stacks, tabs, drawers, headers, sheets, and safe areas.
 - [React Native TV Best Practices](https://skills.sh/callstackincubator/agent-skills/react-native-tv-best-practices)
-  Handles focus, remote input, 10-foot UI, playback, performance, packaging, and accessibility constraints across TV platforms.
-
-### Libraries
-
+  Covers focus, remote input, 10-foot UI, playback, performance, packaging, and accessibility across TV platforms.
 - [Create React Native Library](https://skills.sh/callstackincubator/agent-skills/create-react-native-library)
-  Scaffolds and develops standalone React Native libraries or local native modules and views.
-
-### Upgrading
-
+  Scaffolds standalone libraries and local native modules or views.
 - [Upgrading React Native](https://skills.sh/callstackincubator/agent-skills/upgrading-react-native)
-  Guides React Native version upgrades, including template diffs, dependency alignment, iOS and Android project changes, and verification steps after the upgrade.
+  Applies template diffs, dependency updates, native project changes, and upgrade verification.

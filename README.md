@@ -53,6 +53,8 @@ Other available installs:
 /plugin install react-native-brownfield-migration@callstack-agent-skills
 /plugin install assess-react-native-migration@callstack-agent-skills
 /plugin install create-react-native-library@callstack-agent-skills
+/plugin install react-navigation@callstack-agent-skills
+/plugin install react-native-tv-best-practices@callstack-agent-skills
 ```
 
 Or use the interactive menu:
@@ -250,10 +252,12 @@ agent-skills/
     │
     ├── react-navigation/
     │   ├── SKILL.md              # React Navigation 7 UI patterns
+    │   ├── agents/openai.yaml    # Codex Skills UI metadata
     │   └── references/           # Navigators, headers, sheets, and safe areas
     │
     ├── react-native-tv-best-practices/
     │   ├── SKILL.md              # TV-specific React Native review guidance
+    │   ├── agents/openai.yaml    # Codex Skills UI metadata
     │   └── references/           # Focus, input, layout, playback, and platform guidance
     │
     ├── react-native-brownfield-migration/

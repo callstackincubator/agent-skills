@@ -45,6 +45,24 @@
 			"description": "Evidence-led assessment for auditing a native mobile product, choosing a React Native migration path, and defining a representative checkpoint before implementation.",
 			"source": "./",
 			"skills": ["./skills/assess-react-native-migration"]
+		},
+		{
+			"name": "create-react-native-library",
+			"description": "Scaffolds standalone React Native libraries and local native modules or views with create-react-native-library.",
+			"source": "./",
+			"skills": ["./skills/create-react-native-library"]
+		},
+		{
+			"name": "react-navigation",
+			"description": "React Navigation 7 patterns for stacks, tabs, drawers, headers, sheets, and safe areas.",
+			"source": "./",
+			"skills": ["./skills/react-navigation"]
+		},
+		{
+			"name": "react-native-tv-best-practices",
+			"description": "React Native TV guidance for focus, remote input, playback, performance, packaging, and accessibility.",
+			"source": "./",
+			"skills": ["./skills/react-native-tv-best-practices"]
 		}
 	]
 }

@@ -1,7 +1,7 @@
 {
   "name": "building-react-native-apps",
   "version": "0.2.0",
-  "description": "React Native implementation skills covering architecture, navigation, TV, libraries, performance, and upgrades.",
+  "description": "React Native skills for performance, navigation, TV, library development, and upgrades.",
   "author": {
     "name": "Callstack",
     "email": "hello@callstack.com",
@@ -23,7 +23,7 @@
   "interface": {
     "displayName": "Building React Native Apps",
     "shortDescription": "Build better React Native apps",
-    "longDescription": "Build and maintain React Native apps with guidance for architecture, performance, navigation, TV platforms, reusable libraries, and version upgrades.",
+    "longDescription": "Diagnose performance, build navigation and TV interfaces, create React Native libraries, and upgrade existing apps.",
     "developerName": "Callstack",
     "category": "Developer Tools",
     "capabilities": [
@@ -34,8 +34,8 @@
     "composerIcon": "./assets/callstack-plugin-icon.png",
     "websiteURL": "https://github.com/callstackincubator/agent-skills/tree/main/plugins/building-react-native-apps",
     "defaultPrompt": [
-      "Review this React Native screen for architecture and performance issues.",
-      "Implement navigation, TV, or library changes using current React Native patterns.",
+      "Review this React Native screen for performance issues.",
+      "Build a React Navigation flow, TV interaction, or React Native library.",
       "Plan the upgrade path for this app to a newer React Native version."
     ]
   }

@@ -1,7 +1,7 @@
 {
   "name": "migrating-to-react-native",
   "version": "0.1.1",
-  "description": "React Native migration skills for assessing native products and implementing incremental brownfield adoption.",
+  "description": "Skills for assessing and incrementally migrating native iOS and Android apps to React Native.",
   "author": {
     "name": "Callstack",
     "email": "hello@callstack.com",
@@ -21,7 +21,7 @@
   "interface": {
     "displayName": "Migrating to React Native",
     "shortDescription": "Migrate apps to React Native",
-    "longDescription": "Assess an existing mobile product, choose a viable React Native migration path, define a representative checkpoint, and plan incremental brownfield adoption across iOS and Android.",
+    "longDescription": "Assess native apps, choose a migration path, define a representative checkpoint, and, when brownfield is selected, plan and implement incremental adoption.",
     "developerName": "Callstack",
     "category": "Developer Tools",
     "capabilities": [

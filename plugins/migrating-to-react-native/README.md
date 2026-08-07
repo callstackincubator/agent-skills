@@ -1,6 +1,6 @@
 # Migrating to React Native
 
-Assess whether React Native is the right fit for an existing mobile product, then plan and implement an incremental brownfield migration.
+Assess whether React Native is the right fit for an existing mobile product and, when brownfield is selected, plan and implement an incremental migration.
 
 ## Example commands
 
@@ -10,12 +10,7 @@ Assess whether React Native is the right fit for an existing mobile product, the
 
 ## Skills included
 
-### Assessment
-
 - [Assess React Native Migration](https://skills.sh/callstackincubator/agent-skills/assess-react-native-migration)
-  Examines the product, codebases, delivery system, and expected return to recommend brownfield, greenfield, checkpoint-based, deferred, or no migration.
-
-### Brownfield implementation
-
+  Audits the product, codebases, delivery system, and expected return to recommend whether and how to migrate.
 - [React Native Brownfield Migration](https://skills.sh/callstackincubator/agent-skills/react-native-brownfield-migration)
-  Implements an accepted incremental migration using `@callstack/react-native-brownfield`, including setup, packaging, native host integration, and phased rollout.
+  Packages XCFramework or AAR artifacts with `@callstack/react-native-brownfield`, integrates them into native hosts, and supports phased rollout.
