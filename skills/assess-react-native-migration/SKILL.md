@@ -2,9 +2,6 @@
 name: assess-react-native-migration
 description: Assesses whether and how an existing mobile product should migrate to React Native. Use when auditing one or more product repositories for migration readiness, including products whose iOS, Android, and other clients live in separate directories or repositories; choosing brownfield, greenfield, or a checkpoint-based path; defining a representative trial; or preparing a baseline and ROI decision before implementation. When product scope or material evidence is unavailable, grills the stakeholder with exactly one question per turn instead of sending a questionnaire.
 license: MIT
-metadata:
-  author: Callstack
-  tags: react-native, migration, assessment, brownfield, greenfield, ios, android, roi
 ---
 
 # Assess React Native Migration

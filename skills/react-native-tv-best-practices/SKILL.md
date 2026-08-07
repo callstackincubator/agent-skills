@@ -2,9 +2,6 @@
 name: react-native-tv-best-practices
 description: Reviews React Native TV apps for focus/D-pad navigation, 10-foot UI layout, TV playback/DRM integration, low-memory TV performance, and TV accessibility. Use when building, debugging, or reviewing react-native-tvos, Expo TV, Amazon Vega/Kepler, or React Native web TV targets where the issue depends on remote input, TV focus, TV packaging, TV hardware, or TV playback constraints.
 license: MIT
-metadata:
-  author: Mikolaj Adamowicz
-  tags: react-native, tvos, android-tv, fire-tv, focus, performance, accessibility
 ---
 
 # React Native TV Best Practices

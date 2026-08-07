@@ -1,0 +1,40 @@
+{
+  "name": "migrating-to-react-native",
+  "version": "0.1.1",
+  "description": "Skills for assessing and incrementally migrating native iOS and Android apps to React Native.",
+  "author": {
+    "name": "Callstack",
+    "email": "hello@callstack.com",
+    "url": "https://www.callstack.com/"
+  },
+  "homepage": "https://github.com/callstackincubator/agent-skills/tree/main/plugins/migrating-to-react-native",
+  "repository": "https://github.com/callstackincubator/agent-skills",
+  "license": "MIT",
+  "keywords": [
+    "react-native",
+    "migration",
+    "brownfield",
+    "ios",
+    "android"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Migrating to React Native",
+    "shortDescription": "Migrate apps to React Native",
+    "longDescription": "Assess native apps, choose a migration path, and define a representative checkpoint. If brownfield fits, plan and implement adoption in phases.",
+    "developerName": "Callstack",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "logo": "./assets/callstack-plugin-icon.png",
+    "composerIcon": "./assets/callstack-plugin-icon.png",
+    "websiteURL": "https://github.com/callstackincubator/agent-skills/tree/main/plugins/migrating-to-react-native",
+    "defaultPrompt": [
+      "Assess this native mobile product and recommend a React Native migration path.",
+      "Define a representative checkpoint before starting the migration.",
+      "Plan an incremental brownfield migration for this iOS and Android app."
+    ]
+  }
+}

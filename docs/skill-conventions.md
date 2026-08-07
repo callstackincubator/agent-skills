@@ -94,7 +94,7 @@ Maintain bidirectional links in Related Skills sections.
 
 The main `SKILL.md` file should contain:
 
-1. **YAML frontmatter** with name, description, license, metadata
+1. **YAML frontmatter** with `name` and `description`; add `license` when needed. Do not include `metadata` in skills bundled for the Codex plugin directory.
 2. **Overview** — What the skill covers
 3. **Skill Format** — Explain the reference file structure
 4. **When to Apply** — Trigger conditions

@@ -1,7 +1,7 @@
 {
   "name": "building-react-native-apps",
-  "version": "0.1.0",
-  "description": "React Native implementation skills covering best practices and upgrade workflows.",
+  "version": "0.2.0",
+  "description": "React Native skills for performance, navigation, TV, library development, and upgrades.",
   "author": {
     "name": "Callstack",
     "email": "hello@callstack.com",
@@ -12,26 +12,30 @@
   "license": "MIT",
   "keywords": [
     "react-native",
+    "navigation",
     "performance",
+    "tv",
+    "libraries",
     "upgrades",
     "mobile"
   ],
   "skills": "./skills/",
   "interface": {
     "displayName": "Building React Native Apps",
-    "shortDescription": "Best practices and upgrade guidance for React Native apps.",
-    "longDescription": "Includes React Native skills from callstackincubator/agent-skills and vercel-labs/agent-skills for implementation best practices, performance work, and version upgrades.",
-    "developerName": "Callstack, Vercel (vercel-react-native-skills)",
-    "category": "Coding",
+    "shortDescription": "Build React Native apps",
+    "longDescription": "Diagnose performance, build navigation and TV interfaces, create React Native libraries, and upgrade existing apps.",
+    "developerName": "Callstack",
+    "category": "Developer Tools",
     "capabilities": [
       "Read",
       "Write"
     ],
     "logo": "./assets/callstack-plugin-icon.png",
+    "composerIcon": "./assets/callstack-plugin-icon.png",
     "websiteURL": "https://github.com/callstackincubator/agent-skills/tree/main/plugins/building-react-native-apps",
     "defaultPrompt": [
-      "Review this React Native screen for architecture and performance issues.",
-      "Suggest better implementation patterns for a newly added React Native feature.",
+      "Review this React Native screen for performance issues.",
+      "Build a React Navigation flow for this app.",
       "Plan the upgrade path for this app to a newer React Native version."
     ]
   }

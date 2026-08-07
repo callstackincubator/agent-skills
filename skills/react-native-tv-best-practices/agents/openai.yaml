@@ -1,0 +1,4 @@
+interface:
+  display_name: "React Native TV Best Practices"
+  short_description: "Build and review React Native TV experiences"
+  default_prompt: "Use $react-native-tv-best-practices to build or review a React Native TV experience for focus, remote input, layout, playback, performance, and accessibility."

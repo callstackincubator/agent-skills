@@ -2,9 +2,6 @@
 name: react-navigation
 description: Provides React Navigation UI patterns for stacks, tabs, drawers etc. Use when building navigation UIs with React Navigation, configuring headers, bottom sheets or handling safe areas and insets.
 license: MIT
-metadata:
-  author: Callstack
-  tags: react-navigation, navigation, ui, native-stack, header, bottom-tabs, native-bottom-tabs, material-top-tabs, drawer, form-sheet, status-bar, safe-area, nested-navigators
 ---
 
 # React Navigation
