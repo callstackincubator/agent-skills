@@ -21,7 +21,7 @@
   "interface": {
     "displayName": "Migrating to React Native",
     "shortDescription": "Migrate apps to React Native",
-    "longDescription": "Assess native apps, choose a migration path, define a representative checkpoint, and, when brownfield is selected, plan and implement incremental adoption.",
+    "longDescription": "Assess native apps, choose a migration path, and define a representative checkpoint. If brownfield fits, plan and implement adoption in phases.",
     "developerName": "Callstack",
     "category": "Developer Tools",
     "capabilities": [

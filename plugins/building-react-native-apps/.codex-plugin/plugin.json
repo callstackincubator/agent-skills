@@ -22,7 +22,7 @@
   "skills": "./skills/",
   "interface": {
     "displayName": "Building React Native Apps",
-    "shortDescription": "Build better React Native apps",
+    "shortDescription": "Build React Native apps",
     "longDescription": "Diagnose performance, build navigation and TV interfaces, create React Native libraries, and upgrade existing apps.",
     "developerName": "Callstack",
     "category": "Developer Tools",
@@ -35,7 +35,7 @@
     "websiteURL": "https://github.com/callstackincubator/agent-skills/tree/main/plugins/building-react-native-apps",
     "defaultPrompt": [
       "Review this React Native screen for performance issues.",
-      "Build a React Navigation flow, TV interaction, or React Native library.",
+      "Build a React Navigation flow for this app.",
       "Plan the upgrade path for this app to a newer React Native version."
     ]
   }
