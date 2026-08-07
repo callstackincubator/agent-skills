@@ -1,0 +1,45 @@
+name: Smoke tests
+
+on:
+  workflow_dispatch:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  smoke-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v5
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version-file: package.json
+
+      - name: Install root smoke-test dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Install codex-plugin dependencies
+        working-directory: packages/codex-plugin
+        run: bun install --frozen-lockfile
+
+      - name: Build codex-plugin
+        working-directory: packages/codex-plugin
+        run: bun run build
+
+      - name: Run smoke tests with pinned skills CLI
+        run: bun test
+
+      - name: Run smoke tests with skills@latest
+        env:
+          SMOKE_SKILLS_CLI_CHANNEL: latest
+        run: bun test

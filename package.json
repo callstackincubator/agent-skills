@@ -1,0 +1,9 @@
+{
+  "name": "agent-skills-smoke-tests",
+  "private": true,
+  "packageManager": "bun@1.3.11",
+  "devDependencies": {
+    "gray-matter": "^4.0.3",
+    "skills": "1.4.9"
+  }
+}
