@@ -2,9 +2,6 @@
 name: react-native-best-practices
 description: Provides React Native performance optimization guidelines for FPS, TTI, bundle size, memory leaks, re-renders, and animations. Applies to tasks involving Hermes optimization, JS thread blocking, bridge overhead, FlashList, native modules, or debugging jank and frame drops.
 license: MIT
-metadata:
-  author: Callstack
-  tags: react-native, expo, performance, optimization, profiling
 ---
 
 # React Native Best Practices

@@ -2,9 +2,6 @@
 name: create-react-native-library
 description: Scaffolds React Native libraries with create-react-native-library for standalone libraries or local native modules and views. Use when creating or working on React Native libraries or adding native functionality in an existing app.
 license: MIT
-metadata:
-  author: Callstack
-  tags: react-native, library, create-react-native-library, react-native-builder-bob, scaffolding, turbo-module, fabric, nitro, publishing
 ---
 
 # Create React Native Library

@@ -2,9 +2,6 @@
 name: react-native-brownfield-migration
 description: Implements an accepted incremental brownfield migration from native iOS or Android to React Native or Expo using @callstack/react-native-brownfield. Use after the brownfield path has been selected, when setting up the integration, packaging XCFramework or AAR artifacts, or adding React Native surfaces to native hosts.
 license: MIT
-metadata:
-  author: Callstack
-  tags: react-native, brownfield, expo, bare, ios, android, xcframework, aar, native-integration
 ---
 
 # Migrating to React Native

@@ -1,0 +1,4 @@
+interface:
+  display_name: "React Navigation"
+  short_description: "Build React Navigation 7 interfaces"
+  default_prompt: "Use $react-navigation to build or review a React Navigation 7 interface with the appropriate navigator, header, sheet, and safe-area patterns."

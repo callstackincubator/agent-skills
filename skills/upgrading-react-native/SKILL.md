@@ -2,9 +2,6 @@
 name: upgrading-react-native
 description: Upgrades React Native apps to newer versions by applying rn-diff-purge template diffs, updating package.json dependencies, migrating native iOS and Android configuration, resolving CocoaPods and Gradle changes, and handling breaking API updates. Use when upgrading React Native, bumping RN version, updating from RN 0.x to 0.y, or migrating Expo SDK alongside a React Native upgrade.
 license: MIT
-metadata:
-  author: Callstack
-  tags: react-native, upgrade, upgrade-helper, npm, changelog, cocoapods, ios, android
 ---
 
 # Upgrading React Native

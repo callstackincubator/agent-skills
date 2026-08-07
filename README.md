@@ -13,6 +13,8 @@ A collection of agent-optimized skills for AI coding assistants. The repo ships 
 | [react-native-brownfield-migration](./skills/react-native-brownfield-migration/) | Incremental migration strategy to adopt React Native or Expo in native apps using @callstack/react-native-brownfield, with setup, packaging, and phased integration steps |
 | [assess-react-native-migration](./skills/assess-react-native-migration/) | Evidence-led assessment for choosing a React Native migration path and defining a representative checkpoint |
 | [create-react-native-library](./skills/create-react-native-library/) | Scaffold React Native libraries with `create-react-native-library` |
+| [react-navigation](./skills/react-navigation/)                         | React Navigation 7 UI patterns for stacks, tabs, drawers, headers, sheets, and safe areas |
+| [react-native-tv-best-practices](./skills/react-native-tv-best-practices/) | React Native TV guidance for focus, remote input, playback, performance, and accessibility |
 
 ## React Native Best Practices
 
@@ -217,6 +219,7 @@ agent-skills/
 │       └── marketplace.json # Codex marketplace definition for bundled plugins
 ├── plugins/
 │   ├── building-react-native-apps/
+│   ├── migrating-to-react-native/
 │   └── testing-react-native-apps/
 └── skills/
     ├── react-native-best-practices/
@@ -244,6 +247,14 @@ agent-skills/
     │   ├── SKILL.md              # Main skill file for React Native library scaffolding
     │   ├── agents/openai.yaml    # Codex Skills UI metadata
     │   └── references/           # Scaffold, configuration, and release guides
+    │
+    ├── react-navigation/
+    │   ├── SKILL.md              # React Navigation 7 UI patterns
+    │   └── references/           # Navigators, headers, sheets, and safe areas
+    │
+    ├── react-native-tv-best-practices/
+    │   ├── SKILL.md              # TV-specific React Native review guidance
+    │   └── references/           # Focus, input, layout, playback, and platform guidance
     │
     ├── react-native-brownfield-migration/
     │   ├── SKILL.md              # Main skill file for Expo/bare path routing
