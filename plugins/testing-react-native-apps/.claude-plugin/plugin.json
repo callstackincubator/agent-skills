@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "testing-react-native-apps",
+  "displayName": "Testing React Native Apps",
+  "version": "0.2.0",
+  "description": "React Native testing support spanning CI artifacts, test authoring, device automation, and QA workflows.",
+  "author": {
+    "name": "Callstack",
+    "email": "hello@callstack.com",
+    "url": "https://www.callstack.com/"
+  },
+  "homepage": "https://github.com/callstackincubator/agent-skills/tree/main/plugins/testing-react-native-apps",
+  "repository": "https://github.com/callstackincubator/agent-skills",
+  "license": "MIT",
+  "keywords": [
+    "react-native",
+    "testing",
+    "qa",
+    "automation",
+    "github-actions",
+    "ci",
+    "artifacts"
+  ],
+  "skills": "./skills/"
+}

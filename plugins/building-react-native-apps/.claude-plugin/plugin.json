@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "building-react-native-apps",
+  "displayName": "Building React Native Apps",
+  "version": "0.2.0",
+  "description": "React Native skills for performance, navigation, TV, library development, and upgrades.",
+  "author": {
+    "name": "Callstack",
+    "email": "hello@callstack.com",
+    "url": "https://www.callstack.com/"
+  },
+  "homepage": "https://github.com/callstackincubator/agent-skills/tree/main/plugins/building-react-native-apps",
+  "repository": "https://github.com/callstackincubator/agent-skills",
+  "license": "MIT",
+  "keywords": [
+    "react-native",
+    "navigation",
+    "performance",
+    "tv",
+    "libraries",
+    "upgrades",
+    "mobile"
+  ],
+  "skills": "./skills/"
+}
