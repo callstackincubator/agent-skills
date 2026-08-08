@@ -46,11 +46,10 @@ Install the bundle you want:
 /plugin install migrating-to-react-native@callstack-agent-skills
 ```
 
-GitHub workflow skills remain available as standalone plugins:
+The general GitHub workflow skill remains available as a standalone plugin:
 
 ```bash
 /plugin install github@callstack-agent-skills
-/plugin install github-actions@callstack-agent-skills
 ```
 
 Or use the interactive plugin manager:

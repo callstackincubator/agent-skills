@@ -2,8 +2,8 @@
   "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
   "name": "testing-react-native-apps",
   "displayName": "Testing React Native Apps",
-  "version": "0.1.0",
-  "description": "React Native testing support spanning test authoring, device automation, and QA workflows.",
+  "version": "0.2.0",
+  "description": "React Native testing support spanning CI artifacts, test authoring, device automation, and QA workflows.",
   "author": {
     "name": "Callstack",
     "email": "hello@callstack.com",
@@ -16,7 +16,10 @@
     "react-native",
     "testing",
     "qa",
-    "automation"
+    "automation",
+    "github-actions",
+    "ci",
+    "artifacts"
   ],
   "skills": "./skills/"
 }

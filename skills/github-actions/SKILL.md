@@ -2,9 +2,6 @@
 name: github-actions
 description: GitHub Actions workflow patterns for React Native iOS simulator and Android emulator cloud builds with downloadable artifacts. Use when setting up CI build pipelines or downloading GitHub Actions artifacts via gh CLI and GitHub API.
 license: MIT
-metadata:
-  author: Callstack
-  tags: github-actions, github, ci, react-native, ios, android, simulator, emulator, artifacts, gh-cli
 ---
 
 # GitHub Actions Build Artifacts

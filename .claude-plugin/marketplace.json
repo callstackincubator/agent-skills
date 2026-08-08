@@ -18,10 +18,10 @@
     },
     {
       "name": "testing-react-native-apps",
-      "description": "React Native testing support spanning test authoring, device automation, and QA workflows.",
+      "description": "React Native testing support spanning CI artifacts, test authoring, device automation, and QA workflows.",
       "source": "./plugins/testing-react-native-apps",
       "category": "development",
-      "tags": ["react-native", "testing", "qa", "automation"]
+      "tags": ["react-native", "testing", "qa", "automation", "github-actions", "ci"]
     },
     {
       "name": "migrating-to-react-native",
@@ -37,14 +37,6 @@
       "skills": ["./"],
       "category": "development",
       "tags": ["github", "pull-requests", "code-review"]
-    },
-    {
-      "name": "github-actions",
-      "description": "GitHub Actions workflow patterns for React Native iOS simulator and Android emulator cloud builds, including artifact download automation.",
-      "source": "./skills/github-actions",
-      "skills": ["./"],
-      "category": "development",
-      "tags": ["github-actions", "react-native", "ci"]
     }
   ]
 }
