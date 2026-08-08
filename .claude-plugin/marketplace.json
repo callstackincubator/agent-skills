@@ -1,68 +1,50 @@
 {
-	"name": "callstack-agent-skills",
-	"owner": {
-		"name": "Callstack",
-		"email": "hello@callstack.com",
-		"url": "https://www.callstack.com/"
-	},
-	"metadata": {
-		"description": "Agent-optimized skills for AI coding assistants by Callstack",
-		"version": "1.0.0"
-	},
-	"plugins": [
-		{
-			"name": "react-native-best-practices",
-			"description": "React Native performance optimization skills from Callstack's Ultimate Guide. Covers JavaScript/React, Native (iOS/Android), and bundling optimizations for FPS, TTI, memory management, and app size reduction.",
-			"source": "./",
-			"skills": ["./skills/react-native-best-practices"]
-		},
-		{
-			"name": "github",
-			"description": "GitHub patterns using gh CLI for pull requests, stacked PRs, code review, branching strategies, and repository automation.",
-			"source": "./",
-			"skills": ["./skills/github"]
-		},
-		{
-			"name": "github-actions",
-			"description": "GitHub Actions workflow patterns for React Native iOS simulator and Android emulator cloud builds, including composite action templates and artifact download automation via gh CLI or GitHub API.",
-			"source": "./",
-			"skills": ["./skills/github-actions"]
-		},
-		{
-			"name": "upgrading-react-native",
-			"description": "React Native upgrade workflow covering updated templates, dependencies, and common pitfalls. Use when migrating a React Native app to a newer release.",
-			"source": "./",
-			"skills": ["./skills/upgrading-react-native"]
-		},
-		{
-			"name": "react-native-brownfield-migration",
-			"description": "Incremental migration strategy for adopting React Native or Expo in native iOS/Android apps using @callstack/react-native-brownfield, including initial setup, packaging, and phased host integration.",
-			"source": "./",
-			"skills": ["./skills/react-native-brownfield-migration"]
-		},
-		{
-			"name": "assess-react-native-migration",
-			"description": "Evidence-led assessment for auditing a native mobile product, choosing a React Native migration path, and defining a representative checkpoint before implementation.",
-			"source": "./",
-			"skills": ["./skills/assess-react-native-migration"]
-		},
-		{
-			"name": "create-react-native-library",
-			"description": "Scaffolds standalone React Native libraries and local native modules or views with create-react-native-library.",
-			"source": "./",
-			"skills": ["./skills/create-react-native-library"]
-		},
-		{
-			"name": "react-navigation",
-			"description": "React Navigation 7 patterns for stacks, tabs, drawers, headers, sheets, and safe areas.",
-			"source": "./",
-			"skills": ["./skills/react-navigation"]
-		},
-		{
-			"name": "react-native-tv-best-practices",
-			"description": "React Native TV guidance for focus, remote input, playback, performance, packaging, and accessibility.",
-			"source": "./",
-			"skills": ["./skills/react-native-tv-best-practices"]
-		}
-	]
+  "$schema": "https://json.schemastore.org/claude-code-marketplace.json",
+  "name": "callstack-agent-skills",
+  "version": "1.1.0",
+  "description": "React Native development and GitHub workflow plugins from Callstack.",
+  "owner": {
+    "name": "Callstack",
+    "email": "hello@callstack.com",
+    "url": "https://www.callstack.com/"
+  },
+  "plugins": [
+    {
+      "name": "building-react-native-apps",
+      "description": "React Native skills for performance, navigation, TV, library development, and upgrades.",
+      "source": "./plugins/building-react-native-apps",
+      "category": "development",
+      "tags": ["react-native", "performance", "navigation", "mobile"]
+    },
+    {
+      "name": "testing-react-native-apps",
+      "description": "React Native testing support spanning test authoring, device automation, and QA workflows.",
+      "source": "./plugins/testing-react-native-apps",
+      "category": "development",
+      "tags": ["react-native", "testing", "qa", "automation"]
+    },
+    {
+      "name": "migrating-to-react-native",
+      "description": "Skills for assessing and incrementally migrating native iOS and Android apps to React Native.",
+      "source": "./plugins/migrating-to-react-native",
+      "category": "development",
+      "tags": ["react-native", "migration", "brownfield", "mobile"]
+    },
+    {
+      "name": "github",
+      "description": "GitHub patterns using gh CLI for pull requests, stacked PRs, code review, branching strategies, and repository automation.",
+      "source": "./skills/github",
+      "skills": ["./"],
+      "category": "development",
+      "tags": ["github", "pull-requests", "code-review"]
+    },
+    {
+      "name": "github-actions",
+      "description": "GitHub Actions workflow patterns for React Native iOS simulator and Android emulator cloud builds, including artifact download automation.",
+      "source": "./skills/github-actions",
+      "skills": ["./"],
+      "category": "development",
+      "tags": ["github-actions", "react-native", "ci"]
+    }
+  ]
 }

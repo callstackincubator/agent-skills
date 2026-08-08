@@ -28,40 +28,42 @@ Covers:
 
 ### Quick Start
 
-#### Claude Code
+#### Claude Code and Cowork
 
-Use the Claude Code marketplace metadata in `.claude-plugin/marketplace.json`.
+The Claude marketplace publishes the same React Native plugin bundles as Codex.
 
-**1. Add the marketplace:**
+**Claude Code:**
 
 ```bash
 /plugin marketplace add callstackincubator/agent-skills
 ```
 
-**2. Install the skill you want:**
+Install the bundle you want:
 
 ```bash
-/plugin install react-native-best-practices@callstack-agent-skills
+/plugin install building-react-native-apps@callstack-agent-skills
+/plugin install testing-react-native-apps@callstack-agent-skills
+/plugin install migrating-to-react-native@callstack-agent-skills
 ```
 
-Other available installs:
+GitHub workflow skills remain available as standalone plugins:
 
 ```bash
 /plugin install github@callstack-agent-skills
 /plugin install github-actions@callstack-agent-skills
-/plugin install upgrading-react-native@callstack-agent-skills
-/plugin install react-native-brownfield-migration@callstack-agent-skills
-/plugin install assess-react-native-migration@callstack-agent-skills
-/plugin install create-react-native-library@callstack-agent-skills
-/plugin install react-navigation@callstack-agent-skills
-/plugin install react-native-tv-best-practices@callstack-agent-skills
 ```
 
-Or use the interactive menu:
+Or use the interactive plugin manager:
 
 ```bash
-/plugin menu
+/plugin
 ```
+
+**Claude Cowork:**
+
+1. Open **Customize** and select **Plugins**.
+2. In **Personal plugins**, select **+**, then **Add marketplace**.
+3. Add `callstackincubator/agent-skills` from GitHub and install the bundle you want.
 
 **For local development:**
 
@@ -215,14 +217,14 @@ agent-skills/
 ├── .cursor/
 │   └── rules/                 # Cursor importable project rules (.mdc) for “Import rules from GitHub”
 ├── .claude-plugin/
-│   └── marketplace.json     # Claude Code marketplace definition
+│   └── marketplace.json     # Claude Code and Cowork marketplace definition
 ├── .agents/
 │   └── plugins/
 │       └── marketplace.json # Codex marketplace definition for bundled plugins
 ├── plugins/
-│   ├── building-react-native-apps/
-│   ├── migrating-to-react-native/
-│   └── testing-react-native-apps/
+│   ├── building-react-native-apps/ # Claude and Codex manifests + bundled skills
+│   ├── migrating-to-react-native/  # Claude and Codex manifests + bundled skills
+│   └── testing-react-native-apps/  # Claude and Codex manifests + bundled skills
 └── skills/
     ├── react-native-best-practices/
     │   ├── SKILL.md              # Main skill file with quick reference
@@ -269,9 +271,9 @@ agent-skills/
         └── agents/openai.yaml    # Codex Skills UI metadata
 ```
 
-Use `.claude-plugin/marketplace.json` for Claude Code plugin installs and `.agents/plugins/marketplace.json` for Codex plugin installs.
+Use `.claude-plugin/marketplace.json` for Claude Code and Cowork plugin installs and `.agents/plugins/marketplace.json` for Codex plugin installs.
 
-The standalone `skills/` directory contains repo-local skills. The `plugins/` directory contains installable Codex plugin bundles.
+The standalone `skills/` directory contains repo-local skills. The `plugins/` directory contains installable Claude and Codex plugin bundles.
 
 ## Contributing
 
