@@ -12,7 +12,6 @@ This repository uses the [agentskills.io](https://agentskills.io/specification) 
 Use the copy under `skills/` when this repository is checked out; otherwise use the web view:
 
 - [react-native-best-practices](https://github.com/callstackincubator/agent-skills/blob/main/skills/react-native-best-practices/SKILL.md) — RN performance (FPS, lists, native, bundle)
-- [github](https://github.com/callstackincubator/agent-skills/blob/main/skills/github/SKILL.md) — PRs, review, branching
 - [github-actions](https://github.com/callstackincubator/agent-skills/blob/main/skills/github-actions/SKILL.md) — Actions, simulators, artifacts
 - [upgrading-react-native](https://github.com/callstackincubator/agent-skills/blob/main/skills/upgrading-react-native/SKILL.md) — RN / Expo upgrades
 - [react-native-brownfield-migration](https://github.com/callstackincubator/agent-skills/blob/main/skills/react-native-brownfield-migration/SKILL.md) — brownfield adoption

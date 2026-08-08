@@ -42,22 +42,18 @@ skills/
 │       ├── native-*.md             # iOS/Android native skills
 │       └── bundle-*.md             # Bundling & app size skills
 │
-├── react-native-tv-best-practices/
-│   ├── SKILL.md                    # Main entry point with priority framework + problem→reference routing
-│   └── references/
-│       ├── focus-*.md              # Focus / D-pad navigation
-│       ├── nav-*.md                # Directional navigation & keyboard
-│       ├── design-*.md             # 10-foot design (typography, layout, color)
-│       ├── perf-*.md               # TV performance (lists, memory, animations)
-│       ├── video-*.md              # Video streaming, players, DRM
-│       ├── a11y-*.md               # TV accessibility
-│       ├── setup-*.md              # Cross-platform setup & architecture
-│       ├── test-*.md               # Testing strategy
-│       └── release-*.md            # CI/CD
-│
-└── github/
-    ├── SKILL.md                    # Main entry point with workflow patterns
+└── react-native-tv-best-practices/
+    ├── SKILL.md                    # Main entry point with priority framework + problem→reference routing
     └── references/
+        ├── focus-*.md              # Focus / D-pad navigation
+        ├── nav-*.md                # Directional navigation & keyboard
+        ├── design-*.md             # 10-foot design (typography, layout, color)
+        ├── perf-*.md               # TV performance (lists, memory, animations)
+        ├── video-*.md              # Video streaming, players, DRM
+        ├── a11y-*.md               # TV accessibility
+        ├── setup-*.md              # Cross-platform setup & architecture
+        ├── test-*.md               # Testing strategy
+        └── release-*.md            # CI/CD
 ```
 
 All reference files are flat in `references/` — no subfolders. Prefix groups related skills.
