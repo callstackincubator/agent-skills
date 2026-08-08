@@ -1,8 +1,8 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-marketplace.json",
   "name": "callstack-agent-skills",
-  "version": "1.1.0",
-  "description": "React Native development and GitHub workflow plugins from Callstack.",
+  "version": "1.2.0",
+  "description": "React Native development plugins from Callstack.",
   "owner": {
     "name": "Callstack",
     "email": "hello@callstack.com",
@@ -29,14 +29,6 @@
       "source": "./plugins/migrating-to-react-native",
       "category": "development",
       "tags": ["react-native", "migration", "brownfield", "mobile"]
-    },
-    {
-      "name": "github",
-      "description": "GitHub patterns using gh CLI for pull requests, stacked PRs, code review, branching strategies, and repository automation.",
-      "source": "./skills/github",
-      "skills": ["./"],
-      "category": "development",
-      "tags": ["github", "pull-requests", "code-review"]
     }
   ]
 }
