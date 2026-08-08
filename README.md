@@ -1,318 +1,129 @@
-# Agent Skills
+# Callstack Agent Skills
 
-A collection of agent-optimized skills for AI coding assistants. The repo ships raw Agent Skills for assistants that can read `skills/` directly, plus marketplace metadata for both Claude Code and Codex plugin workflows.
+Callstack Agent Skills give AI coding assistants practical React Native knowledge drawn from our work on production apps.
 
-## Available Skills
+## What's included
 
-| Skill                                                                | Description                                             |
-| -------------------------------------------------------------------- | ------------------------------------------------------- |
-| [react-native-best-practices](./skills/react-native-best-practices/) | React Native optimization best practices from Callstack |
-| [github-actions](./skills/github-actions/)                           | GitHub Actions workflow patterns for React Native simulator/emulator build artifacts |
-| [upgrading-react-native](./skills/upgrading-react-native/)           | React Native upgrade workflow: templates, dependencies, and common pitfalls |
-| [react-native-brownfield-migration](./skills/react-native-brownfield-migration/) | Incremental migration strategy to adopt React Native or Expo in native apps using @callstack/react-native-brownfield, with setup, packaging, and phased integration steps |
-| [assess-react-native-migration](./skills/assess-react-native-migration/) | Evidence-led assessment for choosing a React Native migration path and defining a representative checkpoint |
-| [create-react-native-library](./skills/create-react-native-library/) | Scaffold React Native libraries with `create-react-native-library` |
-| [react-navigation](./skills/react-navigation/)                         | React Navigation 7 UI patterns for stacks, tabs, drawers, headers, sheets, and safe areas |
-| [react-native-tv-best-practices](./skills/react-native-tv-best-practices/) | React Native TV guidance for focus, remote input, playback, performance, and accessibility |
+The skills are organized into three bundles.
 
-## React Native Best Practices
+| Plugin bundle | Use it for | Skills included |
+| --- | --- | --- |
+| [Building React Native Apps](./plugins/building-react-native-apps/) | Building, optimizing, navigating, upgrading, and extending React Native apps | [Performance](./skills/react-native-best-practices/), [navigation](./skills/react-navigation/), [TV](./skills/react-native-tv-best-practices/), [library creation](./skills/create-react-native-library/), and [upgrades](./skills/upgrading-react-native/) |
+| [Testing React Native Apps](./plugins/testing-react-native-apps/) | Writing tests, producing CI artifacts, automating devices, and running exploratory QA | [GitHub Actions](./skills/github-actions/), [React Native Testing](https://skills.sh/callstack/react-native-testing-library/react-native-testing), [agent-device](https://skills.sh/callstackincubator/agent-device/agent-device), and [dogfood](https://skills.sh/callstackincubator/agent-device/dogfood) |
+| [Migrating to React Native](./plugins/migrating-to-react-native/) | Assessing migration readiness and adopting React Native incrementally | [Migration assessment](./skills/assess-react-native-migration/) and [brownfield migration](./skills/react-native-brownfield-migration/) |
 
-Performance optimization skills based on [**The Ultimate Guide to React Native Optimization**](https://www.callstack.com/ebooks/the-ultimate-guide-to-react-native-optimization) by [Callstack](https://www.callstack.com/).
 
-Covers:
+## Quick start
 
-- **JavaScript/React**: Profiling, FPS, re-renders, lists, state management, animations
-- **Native**: iOS/Android profiling, TTI, memory management, Turbo Modules
-- **Bundling**: Bundle analysis, tree shaking, R8, app size optimization
+Choose your assistant:
 
-### Quick Start
+| Assistant | Setup |
+| --- | --- |
+| OpenAI Codex | [Install from Plugins](#openai-codex) |
+| All assistants | [Manual installation](#manual-installation) |
 
-#### Claude Code and Cowork
+### OpenAI Codex
 
-The Claude marketplace publishes the same React Native plugin bundles as Codex.
+Open **Plugins**, search for `react native`, and install the bundle you need.
 
-**Claude Code:**
+![Callstack React Native plugins in Codex search results](./docs/assets/codex-react-native-plugins.png)
 
-```bash
-/plugin marketplace add callstackincubator/agent-skills
-```
+### Manual installation
 
-Install the bundle you want:
+For Claude Code, Cursor, GitHub Copilot, Gemini CLI, OpenCode, and other compatible assistants, install all Callstack-maintained skills with the [skills CLI](https://skills.sh/docs/cli):
 
 ```bash
-/plugin install building-react-native-apps@callstack-agent-skills
-/plugin install testing-react-native-apps@callstack-agent-skills
-/plugin install migrating-to-react-native@callstack-agent-skills
+npx skills@latest add callstackincubator/agent-skills --skill '*'
 ```
 
-Or use the interactive plugin manager:
+The CLI will ask which assistant and installation scope to use. To install only one skill, select it interactively or pass its name:
 
 ```bash
-/plugin
+npx skills@latest add callstackincubator/agent-skills --skill react-native-best-practices
 ```
 
-**Claude Cowork:**
+If your assistant does not support the skills CLI, see the [AI Assistant Integration Guide](./docs/ai-assistant-integration.md) for direct setup instructions.
 
-1. Open **Customize** and select **Plugins**.
-2. In **Personal plugins**, select **+**, then **Add marketplace**.
-3. Add `callstackincubator/agent-skills` from GitHub and install the bundle you want.
+## Try it
 
-**For local development:**
+Once installed, ask your assistant naturally. It will select the relevant skill from the task context.
 
-```bash
-claude --plugin-dir ./path/to/agent-skills
+```text
+Review this React Native screen for performance problems.
 ```
 
-Once installed, Claude will automatically load the relevant skill based on the task.
-
-#### OpenAI Codex
-
-This repo supports Codex in two different ways.
-
-**Option 1: Add the bundled Codex plugins**
-
-Codex can add the bundled plugins from this repository automatically using `.agents/plugins/marketplace.json`, so a separate install script is not needed.
-
-**Option 2: Install standalone skills**
-
-All major AI coding assistants support the Agent Skills standard.
-
-**Install via skill-installer:**
-
-```
-$skill-installer install react-native-best-practices from callstackincubator/agent-skills
-$skill-installer install assess-react-native-migration from callstackincubator/agent-skills
-$skill-installer install create-react-native-library from callstackincubator/agent-skills
+```text
+Plan an upgrade from this project's React Native version to the latest supported release.
 ```
 
-**Or clone manually:**
-
-```bash
-# Project-level
-git clone https://github.com/callstackincubator/agent-skills.git
-cp -r agent-skills/skills/* .codex/skills/
-
-# User-level
-cp -r agent-skills/skills/* ~/.codex/skills/
+```text
+Assess whether this native iOS and Android product should migrate incrementally.
 ```
 
-Restart Codex to recognize newly installed skills.
-
-**Usage:** Type `$` to mention a skill or use `/skills` command.
-
-These skills include `agents/openai.yaml` metadata for Codex Skills UI compatibility.
-
-#### Other AI Assistants
-
-##### Cursor
-
-**Option 1: Import rules from GitHub**
-
-Cursor’s GitHub / GitLab rule importer only discovers **`.mdc` files** (typically under `.cursor/rules/`). This repository includes those files so import succeeds.
-
-1. Open Cursor Settings (`Cmd+Shift+J` / `Ctrl+Shift+J`)
-2. Navigate to **Rules** and use **Import rules from GitHub** (wording may vary by version), or add a remote rule from a Git URL
-3. Enter: `https://github.com/callstackincubator/agent-skills.git`
-
-Imported rules are short Cursor **project rules**; they point at the full Agent Skills under `skills/`. Clone or copy the `skills/` tree into your workspace when you want the model to read the complete markdown skills locally (see Option 2).
-
-**Option 2: Local Installation**
-
-```bash
-# Project-level
-git clone https://github.com/callstackincubator/agent-skills.git .cursor/skills/agent-skills
-
-# User-level (available in all projects)
-git clone https://github.com/callstackincubator/agent-skills.git ~/.cursor/skills/agent-skills
+```text
+Build downloadable iOS simulator and Android emulator artifacts in GitHub Actions.
 ```
 
-**Usage:** Type `/` in Agent chat to search and select skills by name.
-
-##### Gemini CLI
-
-**Install from repository:**
-
-```bash
-gemini skills install https://github.com/callstackincubator/agent-skills.git
+```text
+Verify this checkout flow on iOS and capture evidence for any failures.
 ```
 
-**Or install to workspace:**
+## Skills
 
-```bash
-gemini skills install https://github.com/callstackincubator/agent-skills.git --scope workspace
+Callstack-maintained skills live in this repository. The Testing React Native Apps bundle also includes the external skills linked below.
+
+### Build and optimize
+
+| Skill | Use it for |
+| --- | --- |
+| [react-native-best-practices](./skills/react-native-best-practices/) | Profiling and improving FPS, startup time, rendering, memory, bundle size, animations, and native integration |
+| [react-navigation](./skills/react-navigation/) | Building React Navigation 7 stacks, tabs, drawers, headers, sheets, and safe-area behavior |
+| [react-native-tv-best-practices](./skills/react-native-tv-best-practices/) | Building and reviewing TV focus, remote input, playback, performance, packaging, and accessibility |
+| [create-react-native-library](./skills/create-react-native-library/) | Creating standalone libraries or local native modules and views with `create-react-native-library` |
+| [upgrading-react-native](./skills/upgrading-react-native/) | Applying template diffs, updating dependencies and native projects, and verifying React Native upgrades |
+
+### Test and verify
+
+| Skill | Use it for |
+| --- | --- |
+| [github-actions](./skills/github-actions/) | Producing downloadable iOS simulator and Android emulator build artifacts in GitHub Actions |
+| [react-native-testing](https://skills.sh/callstack/react-native-testing-library/react-native-testing) | Writing and maintaining user-focused React Native tests with React Native Testing Library |
+| [agent-device](https://skills.sh/callstackincubator/agent-device/agent-device) | Automating iOS and Android app flows, input, screenshots, logs, performance checks, and UI inspection |
+| [dogfood](https://skills.sh/callstackincubator/agent-device/dogfood) | Running exploratory QA, smoke checks, bug hunts, and structured app walkthroughs |
+
+### Migrate and modernize
+
+| Skill | Use it for |
+| --- | --- |
+| [assess-react-native-migration](./skills/assess-react-native-migration/) | Auditing a product and its codebases, choosing a migration path, and defining a representative checkpoint |
+| [react-native-brownfield-migration](./skills/react-native-brownfield-migration/) | Packaging and integrating React Native or Expo into existing iOS and Android apps in phases |
+
+## Guides and related resources
+
+- [AI Assistant Integration Guide](./docs/ai-assistant-integration.md) explains setup for Cursor, GitHub Copilot, Claude API, ChatGPT, Windsurf, and other assistants.
+- [The Ultimate Guide to React Native Optimization](https://www.callstack.com/ebooks/the-ultimate-guide-to-react-native-optimization) is the foundation for the performance skill.
+- [AI-Supported Brownfield Migration to React Native](https://www.callstack.com/blog/ai-supported-brownfield-migration-to-react-native) explains the migration workflow behind the brownfield skills.
+- [Bring React Native Into Your App, One Step at a Time](https://www.callstack.com/ebooks/incremental-react-native-adoption-in-native-apps) covers incremental adoption for native iOS and Android teams.
+- [Optimization Best Practices](https://github.com/callstack/optimization-best-practices) contains runnable examples for React Compiler, dedicated React Native SDKs, and Android R8.
+
+## Repository structure
+
+```text
+skills/    Standalone Callstack-maintained Agent Skills
+plugins/   Claude Code and Codex plugin bundles
+docs/      Integration and contributor guides
 ```
 
-**Management commands:**
-- `/skills list` - view all discovered skills
-- `/skills enable <name>` / `/skills disable <name>` - toggle availability
-- `/skills reload` - refresh skill inventory
-
-##### OpenCode
-
-Clone to any supported skills directory:
-
-```bash
-# Project-level
-git clone https://github.com/callstackincubator/agent-skills.git
-cp -r agent-skills/skills/* .opencode/skill/
-
-# User-level
-cp -r agent-skills/skills/* ~/.config/opencode/skill/
-```
-
-OpenCode also discovers Claude-compatible paths (`.claude/skills/`, `~/.claude/skills/`).
-
-**Permission control** in `opencode.json`:
-
-```json
-{
-  "permission": {
-    "skill": {
-      "*": "allow"
-    }
-  }
-}
-```
-
-##### Other Assistants
-
-For assistants without native skills support, point them to the skill file:
-
-```
-Read skills/react-native-best-practices/SKILL.md for React Native performance guidelines
-```
-
-Or reference specific topics:
-
-```
-Look up js-profile-react.md for React DevTools profiling instructions
-```
-
-### Code Examples
-
-The [callstack/optimization-best-practices](https://github.com/callstack/optimization-best-practices) repository contains runnable code examples for:
-
-- React Compiler setup
-- Dedicated React Native SDKs vs web polyfills
-- R8 code shrinking on Android
-
-## Other AI Assistants
-
-See [AI Assistant Integration Guide](./docs/ai-assistant-integration.md) for detailed setup instructions with Cursor, GitHub Copilot, Claude API, ChatGPT, and other AI coding assistants.
-
-## Structure
-
-### Repo Structure
-
-```
-agent-skills/
-├── .cursor/
-│   └── rules/                 # Cursor importable project rules (.mdc) for “Import rules from GitHub”
-├── .claude-plugin/
-│   └── marketplace.json     # Claude Code and Cowork marketplace definition
-├── .agents/
-│   └── plugins/
-│       └── marketplace.json # Codex marketplace definition for bundled plugins
-├── plugins/
-│   ├── building-react-native-apps/ # Claude and Codex manifests + bundled skills
-│   ├── migrating-to-react-native/  # Claude and Codex manifests + bundled skills
-│   └── testing-react-native-apps/  # Claude and Codex manifests + bundled skills
-└── skills/
-    ├── react-native-best-practices/
-    │   ├── SKILL.md              # Main skill file with quick reference
-    │   └── references/           # Detailed skill files
-    │       ├── images/           # Visual references for profilers, diagrams
-    │       ├── js-*.md           # JavaScript/React skills
-    │       ├── native-*.md       # Native iOS/Android skills
-    │       └── bundle-*.md       # Bundling & app size skills
-    │
-    ├── github-actions/
-    │   ├── SKILL.md              # Main skill file for GitHub Actions build artifacts
-    │   ├── agents/openai.yaml    # Codex Skills UI metadata
-    │   └── references/           # iOS/Android action templates and download flows
-    │
-    ├── upgrading-react-native/
-    │   ├── SKILL.md              # Main skill file with RN upgrade workflow routing
-    │   └── references/           # Detailed upgrade flow files
-    │
-    ├── create-react-native-library/
-    │   ├── SKILL.md              # Main skill file for React Native library scaffolding
-    │   ├── agents/openai.yaml    # Codex Skills UI metadata
-    │   └── references/           # Scaffold, configuration, and release guides
-    │
-    ├── react-navigation/
-    │   ├── SKILL.md              # React Navigation 7 UI patterns
-    │   ├── agents/openai.yaml    # Codex Skills UI metadata
-    │   └── references/           # Navigators, headers, sheets, and safe areas
-    │
-    ├── react-native-tv-best-practices/
-    │   ├── SKILL.md              # TV-specific React Native review guidance
-    │   ├── agents/openai.yaml    # Codex Skills UI metadata
-    │   └── references/           # Focus, input, layout, playback, and platform guidance
-    │
-    ├── react-native-brownfield-migration/
-    │   ├── SKILL.md              # Main skill file for Expo/bare path routing
-    │   ├── agents/openai.yaml    # Codex Skills UI metadata
-    │   └── references/           # Brownfield packaging and integration flow files
-    └── assess-react-native-migration/
-        ├── SKILL.md              # Evidence-led migration assessment workflow
-        └── agents/openai.yaml    # Codex Skills UI metadata
-```
-
-Use `.claude-plugin/marketplace.json` for Claude Code and Cowork plugin installs and `.agents/plugins/marketplace.json` for Codex plugin installs.
-
-The standalone `skills/` directory contains repo-local skills. The `plugins/` directory contains installable Claude and Codex plugin bundles.
+Each skill starts with a `SKILL.md` file and can include focused material under `references/`. Plugin manifests collect related skills into installable bundles.
 
 ## Contributing
 
-Contributions welcome! Skills should be:
+Contributions should be actionable, easy for an agent to discover, and complete enough to use without hidden context.
 
-- **Actionable**: Step-by-step instructions, not theory
-- **Searchable**: Clear headings and keywords
-- **Complete**: Include code examples and common pitfalls
+When adding or editing a skill, follow the [Agent Skills specification](https://agentskills.io/specification), the repository's [skill conventions](./docs/skill-conventions.md), and the maintainer checklist in [AGENTS.md](./AGENTS.md).
 
-When adding or editing skills, follow the [agentskills.io specification](https://agentskills.io/specification) and [Claude Code best practices](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices). The maintainer checklist lives in [AGENTS.md](./AGENTS.md), with supporting details in [docs/skill-conventions.md](./docs/skill-conventions.md).
+## About Callstack
 
-## Roadmap / Work in Progress
+[Callstack](https://www.callstack.com/) is a team of React and React Native experts. These skills package practical workflows from our engineering work into reusable guidance for coding assistants.
 
-This is just the start! The following features are planned or in progress.
-
-### Device Verification and Visual Feedback
-
-Several skills involve driving app flows or interpreting visual profiler output (flame graphs, treemaps, memory snapshots). Agents should use `agent-device` to open apps, navigate scenarios, capture snapshots/screenshots, and collect logs or other evidence.
-
-Profiler-specific GUI analysis may still require exported reports or human review when the device automation surface cannot inspect the profiler UI directly.
-
-**Affected skills:**
-
-- `js-profile-react.md` - React DevTools flame graphs
-- `js-measure-fps.md` - FPS graphs and performance overlays
-- `native-profiling.md` - Xcode Instruments / Android Studio Profiler
-- `native-measure-tti.md` - TTI timeline visualization
-- `native-view-flattening.md` - View hierarchy inspection
-- `bundle-analyze-js.md` - Bundle treemap visualization
-- `bundle-analyze-app.md` - App size breakdown (Emerge Tools, Ruler)
-
-**Agent reference:** if the environment exposes an `agent-device` skill, read it first. If the CLI is available, follow `agent-device help workflow` before writing exact commands. If `agent-device` is missing and device verification is needed, install it through the environment's approved/trusted path or ask the user to install or enable it.
-
-### Complementary Skills
-
-For complete coverage, consider pairing with:
-
-- [Vercel React Best Practices](https://github.com/vercel-labs/agent-skills/tree/react-best-practices/skills/react-best-practices) - React/Next.js web optimization (40+ rules)
-
-### Future Work
-
-- [ ] Broader visual profiler feedback integration
-- [ ] Additional skills for debugging, testing, and CI/CD
-- [ ] More code examples and interactive tutorials
-
----
-
-## Made with ❤️ at Callstack
-
-React Native performance skills based on The Ultimate Guide to React Native Optimization.
-
-[Callstack](https://www.callstack.com/) is a group of React and React Native experts. Contact us at [hello@callstack.com](mailto:hello@callstack.com) if you need help with performance optimization or just want to say hi!
-
-Like what we do? ⚛️ [Join the Callstack team](https://www.callstack.com/careers) and work on amazing React Native projects!
+The repository is available under the [MIT License](./LICENSE). Contact [hello@callstack.com](mailto:hello@callstack.com) if you need help with React Native or want to contribute.
