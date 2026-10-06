@@ -15,6 +15,11 @@ npx brownfield package:android --module-name <android_module_name> --variant rel
 npx brownfield publish:android --module-name <android_module_name>
 ```
 
+Both commands also accept `--use-local-maven`, which resolves the Brownfield Gradle plugin from the
+local Maven repository. Run `npx brownfield package:android --help` for the current option set, and
+prefer recording `moduleName`/`variant` and the `android.expo` plugin options in
+`brownfield.config.*` — see [cli-and-config.md](./cli-and-config.md).
+
 ## When to Use
 
 - User requests Expo Android brownfield integration
@@ -62,8 +67,11 @@ override fun onConfigurationChanged(newConfig: Configuration) {
 ```
 
 5. Render RN UI with JS-registered module name:
-   - `ReactNativeFragment.createReactNativeFragment("<registered_module_name>")`
-   - or `ReactNativeBrownfield.shared.createView(context, activity, "<registered_module_name>")`
+   - `ReactNativeFragment.createReactNativeFragment("<registered_module_name>", initialProps)`
+   - or `ReactNativeBrownfield.shared.createView(activity, "<registered_module_name>", reactDelegate, launchOptions)`
+   - in Compose, `AndroidFragment<ReactNativeFragment>` with the `ReactNativeFragmentArgNames`
+     constants; `apps/AndroidApp` in the library repo is the working example
+   - see [runtime-api.md](./runtime-api.md#kotlin) for the full signatures
 
 ## Stop Conditions
 
@@ -87,5 +95,7 @@ Mark complete only if:
 
 ## Related Skills
 
+- [cli-and-config.md](./cli-and-config.md) - Full CLI option set, config file, artifact layout
+- [runtime-api.md](./runtime-api.md) - Host <-> RN API surface
 - [expo-quick-start.md](./expo-quick-start.md) - Expo setup and plugin wiring
 - [expo-ios-integration.md](./expo-ios-integration.md) - Expo iOS equivalent
