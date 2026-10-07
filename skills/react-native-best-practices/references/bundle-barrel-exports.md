@@ -152,17 +152,17 @@ Tree shaking built-in.
 
 ## Real-World Example: date-fns
 
+If the project uses a bundler/configuration with working tree shaking, top-level ESM imports from libraries such as `date-fns` may be optimized automatically. Without that, submodule imports are still the safer pattern. Measure with bundle analysis.
+
 ```tsx
-// BAD: Imports entire library
+// Without tree shaking: imports the entire library
 import { format, addDays, isToday } from 'date-fns';
 
-// GOOD: Direct imports
+// Without tree shaking: direct submodule imports
 import format from 'date-fns/format';
 import addDays from 'date-fns/addDays';
 import isToday from 'date-fns/isToday';
 ```
-
-If the project uses a bundler/configuration with working tree shaking, top-level ESM imports from libraries such as `date-fns` may be optimized automatically. Without that, submodule imports are still the safer pattern. Measure with bundle analysis.
 
 ## Library-Specific Solutions
 

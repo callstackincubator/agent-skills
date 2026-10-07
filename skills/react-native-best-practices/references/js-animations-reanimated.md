@@ -34,6 +34,8 @@ opacity.value = withTiming(1);
 
 ## Prerequisites
 
+These steps are for Reanimated 4. On Reanimated 3, don't install `react-native-worklets` or change the Babel plugin yet; read [Migrating from Reanimated 3.x to 4.x](#migrating-from-reanimated-3x-to-4x) first.
+
 - `react-native-reanimated` (v4+) and `react-native-worklets` installed
 
 ```bash
