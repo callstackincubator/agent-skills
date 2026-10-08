@@ -43,11 +43,8 @@ Progress checklist:
 - [ ] Verify Debug and Release behavior
 ```
 
-1. Link these frameworks into host app:
-   - `<framework_target_name>.xcframework`
-   - `ReactBrownfield.xcframework`
-   - `hermesvm.xcframework`, named `hermes.xcframework` on older RN
-   - `Brownie.xcframework` and `BrownfieldNavigation.xcframework`, when the project uses them
+1. Link every XCFramework from the package output into the host app — see
+   [cli-and-config.md](./cli-and-config.md#outputs) for what is emitted.
 2. In app startup:
 
 ```swift
@@ -62,10 +59,8 @@ ReactNativeBrownfield.shared.startReactNative(
 }
 ```
 
-There is no `startReactNative(onBundleLoaded:launchOptions:)` overload; the three forms are
-`startReactNative()`, `startReactNative(onBundleLoaded:)`, and the one above. Forward the app
-delegate callbacks the host implements, including `open url` and `continue userActivity` when deep
-links must reach the RN surface.
+Forward the app delegate callbacks the host implements, including `open url` and
+`continue userActivity` when deep links must reach the RN surface.
 
 3. Render RN UI with JS-registered module name:
    - UIKit: `ReactNativeViewController(moduleName: "<registered_module_name>")`

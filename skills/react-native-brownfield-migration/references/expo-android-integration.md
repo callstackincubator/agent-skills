@@ -15,10 +15,8 @@ npx brownfield package:android --module-name <android_module_name> --variant rel
 npx brownfield publish:android --module-name <android_module_name>
 ```
 
-Both commands also accept `--use-local-maven`, which resolves the Brownfield Gradle plugin from the
-local Maven repository. Run `npx brownfield package:android --help` for the current option set, and
-prefer recording `moduleName`/`variant` and the `android.expo` plugin options in
-`brownfield.config.*` — see [cli-and-config.md](./cli-and-config.md).
+Record `moduleName`/`variant` and the `android.expo` plugin options in `brownfield.config.*`
+instead of repeating them — see [cli-and-config.md](./cli-and-config.md) for the full option set.
 
 ## When to Use
 
@@ -70,7 +68,7 @@ override fun onConfigurationChanged(newConfig: Configuration) {
    - `ReactNativeFragment.createReactNativeFragment("<registered_module_name>", initialProps)`
    - or `ReactNativeBrownfield.shared.createView(activity, "<registered_module_name>", reactDelegate, launchOptions)`
    - in Compose, `AndroidFragment<ReactNativeFragment>` with the `ReactNativeFragmentArgNames`
-     constants; `apps/AndroidApp` in the library repo is the working example
+     constants
    - see [runtime-api.md](./runtime-api.md#kotlin) for the full signatures
 
 ## Stop Conditions

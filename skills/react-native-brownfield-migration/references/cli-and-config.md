@@ -11,18 +11,9 @@ packaging or publish command, and before adding flags to a `package.json` script
 
 ## Discover options before trusting this file
 
-Flags move between versions. The help output does not.
-
-```bash
-npx brownfield --help
-npx brownfield package:ios --help
-npx brownfield package:android --help
-npx brownfield publish:android --help
-npx brownfield --version
-```
-
-Run the help for the command you are about to use and reconcile it with the tables below. Where they
-disagree, **the help output wins** — update this file rather than working around it.
+Flags move between versions. Run `npx brownfield <command> --help` for the command you are about to
+use and reconcile it with the tables below. Where they disagree, **the help output wins** — update
+this file rather than working around it.
 
 ## Commands
 
@@ -40,8 +31,6 @@ The binary ships inside `@callstack/brownfield-cli`, which is a dependency of
 `@callstack/react-native-brownfield` — installing the brownfield package is enough to get `npx brownfield`.
 
 ### `package:ios`
-
-Verify with `npx brownfield package:ios --help`.
 
 | Flag | Notes |
 | ---- | ----- |
@@ -69,8 +58,6 @@ the packaged frameworks instead.
 
 ### `package:android` / `publish:android`
 
-Verify with `--help`.
-
 | Flag | Commands | Notes |
 | ---- | -------- | ----- |
 | `--module-name <name>` | both | The AAR module. Spelling follows the project: a Gradle path such as `:BrownfieldLib` for a bare app whose module is declared in `settings.gradle`, or a plain name such as `brownfieldlib` for the Expo plugin default |
@@ -90,8 +77,7 @@ You rarely run these by hand — see [Side effects](#side-effects-codegen-runs-a
 ## Configuration file
 
 Put stable per-project settings in a config file and keep only per-run flags on the command line.
-A project driven this way runs a bare `npx brownfield package:ios`, which is what `project.md`
-Environment should record.
+A project driven this way runs a bare `npx brownfield package:ios`.
 
 Exactly one source is allowed. Two or more raises
 `Project has multiple Brownfield configuration files`:
@@ -143,13 +129,8 @@ file disagree about the project, and fix one of them.
 
 ### Working shapes to copy
 
-In the `react-native-brownfield` repo:
-
-| Example | Shape |
-| ------- | ----- |
-| `apps/ExpoApp57/brownfield.config.json` | JSON config carrying every setting; package scripts are bare commands |
-| `apps/RNApp/brownfield.config.js` | JS config with a `BrownfieldConfig` type annotation, bare RN module path `:BrownfieldLib` |
-| `apps/ExpoApp58/package.json` (`brownfield` key) | `package.json` config holding only Expo plugin options; packaging flags stay on the scripts |
+Each of the three sources has a working example in the `react-native-brownfield` repo's apps —
+see [Reference apps](./runtime-api.md#reference-apps).
 
 ## Outputs
 

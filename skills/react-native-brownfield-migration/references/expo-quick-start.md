@@ -45,9 +45,7 @@ Progress checklist:
 
 3. Create the brownfield configuration — the iOS scheme, the Android module name and variant, and
    any `ios.expo` / `android.expo` plugin options — so packaging commands stay short. See
-   [cli-and-config.md](./cli-and-config.md); `apps/ExpoApp57/brownfield.config.json` in the library
-   repo is the cleanest Expo shape. The plugin can also be registered with options in `app.json`,
-   and exactly one brownfield config source is allowed.
+   [cli-and-config.md](./cli-and-config.md); exactly one config source is allowed.
 4. Optionally add package scripts for packaging/publish commands used by your team.
 5. If the app uses `expo-router`, set up the brownfield entry point (see [Expo Router entry point](#expo-router-entry-point)).
 6. Continue to exactly one platform file:

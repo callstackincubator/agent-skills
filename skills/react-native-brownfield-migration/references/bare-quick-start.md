@@ -38,9 +38,8 @@ Progress checklist:
 1. Install package in RN app root.
 2. Run `pod install` for iOS.
 3. Create `brownfield.config.js` or `brownfield.config.json` with the iOS scheme and the Android
-   module name and variant, so packaging commands stay short and consistent — see
-   [cli-and-config.md](./cli-and-config.md). `apps/RNApp/brownfield.config.js` in the library repo is
-   the bare shape.
+   module name and variant, so packaging commands stay short — see
+   [cli-and-config.md](./cli-and-config.md).
 4. Continue with one platform packaging file:
    - [bare-ios-xcframework-generation.md](./bare-ios-xcframework-generation.md)
    - [bare-android-aar-generation.md](./bare-android-aar-generation.md)

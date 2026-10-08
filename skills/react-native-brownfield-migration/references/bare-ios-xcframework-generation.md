@@ -14,10 +14,9 @@ Package a bare React Native app into XCFramework artifacts for native iOS host c
 npx brownfield package:ios --scheme <framework_target_name> --configuration Release --destination simulator
 ```
 
-Run `npx brownfield package:ios --help` before composing the command, and prefer recording
-`scheme`/`configuration` in `brownfield.config.*` — see [cli-and-config.md](./cli-and-config.md).
-Omitting `--destination` also builds the device slice, roughly doubling packaging time for an
-artifact a simulator QA loop never loads.
+Record `scheme`/`configuration` in `brownfield.config.*` instead of repeating them — see
+[cli-and-config.md](./cli-and-config.md) for the full option set. Omitting `--destination` also
+builds the device slice, which a simulator QA loop never loads.
 
 ## When to Use
 
@@ -61,13 +60,8 @@ class InternalClassForBundle {}
 
 5. Package framework:
    - `npx brownfield package:ios --scheme <framework_target_name> --configuration Release --destination simulator`
-6. Validate the package output directory, `ios/.brownfield/package/build` (the intermediate build
-   directory is `ios/.brownfield/build`):
-   - `<framework_target_name>.xcframework`
-   - `ReactBrownfield.xcframework` (binary stripped — interface-only by design)
-   - `hermesvm.xcframework`, named `hermes.xcframework` on older RN. A host that expects one name
-     needs the other renamed; see `apps/AppleApp/prepareXCFrameworks.js` in the library repo
-   - `Brownie.xcframework` and `BrownfieldNavigation.xcframework`, when the project uses them
+6. Validate the package output directory, `ios/.brownfield/package/build` — see
+   [cli-and-config.md](./cli-and-config.md#outputs) for what lands there.
 
 ## Stop Conditions
 

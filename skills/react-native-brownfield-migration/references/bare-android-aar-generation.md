@@ -16,10 +16,8 @@ npx brownfield publish:android --module-name <android_module_name>
 ```
 
 `--module-name` follows the project's own spelling: a Gradle path such as `:BrownfieldLib` for a
-module declared in `settings.gradle`, or a plain name such as `brownfieldlib`. Both commands also
-accept `--use-local-maven`, which resolves the Brownfield Gradle plugin from the local Maven
-repository. Run `npx brownfield package:android --help` for the current option set, and prefer
-recording `moduleName`/`variant` in `brownfield.config.*` — see
+module declared in `settings.gradle`, or a plain name such as `brownfieldlib`. For the rest of the
+options and for recording `moduleName`/`variant` in `brownfield.config.*`, see
 [cli-and-config.md](./cli-and-config.md).
 
 ## When to Use

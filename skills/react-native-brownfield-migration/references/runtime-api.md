@@ -163,9 +163,9 @@ path before writing integration code — they are more current than any snippet.
 
 | App | Role |
 | --- | ---- |
-| `apps/RNApp` | Bare RN producer: framework target, `Podfile` nesting, Gradle library module, `ReactNativeHostManager` |
-| `apps/ExpoApp57` | Expo producer driven entirely by `brownfield.config.json` |
-| `apps/ExpoApp58` | Expo producer with config in `package.json`, prebuilt RN core and Expo flags on the scripts |
+| `apps/RNApp` | Bare RN producer: framework target, `Podfile` nesting, Gradle library module, `ReactNativeHostManager`; JS config with a `BrownfieldConfig` type annotation |
+| `apps/ExpoApp57` | Expo producer driven entirely by `brownfield.config.json`; package scripts are bare commands |
+| `apps/ExpoApp58` | Expo producer with config under the `package.json` `brownfield` key; packaging flags stay on the scripts |
 | `apps/AppleApp` | iOS host: linked XCFrameworks, SwiftUI `@main` startup, app delegate forwarding, navigation delegate |
 | `apps/AndroidApp` | Android host: `mavenLocal()`, per-producer flavors, Compose `AndroidFragment<ReactNativeFragment>` |
 
@@ -184,23 +184,16 @@ path before writing integration code — they are more current than any snippet.
 - Reaching for `postMessage` where a typed navigation call or a Brownie store belongs
 - Building a second navigation stack in RN instead of calling `popToNative` back into the host's
 - **`preferEmbeddedBundleInDebug` does not protect against a reachable-but-wrong Metro server.** It only
-  changes resolution when no Metro URL is configured at all (`bundleURL() == metroURL() ?? embeddedBundleURL`).
-  If *any* Metro instance — including one started for an unrelated project — already holds the configured
-  port (default `8081`), a Debug-configured framework silently fetches and runs *that* bundle, then crashes
-  with an `AppRegistry` / `Invariant Violation` "has not been registered" error. This follows the RN
-  framework's own `#if DEBUG`, which comes from `ios.configuration` in the brownfield config (see
-  [cli-and-config.md](./cli-and-config.md)), not from the host app's Xcode configuration. On an unexplained
-  "module has not been registered" crash, check `lsof -i :8081` (or the configured port) for a stray Metro
-  before suspecting the integration. To force the embedded bundle regardless, package the framework as
-  `Release` — that changes the framework's build mode only, not the host project's.
-- **Mutating a `UINavigationController`'s `viewControllers` to present a brownfield view controller can
-  silently fail to attach to the window** when that navigation controller is itself hosted inside a SwiftUI
-  `UIViewControllerRepresentable`. The RN view mounts with a correct, full-screen frame and live content yet
-  never appears (`view.window == nil`), because the mutation conflicts with SwiftUI's own diffing of the
-  representable. In that case prefer `present(rnViewController, animated: true)` (with
-  `modalPresentationStyle = .fullScreen` if it must replace, not stack on, the current screen) over
-  `setViewControllers(...)` — modal presentation does not depend on how the presenter is hosted. If a
-  presented RN view appears blank, confirm `view.window != nil` before blaming the bundle or registration.
+  applies when no Metro URL resolves at all. Any Metro holding the configured port (default `8081`) — even
+  one started for an unrelated project — is fetched by a Debug-configured framework, which then crashes with
+  an `AppRegistry` "has not been registered" error. Check `lsof -i :8081` before suspecting the integration;
+  to force the embedded bundle, package the framework as `Release`. The `#if DEBUG` here comes from
+  `ios.configuration` in the brownfield config, not the host app's Xcode configuration.
+- **A brownfield view controller pushed by mutating `UINavigationController.viewControllers` can silently
+  fail to attach to the window** when that navigation controller is hosted inside a SwiftUI
+  `UIViewControllerRepresentable`: the RN view mounts with live content but `view.window == nil`. Prefer
+  `present(rnViewController, animated: true)` (with `modalPresentationStyle = .fullScreen` to replace rather
+  than stack) over `setViewControllers(...)`, and check `view.window != nil` before blaming the bundle.
 
 ## Related Skills
 

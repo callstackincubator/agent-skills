@@ -41,9 +41,6 @@ Progress checklist:
    - Expo path: [expo-create-app.md](./expo-create-app.md) (if no RN app yet) -> [expo-quick-start.md](./expo-quick-start.md)
    - Bare path: [bare-quick-start.md](./bare-quick-start.md)
 4. If unclear, ask one disambiguation question and stop.
-5. Before the first packaging run on either path, create the project's brownfield configuration
-   once — see [cli-and-config.md](./cli-and-config.md). Settings written there do not have to be
-   repeated on every command line.
 
 ## Stop Conditions
 
