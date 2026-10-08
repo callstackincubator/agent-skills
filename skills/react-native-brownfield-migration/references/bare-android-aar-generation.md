@@ -15,6 +15,11 @@ npx brownfield package:android --variant release --module-name <android_module_n
 npx brownfield publish:android --module-name <android_module_name>
 ```
 
+`--module-name` follows the project's own spelling: a Gradle path such as `:BrownfieldLib` for a
+module declared in `settings.gradle`, or a plain name such as `brownfieldlib`. For the rest of the
+options and for recording `moduleName`/`variant` in `brownfield.config.*`, see
+[cli-and-config.md](./cli-and-config.md).
+
 ## When to Use
 
 - Building Android artifact from bare RN app
@@ -44,8 +49,13 @@ Progress checklist:
    - `com.android.library`
    - `org.jetbrains.kotlin.android`
    - `com.facebook.react`
-   - `com.callstack.react.brownfield`
+   - `com.callstack.react.brownfield` (classpath `com.callstack.react:brownfield-gradle-plugin:<version>`,
+     or `useLocalGradlePlugin` on the Expo path)
    - `maven-publish`
+
+   The Brownfield plugin discovers transitive native dependencies for you
+   (`experimentalIncludeTransitiveDependencies`, on by default), so do not hand-declare the androidx
+   dependencies of RN libraries in this module.
 3. Ensure autolinking is enabled in module:
 
 ```kotlin
@@ -71,6 +81,10 @@ object ReactNativeHostManager {
 6. Publish to Maven local:
    - `npx brownfield publish:android --module-name <android_module_name>`
 7. Validate host app resolves `groupId:artifactId:version` with `mavenLocal()` enabled.
+
+If the library module declares product flavors, the host must resolve them —
+`missingDimensionStrategy("<dimension>", "<flavor>")` in the host app module, or
+`missingDimensionStrategies` in the Expo plugin options. See the Troubleshooting docs.
 
 ## Stop Conditions
 
@@ -101,5 +115,6 @@ Proceed only if:
 
 ## Related Skills
 
+- [cli-and-config.md](./cli-and-config.md) - Full CLI option set, config file, artifact layout
 - [bare-quick-start.md](./bare-quick-start.md) - Bare setup prerequisites
 - [bare-android-native-integration.md](./bare-android-native-integration.md) - Bare Android host integration

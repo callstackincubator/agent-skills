@@ -34,9 +34,11 @@ Apply these rules across all reference files:
 1. Select one path first (Expo or bare) and do not mix steps.
 2. Use placeholders from the docs (`<framework_target_name>`, `<android_module_name>`, `<registered_module_name>`) and resolve from project files.
 3. Validate each packaging command before moving to host integration.
-4. Prefer official docs for long platform snippets and CLI option details.
-5. Keep host apps isolated from direct React Native APIs when possible (facade approach).
-6. For startup/runtime verification, use `agent-device` to open the host app, navigate to the RN surface, capture snapshots/screenshots, and collect device evidence. If it is missing and verification needs it, install it through the environment's approved/trusted path or ask the user to install or enable it.
+4. Run `npx brownfield <command> --help` before relying on any flag table in these references; help output wins.
+5. Write stable project settings once into `brownfield.config.*` instead of repeating flags — see [cli-and-config.md][cli-and-config].
+6. Prefer official docs for long platform snippets and CLI option details.
+7. Keep host apps isolated from direct React Native APIs when possible (facade approach).
+8. For startup/runtime verification, use `agent-device` to open the host app, navigate to the RN surface, capture snapshots/screenshots, and collect device evidence. If it is missing and verification needs it, install it through the environment's approved/trusted path or ask the user to install or enable it.
 
 ## Canonical Docs
 
@@ -45,6 +47,7 @@ Apply these rules across all reference files:
 - [iOS Integration](https://oss.callstack.com/react-native-brownfield/docs/getting-started/ios.md)
 - [Android Integration](https://oss.callstack.com/react-native-brownfield/docs/getting-started/android.md)
 - [Brownfield CLI](https://oss.callstack.com/react-native-brownfield/docs/cli/brownfield.md)
+- [Configuration](https://oss.callstack.com/react-native-brownfield/docs/api-reference/configuration.md)
 - [Guidelines](https://oss.callstack.com/react-native-brownfield/docs/guides/guidelines.md)
 - [Troubleshooting](https://oss.callstack.com/react-native-brownfield/docs/guides/troubleshooting.md)
 
@@ -76,6 +79,8 @@ Reference this package when:
 | File | Description |
 |------|-------------|
 | [quick-start.md][quick-start] | Shared preflight and mandatory path-selection gate |
+| [cli-and-config.md][cli-and-config] | CLI commands, full flag sets, config file, artifact layout, codegen side effects |
+| [runtime-api.md][runtime-api] | Host <-> RN API surface (JS, Swift, Kotlin) and reference apps |
 | [expo-create-app.md][expo-create-app] | Scaffold a new Expo app before Expo brownfield setup |
 | [expo-quick-start.md][expo-quick-start] | Expo plugin setup and packaging readiness |
 | [expo-ios-integration.md][expo-ios-integration] | Expo iOS packaging and host startup integration |
@@ -92,6 +97,9 @@ Reference this package when:
 |---------|------------|
 | Need migration path decision first | [assess-react-native-migration](../assess-react-native-migration/SKILL.md) |
 | Need Expo vs bare path decision | [quick-start.md][quick-start] |
+| Need a CLI flag, the config file shape, or the artifact paths | [cli-and-config.md][cli-and-config] |
+| Need a host <-> RN API name, signature, or a working example app | [runtime-api.md][runtime-api] |
+| Need shared state between host and RN, or typed RN -> native navigation | `brownie` / `brownfield-navigation` skills |
 | Need to create a new Expo app for brownfield | [expo-create-app.md][expo-create-app] |
 | Need Expo brownfield setup and plugin wiring | [expo-quick-start.md][expo-quick-start] |
 | Need Expo iOS brownfield integration | [expo-ios-integration.md][expo-ios-integration] |
@@ -105,8 +113,11 @@ Reference this package when:
 ## Related Skills
 
 - [Assess React Native migration](../assess-react-native-migration/SKILL.md) before selecting the migration path.
+- `brownie` (shared host <-> RN state) and `brownfield-navigation` (typed RN -> native navigation) ship from another repo: invoke them by name, and fall back to the canonical docs if they are not installed.
 
 [quick-start]: references/quick-start.md
+[cli-and-config]: references/cli-and-config.md
+[runtime-api]: references/runtime-api.md
 [expo-create-app]: references/expo-create-app.md
 [expo-quick-start]: references/expo-quick-start.md
 [expo-ios-integration]: references/expo-ios-integration.md

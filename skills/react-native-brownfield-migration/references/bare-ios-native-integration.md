@@ -15,6 +15,9 @@ ReactNativeBrownfield.shared.bundle = ReactNativeBundle
 ReactNativeBrownfield.shared.startReactNative { print("React Native bundle loaded") }
 ```
 
+`ReactNativeBundle` comes from the packaged framework's interface file, not from `ReactBrownfield`.
+For the full property and overload list, see [runtime-api.md](./runtime-api.md#swift).
+
 ## When to Use
 
 - Consuming generated bare RN XCFrameworks in host iOS app
@@ -23,7 +26,7 @@ ReactNativeBrownfield.shared.startReactNative { print("React Native bundle loade
 ## Prerequisites
 
 - [bare-ios-xcframework-generation.md](./bare-ios-xcframework-generation.md) completed
-- Artifacts available in package output (`ios/.brownfield/package` or `.brownfield/ios/package`)
+- Artifacts available in package output (`ios/.brownfield/package/build`)
 - Host app builds in Xcode
 
 ## Agent-Assisted Verification
@@ -40,20 +43,24 @@ Progress checklist:
 - [ ] Verify Debug and Release behavior
 ```
 
-1. Link these frameworks into host app:
-   - `<framework_target_name>.xcframework`
-   - `ReactBrownfield.xcframework`
-   - `hermesvm.xcframework` (or `hermes.xcframework` for older RN)
+1. Link every XCFramework from the package output into the host app — see
+   [cli-and-config.md](./cli-and-config.md#outputs) for what is emitted.
 2. In app startup:
 
 ```swift
 import <framework_target_name>
 
 ReactNativeBrownfield.shared.bundle = ReactNativeBundle
-ReactNativeBrownfield.shared.startReactNative(onBundleLoaded: {
+ReactNativeBrownfield.shared.startReactNative(
+    launchOptions: launchOptions,
+    preloadBundle: true
+) {
     print("React Native bundle loaded")
-}, launchOptions: launchOptions)
+}
 ```
+
+Forward the app delegate callbacks the host implements, including `open url` and
+`continue userActivity` when deep links must reach the RN surface.
 
 3. Render RN UI with JS-registered module name:
    - UIKit: `ReactNativeViewController(moduleName: "<registered_module_name>")`
@@ -90,5 +97,6 @@ Mark complete only if:
 
 ## Related Skills
 
+- [runtime-api.md](./runtime-api.md) - Host <-> RN API surface
 - [bare-ios-xcframework-generation.md](./bare-ios-xcframework-generation.md) - Bare iOS artifact generation
 - [bare-quick-start.md](./bare-quick-start.md) - Bare setup prerequisites

@@ -66,6 +66,8 @@ Proceed only if:
 
 ## Related Skills
 
+- [cli-and-config.md](./cli-and-config.md) - CLI commands, config file, artifacts
+- [runtime-api.md](./runtime-api.md) - Host <-> RN API surface
 - [expo-create-app.md](./expo-create-app.md) - Create new Expo app for brownfield
 - [expo-quick-start.md](./expo-quick-start.md) - Expo setup and plugin wiring
 - [bare-quick-start.md](./bare-quick-start.md) - Bare RN baseline setup
